@@ -1,19 +1,20 @@
 package octacode.allblue.code.moviezz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -38,6 +39,7 @@ public class MainFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.action_settings:
                 Toast.makeText(getContext(),"Settings",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(),SettingsActivit.class));
                 break;
             case R.id.action_favourites:
                 Toast.makeText(getContext(),"Favourites",Toast.LENGTH_LONG).show();
@@ -50,12 +52,15 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
-        GridView recyclerView=(GridView) rootView.findViewById(R.id.main_grid_view);
-        ArrayList<String> mock_data=new ArrayList<>();
-        for(int i=0;i<10;i++)
-        mock_data.add("Shashwat");
-        ArrayAdapter<String> mock_Adapter=new ArrayAdapter<String>(getContext(),R.layout.listitem_main,R.id.main_list_item_textview,mock_data);
-        recyclerView.setAdapter(mock_Adapter);
+        List<MovieInfo> arrayList=new ArrayList<>();
+        MovieInfo mock_data=new MovieInfo("Jungle Book",R.mipmap.ic_launcher);
+        for(int i=0;i<100;i++)
+        arrayList.add(i,mock_data);
+        Main_Movie_Adapter adapter = new Main_Movie_Adapter(getContext(),arrayList);
+        RecyclerView recyclerView=(RecyclerView) rootView.findViewById(R.id.main_grid_view);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(adapter);
         return rootView;
     }
 
