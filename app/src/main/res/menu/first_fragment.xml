@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shasha="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Settings"
+        android:id="@+id/action_settings"
+        android:showAsAction="never"
+        android:orderInCategory="2"/>
+
+    <item
+        android:title="Favourites"
+        android:id="@+id/action_favourites"
+        shasha:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_day"
+        android:orderInCategory="1"/>
+
+</menu>
