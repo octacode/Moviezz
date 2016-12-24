@@ -8,28 +8,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
  * Created by shasha on 23/12/16.
  */
 
-public class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_ViewHolder> {
+class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_ViewHolder> {
 
     private Context mContext;
     private List<MovieInfo> main_list;
 
-    public class Movie_ViewHolder extends RecyclerView.ViewHolder {
+    class Movie_ViewHolder extends RecyclerView.ViewHolder {
         TextView movie_title;
         ImageView thumbnail;
-        public Movie_ViewHolder(View itemView) {
+        Movie_ViewHolder(View itemView) {
             super(itemView);
             movie_title=(TextView)itemView.findViewById(R.id.main_list_item_title);
             thumbnail=(ImageView)itemView.findViewById(R.id.main_list_item_thumbnail);
         }
     }
 
-    public Main_Movie_Adapter(Context mContext,List<MovieInfo> main_list){
+    Main_Movie_Adapter(Context mContext,List<MovieInfo> main_list){
         this.mContext=mContext;
         this.main_list=main_list;
     }
@@ -50,8 +52,8 @@ public class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.
     @Override
     public void onBindViewHolder(Movie_ViewHolder holder, int position) {
         MovieInfo movieInfo=main_list.get(position);
-        holder.movie_title.setText(movieInfo.getName());
-        holder.thumbnail.setImageResource(movieInfo.getThumbnail());
+        holder.movie_title.setText(movieInfo.getTitle());
+        Picasso.with(mContext).load(movieInfo.getImage_url()).into(holder.thumbnail);
     }
 
     @Override

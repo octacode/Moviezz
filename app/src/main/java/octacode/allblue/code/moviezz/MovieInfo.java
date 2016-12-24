@@ -4,28 +4,20 @@ package octacode.allblue.code.moviezz;
  * Created by shasha on 23/12/16.
  */
 
-public class MovieInfo {
-    String name;
-    int thumbnail;
+class MovieInfo {
+    private String title;
+    private String image_url;
 
-    public MovieInfo(String name,int thumbnail){
-        this.name=name;
-        this.thumbnail=thumbnail;
+    MovieInfo(String title, String image_url){
+        this.title=title;
+        this.image_url=image_url;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
+    String getTitle() {
+        return title;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
+    String getImage_url() {
+        return image_url;
     }
 }

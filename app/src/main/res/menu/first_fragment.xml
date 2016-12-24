@@ -5,8 +5,12 @@
         android:title="Settings"
         android:id="@+id/action_settings"
         android:showAsAction="never"
-        android:orderInCategory="2"/>
+        android:orderInCategory="3"/>
 
+    <item
+        android:title="Refresh"
+        android:id="@+id/action_refresh"
+        android:orderInCategory="2"/>
     <item
         android:title="Favourites"
         android:id="@+id/action_favourites"
