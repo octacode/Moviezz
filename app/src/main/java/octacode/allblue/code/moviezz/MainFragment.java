@@ -1,9 +1,13 @@
 package octacode.allblue.code.moviezz;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,8 +37,19 @@ public class MainFragment extends Fragment {
 
     private Main_Movie_Adapter adapter;
     private RecyclerView recyclerView;
+    private int PAGE_LOADED=0;
+    private boolean isLoading=false;
+    private List<MovieInfo> arrayList=new ArrayList<>();
+    private Parcelable recyclerViewState;
+
 
     public MainFragment() {
+    }
+
+    private void updateMovieRecycler() {
+        FetchMovieTask fetchMovieTask=new FetchMovieTask();
+        fetchMovieTask.execute("Most Popular", String.valueOf(PAGE_LOADED+1));
+        PAGE_LOADED++;
     }
 
     @Override
@@ -61,8 +76,7 @@ public class MainFragment extends Fragment {
                 Toast.makeText(getContext(),"Favourites",Toast.LENGTH_LONG).show();
                 break;
             case R.id.action_refresh:
-                FetchMovieTask fetchMovieTask=new FetchMovieTask();
-                fetchMovieTask.execute("Most Popular", String.valueOf(7));
+                updateMovieRecycler();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -72,15 +86,26 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
-        List<MovieInfo> arrayList=new ArrayList<>();
-        MovieInfo mock_data=new MovieInfo("Jungle Book","http://image.tmdb.org/t/p/w185//o9GbcdP7rOg2m1NyUnUR3ZwNcTE.jpg");
-        for(int i=0;i<100;i++)
-        arrayList.add(i,mock_data);
+
         adapter = new Main_Movie_Adapter(getContext(),arrayList);
+
         recyclerView=(RecyclerView) rootView.findViewById(R.id.main_grid_view);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if((mLayoutManager.getChildCount()+mLayoutManager.findFirstVisibleItemPosition()) >= mLayoutManager.getItemCount())
+                    updateMovieRecycler();
+                recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+            }
+        });
         return rootView;
     }
 
@@ -130,7 +155,7 @@ public class MainFragment extends Fragment {
 
                 postURL= Uri.parse(POSTER_BASE_URL).buildUpon().
                         appendEncodedPath(movieInfo.getString(POSTERPATH)).build().toString();
-                Log.d("MainActivity", "Value: " + postURL);
+                //Log.d("MainActivity", "Value: " + postURL);
                 popularity=movieInfo.getString(POPULARITY);
                 votAvg=movieInfo.getString(VOTAVG);
 
@@ -233,11 +258,14 @@ public class MainFragment extends Fragment {
         protected void onPostExecute(ArrayList<MovieInfo> result) {
             if (result != null) {
                 //movieListAdapter.clear();
-                adapter = new Main_Movie_Adapter(getContext(),result);
+
+                for (int i = 0; i < result.size(); i++)
+                    arrayList.add(result.get(i));
+            }
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
+                recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
                 //Log.e(LOG_TAG,String.valueOf(PAGE_LOADED));
-            }
         }
     }
 }
