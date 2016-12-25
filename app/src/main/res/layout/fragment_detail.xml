@@ -4,10 +4,20 @@
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.DetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/app_bar_height"
+            android:text="Hello World"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ratings Going On"/>
+    </LinearLayout>
 
 </FrameLayout>

@@ -1,6 +1,7 @@
 package octacode.allblue.code.moviezz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,14 @@ class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_V
         if(viewType==1||viewType==7||viewType==13||viewType==19||viewType==28||viewType==34)
             item_view=LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_special,parent,false);
         */
-            return new Movie_ViewHolder(item_view);
+
+        item_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext,DetailActivity2.class));
+            }
+        });
+        return new Movie_ViewHolder(item_view);
 
     }
 

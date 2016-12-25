@@ -1,13 +1,10 @@
 package octacode.allblue.code.moviezz;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -38,7 +36,6 @@ public class MainFragment extends Fragment {
     private Main_Movie_Adapter adapter;
     private RecyclerView recyclerView;
     private int PAGE_LOADED=0;
-    private boolean isLoading=false;
     private List<MovieInfo> arrayList=new ArrayList<>();
     private Parcelable recyclerViewState;
 
@@ -107,6 +104,13 @@ public class MainFragment extends Fragment {
             }
         });
         return rootView;
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovieRecycler();
     }
 
     class FetchMovieTask extends AsyncTask<String,Void,ArrayList<MovieInfo>>{
@@ -171,17 +175,12 @@ public class MainFragment extends Fragment {
                 return null;
             }
 
-            // These two need to be declared outside the try/catch
-            // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            // Will contain the raw JSON response as a string.
             String movieJsonStr = null;
 
             try {
-                // Construct the URL for the movieAPI query
-                // Possible parameters are avaiable at OWM's forecast API page, at
 
                 final String MOVIE_BASE_URL =
                         "http://api.themoviedb.org/3/discover/movie?";
@@ -201,33 +200,25 @@ public class MainFragment extends Fragment {
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
-                // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
-                    // Nothing to do.
                     return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
-                    buffer.append(line + "\n");
+                    buffer.append(line).append("\n");
                 }
 
                 if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
                     return null;
                 }
                 movieJsonStr = buffer.toString();
                 Log.v(LOG_TAG,movieJsonStr);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the movie data, there's no point in attemping
-                // to parse it.
                 return null;
             } finally {
                 if (urlConnection != null) {
@@ -250,14 +241,12 @@ public class MainFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            // This will only happen if there was an error getting or parsing the movie_data.
             return null;
         }
 
         @Override
         protected void onPostExecute(ArrayList<MovieInfo> result) {
             if (result != null) {
-                //movieListAdapter.clear();
 
                 for (int i = 0; i < result.size(); i++)
                     arrayList.add(result.get(i));
@@ -265,7 +254,7 @@ public class MainFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
                 recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-                //Log.e(LOG_TAG,String.valueOf(PAGE_LOADED));
+
         }
     }
 }
