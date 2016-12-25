@@ -1,4 +1,4 @@
-package octacode.allblue.code.moviezz;
+package octacode.allblue.code.moviezz.AnimationUtils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import octacode.allblue.code.moviezz.R;
 
 @SuppressWarnings("unused")
 public class AvatarImageBehaviour extends CoordinatorLayout.Behavior<CircleImageView> {

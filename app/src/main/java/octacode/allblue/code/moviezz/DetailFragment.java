@@ -9,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class DetailFragment extends Fragment {
 
@@ -25,6 +30,8 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View rootview=inflater.inflate(R.layout.fragment_detail, container, false);
 
         String id=getActivity().getIntent().getExtras().getString("ID");
         String title=getActivity().getIntent().getExtras().getString("TITLE");
@@ -44,7 +51,7 @@ public class DetailFragment extends Fragment {
         Log.d(LOG_TAG,popularity);
         Log.d(LOG_TAG,vote_avg);
 
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        return rootview;
     }
 
 }

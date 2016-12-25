@@ -1,5 +1,6 @@
 package octacode.allblue.code.moviezz;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,6 +13,10 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -32,6 +37,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
         }
@@ -50,6 +56,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mAppBarLayout.addOnOffsetChangedListener(this);
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+
     }
 
     @Override
@@ -108,6 +115,11 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         alphaAnimation.setDuration(duration);
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
+    }
+
+    public void set_front_pic(String url){
+        CircleImageView circleImageView=(CircleImageView)findViewById(R.id.image_front);
+        Picasso.with(this).load("http://image.tmdb.org/t/p/w185//oSk7GYgl3vbaIjKicnh7NRdy3w.png").error(new ColorDrawable(getResources().getColor(R.color.colorPrimary))).into(circleImageView);
     }
 }
 
