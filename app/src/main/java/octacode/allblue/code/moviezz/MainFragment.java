@@ -34,11 +34,11 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    public static ArrayList<String> data_fetched=new ArrayList<>();
+    public static ArrayList<Transfer> data_fetched=new ArrayList<>();
     private Main_Movie_Adapter adapter;
     private RecyclerView recyclerView;
     private int PAGE_LOADED=0;
-    private List<MovieInfo> arrayList=new ArrayList<>();
+    private List<Transfer> arrayList=new ArrayList<>();
     private Parcelable recyclerViewState;
 
 
@@ -115,11 +115,11 @@ public class MainFragment extends Fragment {
 
     }
 
-    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<MovieInfo>>{
+    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<Transfer>>{
 
         private final String LOG_TAG=FetchMovieTask.class.getSimpleName();
 
-        private ArrayList<MovieInfo> getMovieDataFromJson(String movieJsonStr)
+        private ArrayList<Transfer> getMovieDataFromJson(String movieJsonStr)
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
@@ -138,7 +138,7 @@ public class MainFragment extends Fragment {
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULT);
 
-            ArrayList<MovieInfo> resultStrs=new ArrayList<>();
+            ArrayList<Transfer> resultStrs=new ArrayList<>();
 
             for(int i = 0; i < movieArray.length(); i++) {
 
@@ -164,15 +164,16 @@ public class MainFragment extends Fragment {
                 //Log.d("MainActivity", "Value: " + postURL);
                 popularity=movieInfo.getString(POPULARITY);
                 votAvg=movieInfo.getString(VOTAVG);
-                data_fetched.add(postURL+" "+id+" "+orgLang+" "+overview+" "+relDate+" "+popularity+" "+votAvg);
-                resultStrs.add(new MovieInfo(orgTitle,postURL));
+                Transfer transfer=new Transfer(postURL,id,orgLang,overview,relDate,popularity,votAvg,orgTitle);
+                data_fetched.add(transfer);
+                resultStrs.add(transfer);
             }
             return resultStrs;
 
         }
 
         @Override
-        protected ArrayList<MovieInfo> doInBackground(String... params) {
+        protected ArrayList<Transfer> doInBackground(String... params) {
             if (params.length == 0) {
                 return null;
             }
@@ -247,7 +248,7 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<MovieInfo> result) {
+        protected void onPostExecute(ArrayList<Transfer> result) {
             if (result != null) {
 
                 for (int i = 0; i < result.size(); i++)

@@ -22,7 +22,7 @@ import java.util.List;
 class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_ViewHolder> {
 
     private Context mContext;
-    private List<MovieInfo> main_list;
+    private List<Transfer> main_list;
     int position;
 
     class Movie_ViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +35,7 @@ class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_V
         }
     }
 
-    Main_Movie_Adapter(Context mContext,List<MovieInfo> main_list){
+    Main_Movie_Adapter(Context mContext,List<Transfer> main_list){
         this.mContext=mContext;
         this.main_list=main_list;
     }
@@ -60,22 +60,23 @@ class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_V
     @Override
     public void onBindViewHolder(Movie_ViewHolder holder, int position) {
         this.position=position;
-        final MovieInfo movieInfo=main_list.get(position);
-        holder.movie_title.setText(movieInfo.getTitle());
-        Picasso.with(mContext).load(movieInfo.getImage_url()).into(holder.thumbnail);
+        final Transfer movieInfo=main_list.get(position);
+        holder.movie_title.setText(movieInfo.getOrgTitle());
+        Picasso.with(mContext).load(movieInfo.getPostURL()).into(holder.thumbnail);
 
         item_view.setOnClickListener(new View.OnClickListener() {
+            ArrayList<Transfer> data_fetched=MainFragment.data_fetched;
             @Override
             public void onClick(View v) {
                 Intent item=new Intent(mContext,DetailActivity2.class);
-                ArrayList<String> data_fetched=MainFragment.data_fetched;
-                for(int i=0;i<data_fetched.size();i++){
-                    String splits[]=data_fetched.get(i).split(" ");
-                    if(splits[0].matches(movieInfo.getImage_url())){
-                        item.putExtra(Intent.EXTRA_TEXT,data_fetched.get(i));
-                        Log.d("Shasha:->",data_fetched.get(i));
-                    }
-                }
+                item.putExtra("ID",movieInfo.getId());
+                item.putExtra("TITLE",movieInfo.getOrgTitle());
+                item.putExtra("LANG",movieInfo.getOrgLang());
+                item.putExtra("OVERVIEW",movieInfo.getOverview());
+                item.putExtra("FRONT_URL",movieInfo.getPostURL());
+                item.putExtra("REL_DATE",movieInfo.getRelDate());
+                item.putExtra("POPULARITY",movieInfo.getPopularity());
+                item.putExtra("VOT_AVG",movieInfo.getVotAvg());
                 mContext.startActivity(item);
             }
         });
