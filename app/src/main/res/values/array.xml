@@ -3,12 +3,14 @@
     <string-array name="pref_entry_sort">
         <item>Most Popular</item>
         <item>Highest Rated</item>
-        <item>Revenue</item>
+        <item>Vote Average</item>
+        <item>Popularity</item>
     </string-array>
 
     <string-array name="pref_entry_values_sort">
         <item>Most Popular</item>
         <item>Highest Rated</item>
-        <item>Revenue</item>
+        <item>vote_average.desc</item>
+        <item>popularity.desc</item>
     </string-array>
 </resources>

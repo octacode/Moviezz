@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,17 +44,23 @@ public class MainFragment extends Fragment {
     public MainFragment() {
     }
 
-    private void updateMovieRecycler() {
+    public void updateMovieRecycler() {
         FetchMovieTask fetchMovieTask=new FetchMovieTask();
-        fetchMovieTask.execute("Most Popular", String.valueOf(PAGE_LOADED+1));
+        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),"Most Popular");
+        fetchMovieTask.execute(settings, String.valueOf(PAGE_LOADED+1));
         PAGE_LOADED++;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovieRecycler();
     }
 
     @Override
@@ -107,13 +114,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateMovieRecycler();
-    }
-
-    class FetchMovieTask extends AsyncTask<String,Void,ArrayList<MovieInfo>>{
+    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<MovieInfo>>{
 
         private final String LOG_TAG=FetchMovieTask.class.getSimpleName();
 

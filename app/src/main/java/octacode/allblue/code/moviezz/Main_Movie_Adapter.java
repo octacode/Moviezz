@@ -46,11 +46,11 @@ class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_V
         if(viewType==1||viewType==7||viewType==13||viewType==19||viewType==28||viewType==34)
             item_view=LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_special,parent,false);
         */
-
         item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext,DetailActivity2.class));
+                Intent item=new Intent(mContext,DetailActivity2.class);
+                mContext.startActivity(item);
             }
         });
         return new Movie_ViewHolder(item_view);
