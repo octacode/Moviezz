@@ -34,6 +34,7 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
+    public static ArrayList<String> data_fetched=new ArrayList<>();
     private Main_Movie_Adapter adapter;
     private RecyclerView recyclerView;
     private int PAGE_LOADED=0;
@@ -163,7 +164,7 @@ public class MainFragment extends Fragment {
                 //Log.d("MainActivity", "Value: " + postURL);
                 popularity=movieInfo.getString(POPULARITY);
                 votAvg=movieInfo.getString(VOTAVG);
-
+                data_fetched.add(postURL+" "+id+" "+orgLang+" "+overview+" "+relDate+" "+popularity+" "+votAvg);
                 resultStrs.add(new MovieInfo(orgTitle,postURL));
             }
             return resultStrs;
