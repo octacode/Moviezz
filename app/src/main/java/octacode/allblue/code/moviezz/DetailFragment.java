@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,7 +17,6 @@ import android.widget.Toast;
 public class DetailFragment extends Fragment {
 
     private String LOG_TAG=DetailFragment.this.getClass().getSimpleName();
-    Activity mActivity=getActivity();
     public DetailFragment() {
     }
     @Override
@@ -25,8 +27,23 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(getContext(),MainActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Activity mActivity=getActivity();
         String id=mActivity.getIntent().getStringExtra("ID");
         String vote_avg=mActivity.getIntent().getStringExtra("VOTE_AVG");
         String backdrop_url=mActivity.getIntent().getStringExtra("BACK_URL");
@@ -47,5 +64,4 @@ public class DetailFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
-
 }

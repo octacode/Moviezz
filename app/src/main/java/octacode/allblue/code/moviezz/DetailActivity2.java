@@ -24,8 +24,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
     private LinearLayout mTitleContainer;
     private TextView mTitle;
-    private AppBarLayout mAppBarLayout;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +36,18 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
+        mTitle.setText("Hello");
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(this);
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
