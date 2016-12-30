@@ -67,6 +67,15 @@ class Main_Movie_Adapter extends RecyclerView.Adapter<Main_Movie_Adapter.Movie_V
             @Override
             public void onClick(View v) {
                 Intent item=new Intent(mContext,DetailActivity2.class);
+                item.putExtra("ID",movieInfo.getId());
+                item.putExtra("VOTE_AVG",movieInfo.getVotAvg());
+                item.putExtra("POST_URL",movieInfo.getPostURL());
+                item.putExtra("BACK_URL",movieInfo.getBack_dropURL());
+                item.putExtra("LANG",movieInfo.getOrgLang());
+                item.putExtra("TITLE",movieInfo.getOrgTitle());
+                item.putExtra("OVERVIEW",movieInfo.getOverview());
+                item.putExtra("POPULARITY",movieInfo.getPopularity());
+                item.putExtra("REL_DATE",movieInfo.getRelDate());
                 mContext.startActivity(item);
             }
         });
