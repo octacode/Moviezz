@@ -216,13 +216,25 @@
                 android:text="$240,000,000"
                 android:id="@+id/revenue_detail"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adult"
+                android:id="@+id/adult_tag_detail"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="false"
+                android:id="@+id/adult_detail"/>
+
         </LinearLayout>
     </LinearLayout>
 
     <!--Videos, here I will affix a lv with a fancy item again, containing the thumbnail and it's name. But cache here is that there will be a floating button which one clicked will show the dialog else everything will be hidden.
     I would have to wrap fragment_detail_layout in a coordinator layout.-->
 
-    <!--I am quite bored with designing layouts so leaving it for now. Moving onto the backend.
+    <!--To be honest, I am quite bored with designing layouts so leaving it for now. Moving onto the backend.
 
     <LinearLayout
         android:layout_width="match_parent"
