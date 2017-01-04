@@ -34,11 +34,10 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    public static ArrayList<String> data_fetched=new ArrayList<>();
     private Main_Movie_Adapter adapter;
     private RecyclerView recyclerView;
     private int PAGE_LOADED=0;
-    private List<MovieInfo> arrayList=new ArrayList<>();
+    private List<Transfer> arrayList=new ArrayList<>();
     private Parcelable recyclerViewState;
 
 
@@ -115,11 +114,11 @@ public class MainFragment extends Fragment {
 
     }
 
-    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<MovieInfo>>{
+    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<Transfer>>{
 
         private final String LOG_TAG=FetchMovieTask.class.getSimpleName();
 
-        private ArrayList<MovieInfo> getMovieDataFromJson(String movieJsonStr)
+        private ArrayList<Transfer> getMovieDataFromJson(String movieJsonStr)
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
@@ -129,16 +128,18 @@ public class MainFragment extends Fragment {
             final String OVER="overview";
             final String RELDATE="release_date";
             final String POSTERPATH="poster_path";
+            final String BACKDROPPATH="backdrop_path";
             final String POPULARITY="popularity";
             final String VOTAVG="vote_average";
 
             final String RESULT="results";
             final String POSTER_BASE_URL="http://image.tmdb.org/t/p/w185";
+            final String BACKDROP_BASE_URL="http://image.tmdb.org/t/p/w500";
 
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULT);
 
-            ArrayList<MovieInfo> resultStrs=new ArrayList<>();
+            ArrayList<Transfer> resultStrs=new ArrayList<>();
 
             for(int i = 0; i < movieArray.length(); i++) {
 
@@ -150,6 +151,7 @@ public class MainFragment extends Fragment {
                 String postURL;
                 String popularity;
                 String votAvg;
+                String backdropURl;
 
                 JSONObject movieInfo = movieArray.getJSONObject(i);
 
@@ -161,18 +163,19 @@ public class MainFragment extends Fragment {
 
                 postURL= Uri.parse(POSTER_BASE_URL).buildUpon().
                         appendEncodedPath(movieInfo.getString(POSTERPATH)).build().toString();
+                backdropURl = Uri.parse(BACKDROP_BASE_URL).buildUpon().
+                        appendEncodedPath(movieInfo.getString(BACKDROPPATH)).build().toString();
                 //Log.d("MainActivity", "Value: " + postURL);
                 popularity=movieInfo.getString(POPULARITY);
                 votAvg=movieInfo.getString(VOTAVG);
-                data_fetched.add(postURL+" "+id+" "+orgLang+" "+overview+" "+relDate+" "+popularity+" "+votAvg);
-                resultStrs.add(new MovieInfo(orgTitle,postURL));
+                resultStrs.add(new Transfer(postURL,backdropURl,id,orgLang,overview,relDate,popularity,votAvg,orgTitle));
             }
             return resultStrs;
 
         }
 
         @Override
-        protected ArrayList<MovieInfo> doInBackground(String... params) {
+        protected ArrayList<Transfer> doInBackground(String... params) {
             if (params.length == 0) {
                 return null;
             }
@@ -247,7 +250,7 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<MovieInfo> result) {
+        protected void onPostExecute(ArrayList<Transfer> result) {
             if (result != null) {
 
                 for (int i = 0; i < result.size(); i++)

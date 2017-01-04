@@ -89,7 +89,6 @@
         android:background="?attr/colorPrimary"
         app:layout_anchor="@id/main.framelayout.title"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:title=""
         >
 
         <LinearLayout
@@ -109,7 +108,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
-                android:text="@string/quila_name2"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 />
