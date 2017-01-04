@@ -27,16 +27,17 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 +MainMovieTable.COLUMN_MAIN_ADULT_TEXT+ " TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT+ " TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT+ " TEXT NOT NULL, "
-                +MainMovieTable.COLUMN_MAIN_MOVIE_ID_INT+ " REAL NOT NULL, "
+                +MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " REAL NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT+ " TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_PAGE_INT+ " INT NOT NULL, "
+                +MainMovieTable.COLUMN_MAIN_OVERVIEW_TEXT+ " TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_POPULARITY_DOUBLE+ " REAL NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_POSTER_PATH_TEXT+" TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_TITLE_TEXT+" TEXT NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE+" REAL NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE+" REAL NOT NULL, "
                 +MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE+" REAL NOT NULL, "
-                +"UNIQUE (" + MainMovieTable.COLUMN_MAIN_MOVIE_ID_INT + ") ON CONFLICT REPLACE)";
+                +"UNIQUE (" + MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+") ON CONFLICT REPLACE)";
 
         db.execSQL(SQL_CREATE_TABLE_MAIN_MOVIE);
     }

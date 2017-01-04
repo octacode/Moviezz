@@ -15,7 +15,8 @@ public class MovieContract {
         public static final String COLUMN_MAIN_PAGE_INT = "page";
         public static final String COLUMN_MAIN_POSTER_PATH_TEXT = "poster_path";
         public static final String COLUMN_MAIN_ADULT_TEXT = "adult";
-        public static final String COLUMN_MAIN_MOVIE_ID_INT = "movie_id";
+        public static final String COLUMN_MAIN_OVERVIEW_TEXT= "overview";
+        public static final String COLUMN_MAIN_MOVIE_ID_DOUBLE = "movie_id";
         public static final String COLUMN_MAIN_TITLE_TEXT = "title";
         public static final String COLUMN_MAIN_ORG_LANGUAGE_TEXT = "original_lainguage";
         public static final String COLUMN_MAIN_BACKDROP_PATH_TEXT = "backdrop_path";
