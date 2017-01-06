@@ -1,7 +1,9 @@
 package octacode.allblue.code.moviezz.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -11,21 +13,75 @@ import android.support.annotation.Nullable;
  */
 
 public class MovieProvider extends ContentProvider {
+
+    public static final int MOVIE=100;
+    public static final int MOVIE_WITH_ID=101;
+
+    private MovieDbHelper movieDbHelper;
+    private static UriMatcher matcher=buildUriMatcher();
+    private static UriMatcher buildUriMatcher(){
+        UriMatcher uriMatcher=new UriMatcher(UriMatcher.NO_MATCH);
+        String authority=MovieContract.CONTENT_AUTHORITY;
+
+        uriMatcher.addURI(authority,MovieContract.PATH_MOVIE_TABLE,MOVIE);
+        uriMatcher.addURI(authority,MovieContract.PATH_MOVIE_TABLE + "/#", MOVIE_WITH_ID);
+        return uriMatcher;
+    }
+
     @Override
     public boolean onCreate() {
-        return false;
+        movieDbHelper=new MovieDbHelper(getContext());
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        Cursor retCursor;
+        switch (matcher.match(uri)){
+            //movie
+            case MOVIE:
+                retCursor=movieDbHelper.getReadableDatabase().query(
+                        MovieContract.MainMovieTable.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            //movie/*
+            case MOVIE_WITH_ID:
+                retCursor=movieDbHelper.getReadableDatabase().query(
+                        MovieContract.MainMovieTable.TABLE_NAME,
+                        projection,
+                        MovieContract.MainMovieTable._ID + " = '" + ContentUris.parseId(uri) + "'",
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            default :
+                throw new UnsupportedOperationException("Unknown uri : "+uri);
+        }
+        retCursor.setNotificationUri(getContext().getContentResolver(),uri);
+        return retCursor;
     }
 
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match=matcher.match(uri);
+        switch (match){
+            case MOVIE:
+                return MovieContract.MainMovieTable.CONTENT_TYPE;
+            case MOVIE_WITH_ID:
+                return MovieContract.MainMovieTable.CONTENT_ITEM_TYPE;
+            default:
+                throw new UnsupportedOperationException("Unknown Uri : "+uri);
+        }
     }
 
     @Nullable

@@ -1,5 +1,7 @@
 package octacode.allblue.code.moviezz.data;
 
+import android.content.ContentUris;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -8,7 +10,27 @@ import android.provider.BaseColumns;
 
 public class MovieContract {
 
+    public static final String PATH_MOVIE_TABLE = "movie";
+
+    public static final String CONTENT_AUTHORITY = "octacode.allblue.code.moviezz";
+
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
     public static final class MainMovieTable implements BaseColumns{
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE_TABLE).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY +"/"+ PATH_MOVIE_TABLE;
+
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY +"/"+ PATH_MOVIE_TABLE;
+
+        public static Uri buildMoviewithId(long id){
+            return ContentUris.withAppendedId(CONTENT_URI,id);
+        }
+
         public static final String TABLE_NAME = "MainMovie";
         public static final String _ID = "id";
 

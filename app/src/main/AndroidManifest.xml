@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="octacode.allblue.code.moviezz">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,6 +37,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="octacode.allblue.code.moviezz"
+            android:name=".data.MovieProvider"
+            tools:ignore="ExportedContentProvider" />
 
     </application>
 
