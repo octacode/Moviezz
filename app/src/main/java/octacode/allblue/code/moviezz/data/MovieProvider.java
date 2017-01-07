@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -87,16 +88,76 @@ public class MovieProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        final int match = matcher.match(uri);
+        Uri retUri = null;
+        switch(match){
+            case MOVIE:
+                long _id = movieDbHelper.getWritableDatabase().insert(MovieContract.MainMovieTable.TABLE_NAME,null,values);
+                if(_id>0)
+                    retUri = MovieContract.MainMovieTable.buildMoviewithId(_id);
+                else
+                    throw new UnsupportedOperationException("SQL Database insertion failed for uri : "+uri);
+                break;
+        }
+        getContext().getContentResolver().notifyChange(uri,null);
+        return retUri;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final int match = matcher.match(uri);
+        int rowsDeleted=-1;
+        switch (match){
+            case MOVIE:
+                rowsDeleted = movieDbHelper.getWritableDatabase().delete(MovieContract.MainMovieTable.TABLE_NAME,null,null);
+                break;
+            default:
+                throw new UnsupportedOperationException("SQL Database deletion failed for uri : "+uri);
+        }
+        if(selection == null || rowsDeleted!=0)
+        getContext().getContentResolver().notifyChange(uri,null);
+        return rowsDeleted;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final int match = matcher.match(uri);
+        int rowsUpdated=-1;
+        switch (match){
+            case MOVIE:
+                rowsUpdated = movieDbHelper.getWritableDatabase().update(MovieContract.MainMovieTable.TABLE_NAME,values,selection,selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("SQL Database updating failed for uri : "+uri);
+        }
+        if(selection == null || rowsUpdated!=0)
+            getContext().getContentResolver().notifyChange(uri,null);
+        return rowsUpdated;
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final int match=matcher.match(uri);
+        final SQLiteDatabase db=movieDbHelper.getWritableDatabase();
+        switch (match){
+            case MOVIE:
+                db.beginTransaction();
+                int returnCount=0;
+                try{
+                    for(ContentValues value : values){
+                        long _id = db.insert(MovieContract.MainMovieTable.TABLE_NAME,null,value);
+                        if(_id!=-1)
+                        returnCount++;
+                    }
+                    db.setTransactionSuccessful();
+                }finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri,null);
+            return returnCount;
+
+            default :
+                return super.bulkInsert(uri, values);
+        }
     }
 }

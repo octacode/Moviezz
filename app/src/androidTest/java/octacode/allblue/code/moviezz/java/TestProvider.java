@@ -1,8 +1,10 @@
 package octacode.allblue.code.moviezz.java;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -18,8 +20,16 @@ public class TestProvider extends AndroidTestCase {
 
     private String LOG_TAG = getClass().getSimpleName();
 
-    public void testDeleteProvider() throws Throwable {
-        mContext.deleteDatabase(MovieDbHelper.DATABASE_NAME);
+    public void testdeleteAllRecords(){
+        mContext.getContentResolver().delete(MainMovieTable.CONTENT_URI,
+                null,
+                null);
+        Cursor cursor=mContext.getContentResolver().query(MainMovieTable.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+        assertEquals(cursor.getCount(),0);
     }
 
     public void testGetType(){
@@ -30,8 +40,7 @@ public class TestProvider extends AndroidTestCase {
         assertEquals(type,MainMovieTable.CONTENT_ITEM_TYPE);
     }
 
-    public void testInsertReaddb(){
-        mContext.deleteDatabase(MovieDbHelper.DATABASE_NAME);
+    public void testInsertReadProvider(){
         ContentValues cv=new ContentValues();
         int test_page=1;
 
@@ -64,8 +73,9 @@ public class TestProvider extends AndroidTestCase {
         cv.put(MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE,test_vote_average);
 
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
-        long movie_row_id=liteDatabase.insert(MainMovieTable.TABLE_NAME,null,cv);
-        assertTrue(movie_row_id != -1);
+        Uri movie_row_uri=mContext.getContentResolver().insert(MainMovieTable.CONTENT_URI,cv);
+        long movie_row_id=ContentUris.parseId(movie_row_uri);
+        assertTrue(movie_row_id!= -1);
         Log.d(LOG_TAG,"Movie returned is : "+movie_row_id);
 
         Cursor cursor=mContext.getContentResolver().query(MainMovieTable.buildMoviewithId(movie_row_id),
@@ -84,4 +94,5 @@ public class TestProvider extends AndroidTestCase {
         }
         cursor.close();
     }
+
 }
