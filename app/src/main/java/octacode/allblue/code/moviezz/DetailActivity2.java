@@ -42,8 +42,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         }
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
         mTitle.setText("Hello");
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);

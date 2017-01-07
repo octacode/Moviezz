@@ -32,7 +32,7 @@ public class MovieContract {
         }
 
         public static final String TABLE_NAME = "MainMovie";
-        public static final String _ID = "id";
+        public static final String _ID = "_id";
 
         public static final String COLUMN_MAIN_PAGE_INT = "page";
         public static final String COLUMN_MAIN_POSTER_PATH_TEXT = "poster_path";
