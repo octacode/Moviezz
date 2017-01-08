@@ -164,11 +164,12 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                 }
 
                 if(cVVector.size()>0){
+                    mContext.getContentResolver().delete(MainMovieTable.CONTENT_URI,null,null);
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
                     mContext.getContentResolver().bulkInsert(MainMovieTable.CONTENT_URI,cvArray);
                 }
-                Log.d(LOG_TAG, "FetchWeather Task Complete: "+ cVVector.size()+ " Inserted");
+                Log.d(LOG_TAG, "FetchMovie Task Complete: "+ cVVector.size()+ " Inserted");
             }
             catch (JSONException e){
                 e.printStackTrace();

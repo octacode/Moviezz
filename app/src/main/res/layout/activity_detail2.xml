@@ -119,6 +119,7 @@
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_width"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/detail_image_poster"
         android:src="@mipmap/ic_launcher"
         app:border_color="@android:color/white"
         app:border_width="2dp"

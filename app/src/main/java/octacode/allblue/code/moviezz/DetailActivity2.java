@@ -5,13 +5,21 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -24,6 +32,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
     private LinearLayout mTitleContainer;
     private TextView mTitle;
+    private ImageView image_backdrop;
+    private CircleImageView image_view_poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
-        mTitle.setText("Hello");
+        image_backdrop = (ImageView) findViewById(R.id.detail_image_back_drop);
+        image_view_poster = (CircleImageView) findViewById(R.id.detail_image_poster);
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(this);
@@ -107,6 +118,14 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         alphaAnimation.setDuration(duration);
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
+    }
+
+    public void set_image_poster(final String post_url){
+        Picasso.with(this).load(post_url).into(image_view_poster);
+    }
+
+    public void set_image_backdrop(String back_url){
+        Picasso.with(this).load(back_url).into(image_backdrop);
     }
 }
 
