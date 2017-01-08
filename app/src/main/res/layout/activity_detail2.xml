@@ -23,7 +23,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="370dp"
                 android:src="@mipmap/ic_launcher"
                 android:scaleType="fitXY"
                 android:id="@+id/detail_image_back_drop"
@@ -54,10 +54,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:id="@+id/main_title"
                         android:gravity="bottom|center"
                         android:text="Shashwat"
                         android:textColor="@android:color/white"
-                        android:textSize="30sp"
+                        android:textSize="20sp"
                         />
                 </LinearLayout>
             </FrameLayout>
@@ -69,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        app:behavior_overlapTop="20dp"
+        app:behavior_overlapTop="40dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.CardView

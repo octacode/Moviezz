@@ -2,7 +2,10 @@ package octacode.allblue.code.moviezz;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,7 +29,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     private static final int MOVIE_LOADER = 0;
     GridView main_grid_view;
 
-    private final String[] MOVIE_COLUMNS={
+    public static final String[] MOVIE_COLUMNS={
             MovieContract.MainMovieTable._ID,
             MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE,
             MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT,

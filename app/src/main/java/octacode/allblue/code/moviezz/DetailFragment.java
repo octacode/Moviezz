@@ -1,10 +1,17 @@
 package octacode.allblue.code.moviezz;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +21,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 
 public class DetailFragment extends Fragment {
@@ -47,32 +59,73 @@ public class DetailFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                startActivity(new Intent(getContext(), MainActivity.class));
+            case R.id.add_to_favourites:
+                long inserted_row=0;
+                SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
+                Cursor cursor = liteDatabase.query(
+                        MovieContract.FavouritesTable.TABLE_NAME,
+                        MainFragment.MOVIE_COLUMNS,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+                String buffer="";
+                while (cursor.moveToNext()) {
+                    String title_presentInDb = cursor.getString(cursor.getColumnIndex(MovieContract.FavouritesTable.COLUMN_MAIN_TITLE_TEXT));
+                    buffer=buffer+title_presentInDb;
+                }
+                if(!buffer.contains(title)){
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, vot_count);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT, adult);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT, backdrop_url);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT, rel_date);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE, movie_id);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT, language);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_OVERVIEW_TEXT, overview);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_PAGE_INT, 1);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_POPULARITY_DOUBLE, popularity);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_POSTER_PATH_TEXT, poster_url);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE, ratings);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT, title);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
+                    inserted_row=liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME,null,contentValues);
+                }
+                Log.d(LOG_TAG,buffer);
+                Log.d(LOG_TAG, String.valueOf(inserted_row));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date;
+    double vot_count,vote_avg,popularity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_detail, container, false);
         HolderDetail viewHolder = new HolderDetail(mRootView);
         movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
-        String adult = getActivity().getIntent().getStringExtra("ADULT");
-        String backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");
-        String overview = getActivity().getIntent().getStringExtra("OVERVIEW");
-        String title = getActivity().getIntent().getStringExtra("TITLE");
-        String poster_url = getActivity().getIntent().getStringExtra("POSTER_URL");
-        String language = getActivity().getIntent().getStringExtra("LANGUAGE");
-        double popularity = Double.parseDouble(getActivity().getIntent().getStringExtra("POPULARITY"));
-        String ratings = getActivity().getIntent().getStringExtra("RATINGS");
-        double vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
-        String rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
+        adult = getActivity().getIntent().getStringExtra("ADULT");
+        backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");
+        overview = getActivity().getIntent().getStringExtra("OVERVIEW");
+        title = getActivity().getIntent().getStringExtra("TITLE");
+        poster_url = getActivity().getIntent().getStringExtra("POSTER_URL");
+        language = getActivity().getIntent().getStringExtra("LANGUAGE");
+        popularity = Double.parseDouble(getActivity().getIntent().getStringExtra("POPULARITY"));
+        ratings = getActivity().getIntent().getStringExtra("RATINGS");
+        vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
+        rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         viewHolder.title.setText(title);
         viewHolder.date.setText(rel_date);
         viewHolder.overview.setText(overview);
         viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
+        DetailActivity2.mTitle.setText(title);
+        DetailActivity2.main_title.setText(title);
+        Picasso.with(getContext()).load(poster_url).into(DetailActivity2.image_view_poster);
+        Picasso.with(getContext()).load(backdrop_url).into(DetailActivity2.image_backdrop);
         return mRootView;
     }
 

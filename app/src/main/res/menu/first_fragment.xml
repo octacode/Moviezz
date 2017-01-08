@@ -11,8 +11,9 @@
         android:title="Refresh"
         android:id="@+id/action_refresh"
         android:orderInCategory="2"/>
+
     <item
-        android:title="Favourites"
+        android:title="Show Favourites"
         android:id="@+id/action_favourites"
         shasha:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_day"

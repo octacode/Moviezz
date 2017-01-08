@@ -31,9 +31,9 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     private boolean mIsTheTitleContainerVisible = true;
 
     private LinearLayout mTitleContainer;
-    private TextView mTitle;
-    private ImageView image_backdrop;
-    private CircleImageView image_view_poster;
+    public static TextView mTitle,main_title;
+    public static ImageView image_backdrop;
+    public static CircleImageView image_view_poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         }
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+        main_title = (TextView) findViewById(R.id.main_title);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
         image_backdrop = (ImageView) findViewById(R.id.detail_image_back_drop);
         image_view_poster = (CircleImageView) findViewById(R.id.detail_image_poster);
@@ -118,14 +120,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         alphaAnimation.setDuration(duration);
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
-    }
-
-    public void set_image_poster(final String post_url){
-        Picasso.with(this).load(post_url).into(image_view_poster);
-    }
-
-    public void set_image_backdrop(String back_url){
-        Picasso.with(this).load(back_url).into(image_backdrop);
     }
 }
 

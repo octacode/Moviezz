@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
@@ -57,7 +58,7 @@ public class Testdb extends AndroidTestCase {
         cv.put(MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE,test_vote_average);
 
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
-        long movie_row_id=liteDatabase.insert(MainMovieTable.TABLE_NAME,null,cv);
+        long movie_row_id=liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME,null,cv);
         assertTrue(movie_row_id != -1);
         Log.d(LOG_TAG,"Movie returned is : "+movie_row_id);
 
@@ -78,7 +79,7 @@ public class Testdb extends AndroidTestCase {
                 MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE
         };
 
-        Cursor cursor = liteDatabase.query(MainMovieTable.TABLE_NAME,
+        Cursor cursor = liteDatabase.query(MovieContract.FavouritesTable.TABLE_NAME,
                 test_columns,
                 null,
                 null,

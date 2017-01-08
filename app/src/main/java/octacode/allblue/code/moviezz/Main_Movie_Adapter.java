@@ -2,6 +2,8 @@ package octacode.allblue.code.moviezz;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,34 +36,16 @@ public class Main_Movie_Adapter extends CursorAdapter {
         return view;
     }
 
+    private Holder viewHolder;
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-        final Holder viewHolder=(Holder)view.getTag();
+        viewHolder=(Holder)view.getTag();
         String title = cursor.getString(MainFragment.COLUMN_TITLE);
-        final String postURL = cursor.getColumnName(MainFragment.COLUMN_POSTER_URL);
-        Picasso.with(context).load(postURL).into(viewHolder.thumbnail, new Callback() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onError() {
-                Picasso.with(context).load(postURL).error(R.mipmap.ic_launcher).into(viewHolder.thumbnail, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        Log.d(LOG_TAG,"Error Lodaing Images.");
-                    }
-                });
-            }
-        });
+        final String postURL = cursor.getString(MainFragment.COLUMN_POSTER_URL);
+        Picasso.with(context).load(postURL).error(R.mipmap.ic_launcher).into(viewHolder.thumbnail);
         viewHolder.title.setText(title);
     }
+
 
     public class Holder{
         ImageView thumbnail;
