@@ -60,23 +60,11 @@ public class DetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_to_favourites:
-                long inserted_row=0;
+                long inserted_row=0L;
                 SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
-                Cursor cursor = liteDatabase.query(
-                        MovieContract.FavouritesTable.TABLE_NAME,
-                        MainFragment.MOVIE_COLUMNS,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                String buffer="";
-                while (cursor.moveToNext()) {
-                    String title_presentInDb = cursor.getString(cursor.getColumnIndex(MovieContract.FavouritesTable.COLUMN_MAIN_TITLE_TEXT));
-                    buffer=buffer+title_presentInDb;
-                }
-                if(!buffer.contains(title)){
+                String query_check = "Select * from "+ MovieContract.FavouritesTable.TABLE_NAME+" where "+ MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " = "+movie_id;
+                Cursor cursor = liteDatabase.rawQuery(query_check,null);
+                if(cursor.getCount()<=0) {
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, vot_count);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT, adult);
@@ -91,9 +79,16 @@ public class DetailFragment extends Fragment {
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE, ratings);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT, title);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
-                    inserted_row=liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME,null,contentValues);
+                    inserted_row = liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME, null, contentValues);
                 }
-                Log.d(LOG_TAG,buffer);
+                else {
+                    liteDatabase.delete(
+                            MovieContract.FavouritesTable.TABLE_NAME,
+                            MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
+                            new String[]{movie_id}
+                            );
+                    Log.d(LOG_TAG,"Deleted Sucessfully");
+                }
                 Log.d(LOG_TAG, String.valueOf(inserted_row));
                 break;
         }

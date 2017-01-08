@@ -91,7 +91,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 startActivity(new Intent(getContext(),SettingsActivit.class));
                 break;
             case R.id.action_favourites:
-                Toast.makeText(getContext(),"Favourites",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(),FavouritesActivity.class));
                 break;
             case R.id.action_refresh:
                 updateMovieRecycler();

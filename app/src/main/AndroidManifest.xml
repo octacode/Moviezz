@@ -27,7 +27,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
-
         <activity
             android:name=".DetailActivity2"
             android:label=""
@@ -39,10 +38,11 @@
         </activity>
 
         <provider
-            android:authorities="octacode.allblue.code.moviezz"
             android:name=".data.MovieProvider"
+            android:authorities="octacode.allblue.code.moviezz"
             tools:ignore="ExportedContentProvider" />
 
+        <activity android:name=".FavouritesActivity"></activity>
     </application>
 
 </manifest>
