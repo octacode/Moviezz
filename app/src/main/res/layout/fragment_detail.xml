@@ -122,18 +122,19 @@
             android:layout_height="wrap_content"
             android:text="Genre"
             android:id="@+id/genre_tag_detail"/>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="true"
             android:id="@+id/genre_lv_detail">
         </ListView>
     </LinearLayout>
-    -->
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="24dp" />
-
+    -->
     <!--Top_Cast Container, It will consist of a listview which will hold the array of genre retrived from the server and yes a fancy item will be there consisting of the image and real name and the name of the character played by him or her.-->
     <!--
     <LinearLayout

@@ -52,6 +52,7 @@ public class FavouritesActivity extends AppCompatActivity {
                 intent.putExtra("VOTE_AVG",cursor.getString(MainFragment.COLUMN_VOTE_AVERAGE));
                 intent.putExtra("RATINGS",cursor.getString(MainFragment.COLUMN_RATINGS));
                 intent.putExtra("REL_DATE",cursor.getString(MainFragment.COLUMN_REL_DATE));
+                intent.putExtra("GENRE_IDS",cursor.getString(MainFragment.COLUMN_VOTE_COUNT));
                 startActivity(intent);
             }
         });

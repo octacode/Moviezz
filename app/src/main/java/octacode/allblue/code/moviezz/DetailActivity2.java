@@ -39,7 +39,10 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
+
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
+        //getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
         }
@@ -62,6 +65,19 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mAppBarLayout.addOnOffsetChangedListener(this);
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+        String genre_ids = getIntent().getStringExtra("GENRE_IDS");
+        setGenre(genre_ids);
+    }
+
+    private void setGenre(String genre_ids) {
+        TextView genre_tv = (TextView)findViewById(R.id.text_view_genre_detail);
+        String splits[]=genre_ids.split(" ");
+        genre_ids = "";
+        for(int i=0;i<splits.length;i++) {
+            splits[i] = Utility.getGenreName(Integer.parseInt(splits[i]));
+            genre_ids=genre_ids+splits[i]+"         ";
+        }
+        genre_tv.setText(genre_ids);
     }
 
     @Override

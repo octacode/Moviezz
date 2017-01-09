@@ -126,6 +126,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 intent.putExtra("VOTE_AVG",cursor.getString(COLUMN_VOTE_AVERAGE));
                 intent.putExtra("RATINGS",cursor.getString(COLUMN_RATINGS));
                 intent.putExtra("REL_DATE",cursor.getString(COLUMN_REL_DATE));
+                intent.putExtra("GENRE_IDS",cursor.getString(COLUMN_VOTE_COUNT));
                 startActivity(intent);
             }
         });

@@ -97,9 +97,11 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                 final String POSTER_BASE_URL="http://image.tmdb.org/t/p/w185";
                 final String BACKDROP_BASE_URL="http://image.tmdb.org/t/p/w500";
                 final String OWM_VOTE_COUNT="vote_count";
+                final String OWM_GENRE_IDS="genre_ids";
 
                 JSONObject movieJson = new JSONObject(movieJsonStr);
                 JSONArray movieArray = movieJson.getJSONArray(OWM_RESULT);
+
 
                 Vector<ContentValues> cVVector = new Vector<ContentValues>(movieArray.length());
 
@@ -113,18 +115,18 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                     String adult;
                     String popularity;
                     String votAvg;
-                    String vot_count;
                     String backdropURl;
+                    String genre_ids;
 
                     JSONObject movieInfo = movieArray.getJSONObject(i);
 
+                    genre_ids=movieInfo.getString(OWM_GENRE_IDS);
                     id=movieInfo.getString(OWM_ID);
                     orgLang=movieInfo.getString(OWM_ORGLANG);
                     orgTitle=movieInfo.getString(OWM_ORGTITLE);
                     overview=movieInfo.getString(OWM_OVER);
                     relDate=movieInfo.getString(OWM_RELDATE);
                     adult=movieInfo.getString(OWM_ADULT);
-                    vot_count=movieInfo.getString(OWM_VOTE_COUNT);
 
                     postURL= Uri.parse(POSTER_BASE_URL).buildUpon().
                             appendEncodedPath(movieInfo.getString(OWM_POSTERPATH)).build().toString();
@@ -134,11 +136,12 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                     Log.d(LOG_TAG, "Poster Value: " + postURL);
                     Log.d(LOG_TAG, "Backdrop Value: " + backdropURl);
                     */
+
                     popularity=movieInfo.getString(OWM_POPULARITY);
                     votAvg=movieInfo.getString(OWM_VOTAVG);
 
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE,vot_count);
+                    contentValues.put(MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE,genre_ids);
                     contentValues.put(MainMovieTable.COLUMN_MAIN_ADULT_TEXT,adult);
                     contentValues.put(MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT,backdropURl);
                     contentValues.put(MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT,relDate);
