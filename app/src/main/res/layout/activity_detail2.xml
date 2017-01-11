@@ -158,11 +158,11 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="Top Billed Cast : "/>
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_below="@+id/top_cast_tag"
                 android:layout_height="wrap_content"
-                android:id="@+id/lv_top_cast"/>
+                android:id="@+id/rv_top_cast"/>
 
             </RelativeLayout>
 

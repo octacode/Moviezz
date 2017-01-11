@@ -20,6 +20,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
+import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -68,6 +70,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String genre_ids = getIntent().getStringExtra("GENRE_IDS");
         setGenre(genre_ids);
         setFeaturedCrew();
+        setTopCast();
     }
 
     private void setGenre(String genre_ids) {
@@ -93,6 +96,20 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(featuredCrewAdapter);
         featuredCrewAdapter.notifyDataSetChanged();
+    }
+
+    private void setTopCast(){
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_top_cast);
+        String name = "Shashwat",role = "Protagonist",id_url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
+        ArrayList<FeaturedCrew> list = new ArrayList<>();
+        FeaturedCrew dummy = new FeaturedCrew(name,role,id_url);
+        for(int i=0;i<10;i++)
+            list.add(dummy);
+        TopCastAdapter topCastAdapter = new TopCastAdapter(this,list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(topCastAdapter);
+        topCastAdapter.notifyDataSetChanged();
     }
 
     @Override

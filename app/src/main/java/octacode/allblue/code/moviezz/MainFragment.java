@@ -2,10 +2,7 @@ package octacode.allblue.code.moviezz;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{

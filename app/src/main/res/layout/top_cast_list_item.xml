@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="30dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/cast_image_list_item"/>
+
+    <TextView
+        android:text="Jon Snow"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cast_image_list_item"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/cast_tv_list_name" />
+
+    <TextView
+        android:text="Protagonist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cast_tv_list_role"
+        android:layout_below="@+id/cast_tv_list_name"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package octacode.allblue.code.moviezz;
+package octacode.allblue.code.moviezz.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import octacode.allblue.code.moviezz.MainFragment;
+import octacode.allblue.code.moviezz.R;
 
 /**
  * Created by shasha on 9/1/17.

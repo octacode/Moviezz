@@ -1,4 +1,4 @@
-package octacode.allblue.code.moviezz;
+package octacode.allblue.code.moviezz.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import octacode.allblue.code.moviezz.FeaturedCrew;
+import octacode.allblue.code.moviezz.R;
 
 /**
  * Created by shasha on 11/1/17.
