@@ -13,6 +13,10 @@ public class InfoTransfer {
         this.role=role;
     }
 
+    InfoTransfer(String name){
+        this.name = name;
+    }
+
     InfoTransfer(String name, String role, String id_url){
         this.name=name;
         this.role=role;

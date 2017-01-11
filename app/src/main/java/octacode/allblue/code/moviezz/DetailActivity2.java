@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
+import octacode.allblue.code.moviezz.adapter.GenreAdapter;
 import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 
@@ -75,17 +77,25 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         setFeaturedCrew();
         setTopCast();
         setTrailer();
+        setSimilarMovies();
     }
 
+
     private void setGenre(String genre_ids) {
-        TextView genre_tv = (TextView)findViewById(R.id.text_view_genre_detail);
         String splits[]=genre_ids.split(" ");
-        genre_ids = "";
+        ArrayList<InfoTransfer> infoTransferList= new ArrayList<>();
+        InfoTransfer genre_name;
         for(int i=0;i<splits.length;i++) {
             splits[i] = Utility.getGenreName(Integer.parseInt(splits[i]));
-            genre_ids=genre_ids+splits[i]+"       ";
+            genre_name = new InfoTransfer(splits[i]);
+            infoTransferList.add(genre_name);
         }
-        genre_tv.setText(genre_ids);
+        mRecyclerView =(RecyclerView)findViewById(R.id.rv_genre);
+        GenreAdapter genreAdapter = new GenreAdapter(this,infoTransferList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(genreAdapter);
+        genreAdapter.notifyDataSetChanged();
     }
 
     private void setFeaturedCrew() {
@@ -129,6 +139,21 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mRecyclerView.setAdapter(trailerAdapter);
         trailerAdapter.notifyDataSetChanged();
     }
+
+    private void setSimilarMovies() {
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_similar_movies);
+        String name = "Kunk Fu Panda", url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
+        ArrayList<InfoTransfer> list = new ArrayList<>();
+        InfoTransfer dummy = new InfoTransfer(name,url);
+        for(int i=0;i<90;i++)
+            list.add(dummy);
+        TrailersAdapter trailerAdapter = new TrailersAdapter(this,list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(trailerAdapter);
+        trailerAdapter.notifyDataSetChanged();
+        }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
