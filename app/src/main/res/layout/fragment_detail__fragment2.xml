@@ -1,12 +1,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.DetailFragment2"
     android:baselineAligned="false">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="vertical"
@@ -63,6 +67,7 @@
 
     <LinearLayout
         android:layout_weight="1"
+        android:gravity="right"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -111,7 +116,35 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="6dp" />
-
+            android:layout_height="12dp" />
     </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/homepage_tag"
+        android:text="Homepage"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/homepage_name"
+        android:text="http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
+
 </LinearLayout>
