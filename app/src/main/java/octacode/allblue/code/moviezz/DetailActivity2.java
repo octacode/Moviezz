@@ -46,6 +46,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_3_review, new ReviewFragment()).commit();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
