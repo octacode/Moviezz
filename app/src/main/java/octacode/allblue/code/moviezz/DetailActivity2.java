@@ -44,6 +44,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         setContentView(R.layout.activity_detail2);
 
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
@@ -89,7 +90,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String name= "Shashwat",role="Director";
         ArrayList<FeaturedCrew> list = new ArrayList<>();
         FeaturedCrew dummy = new FeaturedCrew(name,role);
-        for(int i=0;i<8;i++)
+        for(int i=0;i<80;i++)
             list.add(dummy);
         FeaturedCrewAdapter featuredCrewAdapter = new FeaturedCrewAdapter(this,list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
@@ -103,7 +104,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String name = "Shashwat",role = "Protagonist",id_url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
         ArrayList<FeaturedCrew> list = new ArrayList<>();
         FeaturedCrew dummy = new FeaturedCrew(name,role,id_url);
-        for(int i=0;i<10;i++)
+        for(int i=0;i<100;i++)
             list.add(dummy);
         TopCastAdapter topCastAdapter = new TopCastAdapter(this,list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);

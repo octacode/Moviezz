@@ -81,6 +81,10 @@
         app:behavior_overlapTop="40dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,37 +92,21 @@
             android:id="@+id/container_detail"
             app:cardElevation="8dp"
             app:contentPadding="16dp"/>
-    </android.support.v4.widget.NestedScrollView>
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_detail_tag_2"
-            android:layout_below="@+id/container_detail_tag"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/container_detail"
+                android:id="@+id/genre_tag"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Genre : "/>
 
-            <RelativeLayout
+            <TextView
+                android:layout_below="@+id/genre_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:id="@+id/genre_container_detail"
-                app:cardElevation="8dp"
-                app:contentPadding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/genre_tag"
-                    android:textSize="22sp"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Genre : "/>
-
-                <TextView
-                    android:layout_below="@+id/genre_tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/text_view_genre_detail"/>
+                android:id="@+id/text_view_genre_detail"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -163,6 +151,53 @@
                 android:layout_below="@+id/top_cast_tag"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_top_cast"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_below="@id/rv_top_cast"
+                android:id="@+id/space_3"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/space_3"
+                android:id="@+id/other_details_tag"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Other Details : "/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_below="@+id/other_details_tag"
+                android:id="@+id/container_detail_2"
+                app:cardElevation="8dp"
+                app:contentPadding="16dp">
+                <!--Addition of basic details.-->
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/container_detail_tag_2"
+            android:layout_below="@+id/container_detail_tag"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/genre_container_detail"
+                app:cardElevation="8dp"
+                app:contentPadding="16dp">
 
             </RelativeLayout>
 
