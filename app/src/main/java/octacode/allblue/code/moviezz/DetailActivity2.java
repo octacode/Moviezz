@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
 import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
+import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -72,6 +73,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         setGenre(genre_ids);
         setFeaturedCrew();
         setTopCast();
+        setTrailer();
     }
 
     private void setGenre(String genre_ids) {
@@ -88,8 +90,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     private void setFeaturedCrew() {
         mRecyclerView =(RecyclerView)findViewById(R.id.rv_featured_crew);
         String name= "Shashwat",role="Director";
-        ArrayList<FeaturedCrew> list = new ArrayList<>();
-        FeaturedCrew dummy = new FeaturedCrew(name,role);
+        ArrayList<InfoTransfer> list = new ArrayList<>();
+        InfoTransfer dummy = new InfoTransfer(name,role);
         for(int i=0;i<80;i++)
             list.add(dummy);
         FeaturedCrewAdapter featuredCrewAdapter = new FeaturedCrewAdapter(this,list);
@@ -102,8 +104,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     private void setTopCast(){
         mRecyclerView = (RecyclerView)findViewById(R.id.rv_top_cast);
         String name = "Shashwat",role = "Protagonist",id_url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
-        ArrayList<FeaturedCrew> list = new ArrayList<>();
-        FeaturedCrew dummy = new FeaturedCrew(name,role,id_url);
+        ArrayList<InfoTransfer> list = new ArrayList<>();
+        InfoTransfer dummy = new InfoTransfer(name,role,id_url);
         for(int i=0;i<100;i++)
             list.add(dummy);
         TopCastAdapter topCastAdapter = new TopCastAdapter(this,list);
@@ -111,6 +113,20 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(topCastAdapter);
         topCastAdapter.notifyDataSetChanged();
+    }
+
+    private void setTrailer(){
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_videos);
+        String name = "Official Trailer", url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
+        ArrayList<InfoTransfer> list = new ArrayList<>();
+        InfoTransfer dummy = new InfoTransfer(name,url);
+        for(int i=0;i<90;i++)
+            list.add(dummy);
+        TrailersAdapter trailerAdapter = new TrailersAdapter(this,list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(trailerAdapter);
+        trailerAdapter.notifyDataSetChanged();
     }
 
     @Override

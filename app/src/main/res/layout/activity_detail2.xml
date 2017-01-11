@@ -167,6 +167,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="Other Details : "/>
 
+            <!--Addition of basic details and DetailFragment2 is used for it.-->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,34 +175,33 @@
                 android:layout_below="@+id/other_details_tag"
                 android:id="@+id/container_detail_2"
                 app:cardElevation="8dp"
-                app:contentPadding="16dp">
-                <!--Addition of basic details.-->
-            </android.support.v7.widget.CardView>
+                app:contentPadding="16dp"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_below="@id/container_detail_2"
+                android:id="@+id/space_4"
+                android:layout_height="20dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/space_4"
+                android:id="@+id/trailer"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Videos : "/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_below="@+id/trailer"
+                android:layout_height="wrap_content"
+                android:id="@+id/rv_videos"/>
 
         </RelativeLayout>
 
-
     </android.support.v4.widget.NestedScrollView>
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_detail_tag_2"
-            android:layout_below="@+id/container_detail_tag"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:id="@+id/genre_container_detail"
-                app:cardElevation="8dp"
-                app:contentPadding="16dp">
-
-            </RelativeLayout>
-
-        </android.support.v4.widget.NestedScrollView>
 
     </RelativeLayout>
 
@@ -211,19 +211,16 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:layout_anchor="@id/main.framelayout.title"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <Space
                 android:layout_width="@dimen/image_final_width"
-                android:layout_height="@dimen/image_final_width"
-                />
+                android:layout_height="@dimen/image_final_width"/>
 
             <TextView
                 android:id="@+id/main.textview.title"
@@ -232,8 +229,7 @@
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp"/>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

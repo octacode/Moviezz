@@ -4,16 +4,16 @@ package octacode.allblue.code.moviezz;
  * Created by shasha on 11/1/17.
  */
 
-public class FeaturedCrew {
+public class InfoTransfer {
 
     private String name,role,id_url;
 
-    public FeaturedCrew(String name, String role){
+    InfoTransfer(String name, String role){
         this.name=name;
         this.role=role;
     }
 
-    public FeaturedCrew(String name, String role, String id_url){
+    InfoTransfer(String name, String role, String id_url){
         this.name=name;
         this.role=role;
         this.id_url=id_url;

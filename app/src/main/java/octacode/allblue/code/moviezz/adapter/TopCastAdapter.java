@@ -10,12 +10,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import octacode.allblue.code.moviezz.FeaturedCrew;
+import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
 
 /**
@@ -24,7 +21,7 @@ import octacode.allblue.code.moviezz.R;
 
 public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastHolder> {
 
-    private List<FeaturedCrew> mFeaturedCast;
+    private List<InfoTransfer> mFeaturedCast;
     private Context mContext;
     @Override
     public TopCastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,13 +32,13 @@ public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastH
 
     @Override
     public void onBindViewHolder(TopCastHolder holder, int position) {
-        FeaturedCrew featuredCast = mFeaturedCast.get(position);
+        InfoTransfer featuredCast = mFeaturedCast.get(position);
         holder.top_name.setText(featuredCast.getName());
         holder.top_role.setText(featuredCast.getRole());
         Picasso.with(mContext).load(featuredCast.getId_url()).error(R.mipmap.ic_launcher).into(holder.cast_image);
     }
 
-    public TopCastAdapter(Context context, List<FeaturedCrew> crewList){
+    public TopCastAdapter(Context context, List<InfoTransfer> crewList){
         mContext=context;
         mFeaturedCast=crewList;
     }

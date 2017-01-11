@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import octacode.allblue.code.moviezz.FeaturedCrew;
+import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
 
 /**
@@ -19,7 +19,7 @@ import octacode.allblue.code.moviezz.R;
 public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapter.FeaturedCrewViewHolder> {
 
     private Context mContext;
-    private List<FeaturedCrew> mCrewList;
+    private List<InfoTransfer> mCrewList;
 
     public class FeaturedCrewViewHolder extends RecyclerView.ViewHolder{
 
@@ -32,7 +32,7 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
         }
     }
 
-    public FeaturedCrewAdapter(Context context,List<FeaturedCrew> crewList){
+    public FeaturedCrewAdapter(Context context,List<InfoTransfer> crewList){
         mContext=context;
         mCrewList=crewList;
     }
@@ -51,8 +51,8 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     @Override
     public void onBindViewHolder(FeaturedCrewViewHolder holder, int position) {
-        FeaturedCrew featuredCrew = mCrewList.get(position);
-        holder.mTextView_Name.setText(featuredCrew.getName());
-        holder.mTextView_Role.setText(featuredCrew.getRole());
+        InfoTransfer infoTransfer = mCrewList.get(position);
+        holder.mTextView_Name.setText(infoTransfer.getName());
+        holder.mTextView_Role.setText(infoTransfer.getRole());
     }
 }
