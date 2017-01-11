@@ -119,6 +119,7 @@ public class DetailFragment extends Fragment {
         ratings = getActivity().getIntent().getStringExtra("RATINGS");
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
+        Toast.makeText(getContext(),movie_id,Toast.LENGTH_SHORT).show();
         viewHolder.title.setText(title);
         viewHolder.date.setText(rel_date);
         viewHolder.overview.setText(overview);

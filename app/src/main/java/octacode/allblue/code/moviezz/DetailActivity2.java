@@ -4,8 +4,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -15,9 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,6 +33,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     private LinearLayout mTitleContainer;
     public static TextView mTitle,main_title;
     public static ImageView image_backdrop;
+    private RecyclerView mRecyclerView;
     public static CircleImageView image_view_poster;
 
     @Override
@@ -41,7 +42,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         setContentView(R.layout.activity_detail2);
 
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
-        //getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
@@ -67,6 +67,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
         String genre_ids = getIntent().getStringExtra("GENRE_IDS");
         setGenre(genre_ids);
+        setFeaturedCrew();
     }
 
     private void setGenre(String genre_ids) {
@@ -75,9 +76,23 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         genre_ids = "";
         for(int i=0;i<splits.length;i++) {
             splits[i] = Utility.getGenreName(Integer.parseInt(splits[i]));
-            genre_ids=genre_ids+splits[i]+"         ";
+            genre_ids=genre_ids+splits[i]+"       ";
         }
         genre_tv.setText(genre_ids);
+    }
+
+    private void setFeaturedCrew() {
+        mRecyclerView =(RecyclerView)findViewById(R.id.rv_featured_crew);
+        String name= "Shashwat",role="Director";
+        ArrayList<FeaturedCrew> list = new ArrayList<>();
+        FeaturedCrew dummy = new FeaturedCrew(name,role);
+        for(int i=0;i<8;i++)
+            list.add(dummy);
+        FeaturedCrewAdapter featuredCrewAdapter = new FeaturedCrewAdapter(this,list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(featuredCrewAdapter);
+        featuredCrewAdapter.notifyDataSetChanged();
     }
 
     @Override
