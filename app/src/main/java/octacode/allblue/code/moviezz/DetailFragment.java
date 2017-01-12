@@ -132,21 +132,13 @@ public class DetailFragment extends Fragment {
     }
 
     public class HolderDetail {
-        private TextView title, ratings, date, overview, language, runtime, homepage, budget, revenue, adult;
+        private TextView title, ratings, date, overview;
 
-        public HolderDetail(View mRootView) {
+        HolderDetail(View mRootView) {
             title = (TextView) mRootView.findViewById(R.id.title_detail);
             ratings = (TextView) mRootView.findViewById(R.id.detail_ratings);
             date = (TextView) mRootView.findViewById(R.id.date_detail);
             overview = (TextView) mRootView.findViewById(R.id.overview_detail);
-            /*
-            language = (TextView) mRootView.findViewById(R.id.original_language_detail);
-            runtime = (TextView) mRootView.findViewById(R.id.runtime_detail);
-            homepage = (TextView) mRootView.findViewById(R.id.homepage_detail);
-            budget = (TextView) mRootView.findViewById(R.id.budget_detail);
-            revenue = (TextView) mRootView.findViewById(R.id.revenue_detail);
-            adult = (TextView) mRootView.findViewById(R.id.adult_detail);
-            */
         }
     }
 }

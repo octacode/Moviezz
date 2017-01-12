@@ -1,5 +1,9 @@
 package octacode.allblue.code.moviezz.fetchers;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,6 +16,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.data.MovieDbHelper;
+
 /**
  * Created by shasha on 12/1/17.
  */
@@ -19,6 +26,9 @@ import java.net.URL;
 public class FetchDetails extends AsyncTask<String,Void,Void> {
 
     private String LOG_TAG = getClass().getSimpleName();
+    private Context mContext;
+
+    FetchDetails(Context mContext){this.mContext=mContext;}
     @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {
@@ -65,6 +75,21 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                 String runtime = jsonObject.getString("runtime");
                 String homepage = jsonObject.getString("homepage");
                 Log.d(LOG_TAG,budget+" "+revenue+" "+adult+" "+runtime+" "+homepage);
+                SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
+                String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+params[0];
+                Cursor cursor = liteDatabase.rawQuery(query_check,null);
+                if(cursor.getCount()<=0) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(MovieContract.DetailTable.COLUMN_ADULT,adult);
+                    cv.put(MovieContract.DetailTable.COLUMN_BUDGET,budget);
+                    cv.put(MovieContract.DetailTable.COLUMN_HOMEPAGE,homepage);
+                    cv.put(MovieContract.DetailTable.COLUMN_MOVIE_ID,params[0]);
+                    cv.put(MovieContract.DetailTable.COLUMN_REVENUE,revenue);
+                    cv.put(MovieContract.DetailTable.COLUMN_RUNTIME,runtime);
+                    liteDatabase.insert(MovieContract.DetailTable.TABLE_NAME,null,cv);
+                    Log.d(LOG_TAG,"** Detail Inserted **");
+                    Log.d(LOG_TAG,homepage);
+                }
             }
             catch (JSONException e){
                 e.printStackTrace();

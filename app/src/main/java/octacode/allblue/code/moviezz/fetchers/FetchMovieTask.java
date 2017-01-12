@@ -29,7 +29,7 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
 
     private final String LOG_TAG=FetchMovieTask.class.getSimpleName();
     private Context mContext;
-    FetchMovieTask(Context context){
+    public FetchMovieTask(Context context){
         mContext=context;
     }
 
