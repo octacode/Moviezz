@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
@@ -30,6 +29,7 @@ import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
+import octacode.allblue.code.moviezz.fetchers.FetchCrewCast;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 

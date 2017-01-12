@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 

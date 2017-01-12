@@ -1,11 +1,10 @@
-package octacode.allblue.code.moviezz;
+package octacode.allblue.code.moviezz.fetchers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

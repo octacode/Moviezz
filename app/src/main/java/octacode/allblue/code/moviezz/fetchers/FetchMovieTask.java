@@ -1,6 +1,5 @@
-package octacode.allblue.code.moviezz;
+package octacode.allblue.code.moviezz.fetchers;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -20,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
 
-import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 
 /**
