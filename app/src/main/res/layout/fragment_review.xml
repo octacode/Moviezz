@@ -11,23 +11,38 @@
         app:contentPadding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/review_1_container"/>
+        android:id="@+id/review_1_container">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/no_review"
+            android:visibility="invisible"
+            android:text="No One has reviewed it yet."/>
 
-    <android.support.v7.widget.CardView
-        android:elevation="8dp"
-        android:layout_margin="8dp"
-        app:contentPadding="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/review_1_container"
-        android:id="@+id/review_2_container"/>
+        <LinearLayout
+            android:id="@+id/linear_layout_review"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
-        android:elevation="8dp"
-        android:layout_margin="8dp"
-        app:contentPadding="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/review_2_container"
-        android:id="@+id/review_3_container"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/review_author_name"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/review_tv"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/review_url"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 </RelativeLayout>

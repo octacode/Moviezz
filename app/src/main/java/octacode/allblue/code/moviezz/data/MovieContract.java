@@ -84,4 +84,16 @@ public class MovieContract {
         public static final String COLUMN_MAIN_VOTE_AVERAGE_DOUBLE = "vote_average";
     }
 
+    public static final class ReviewTable implements BaseColumns{
+        public static final String TABLE_NAME  = "ReviewTable";
+        static final String _ID = "_id";
+
+        public static final String COLUMN_MOVIE_ID_DOUBLE = "movie_id";
+        public static final String COLUMN_TOTAL_RESULTS_INT = "total_results";
+        public static final String COLUMN_TRAILER_IDS_STRING = "review_id";
+        public static final String COLUMN_MOVIE_AUTHOR = "author";
+        public static final String COLUMN_MOVIE_CONTENT = "content";
+        public static final String COLUMN_MOVIE_URL = "trailer_url";
+    }
+
 }

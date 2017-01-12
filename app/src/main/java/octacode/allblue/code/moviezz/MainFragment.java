@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,6 +100,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     Main_Movie_Adapter movieAdapter;
+    private String LOG_TAG = getClass().getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 movieAdapter = (Main_Movie_Adapter)parent.getAdapter();
                 Cursor cursor = movieAdapter.getCursor();
+                Log.d(LOG_TAG,cursor.getString(COLUMN_VOTE_COUNT));
                 Intent intent = new Intent(getContext(),DetailActivity2.class);
                 intent.putExtra("ID",cursor.getLong(COLUMN_ID));
                 intent.putExtra("MOVIE_ID",cursor.getString(COLUMN_MOVIE_ID));

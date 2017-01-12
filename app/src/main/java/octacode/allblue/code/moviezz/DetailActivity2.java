@@ -82,7 +82,9 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
 
     private void setGenre(String genre_ids) {
-        String splits[]=genre_ids.split(" ");
+        genre_ids=genre_ids.replace("[","");
+        genre_ids=genre_ids.replace("]","");
+        String splits[]=genre_ids.split(",");
         ArrayList<InfoTransfer> infoTransferList= new ArrayList<>();
         InfoTransfer genre_name;
         for(int i=0;i<splits.length;i++) {

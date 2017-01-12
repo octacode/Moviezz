@@ -132,6 +132,7 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                             appendEncodedPath(movieInfo.getString(OWM_POSTERPATH)).build().toString();
                     backdropURl = Uri.parse(BACKDROP_BASE_URL).buildUpon().
                             appendEncodedPath(movieInfo.getString(OWM_BACKDROPPATH)).build().toString();
+
                     /*
                     Log.d(LOG_TAG, "Poster Value: " + postURL);
                     Log.d(LOG_TAG, "Backdrop Value: " + backdropURl);

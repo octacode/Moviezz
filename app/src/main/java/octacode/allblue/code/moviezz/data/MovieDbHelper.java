@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import octacode.allblue.code.moviezz.data.MovieContract.FavouritesTable;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
+import octacode.allblue.code.moviezz.data.MovieContract.ReviewTable;
 
 /**
  * Created by shasha on 4/1/17.
@@ -58,14 +59,26 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 +FavouritesTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE+" REAL NOT NULL, "
                 +"UNIQUE (" +FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+") ON CONFLICT REPLACE)";
 
+        final String SQL_CREATE_TABLE_REVIEW = "CREATE TABLE "+ ReviewTable.TABLE_NAME+" ("
+                +ReviewTable._ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+
+                +ReviewTable.COLUMN_MOVIE_ID_DOUBLE+" REAL NOT NULL, "
+                +ReviewTable.COLUMN_MOVIE_AUTHOR+" TEXT NOT NULL, "
+                +ReviewTable.COLUMN_MOVIE_CONTENT+" TEXT NOT NULL, "
+                +ReviewTable.COLUMN_MOVIE_URL+" TEXT NOT NULL, "
+                +ReviewTable.COLUMN_TOTAL_RESULTS_INT+" INT NOT NULL, "
+                +"UNIQUE (" + ReviewTable.COLUMN_MOVIE_ID_DOUBLE+") ON CONFLICT REPLACE)";
+
         db.execSQL(SQL_CREATE_TABLE_MAIN_MOVIE);
         db.execSQL(SQL_CREATE_TABLE_FAV_MOVIE);
+        db.execSQL(SQL_CREATE_TABLE_REVIEW);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+MainMovieTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+FavouritesTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ReviewTable.TABLE_NAME);
         onCreate(db);
     }
 }
