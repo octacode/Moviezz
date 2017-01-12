@@ -72,7 +72,7 @@ public class DetailFragment extends Fragment {
                 Cursor cursor = liteDatabase.rawQuery(query_check,null);
                 if(cursor.getCount()<=0) {
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, vot_count);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, genre_ids);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT, adult);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT, backdrop_url);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT, rel_date);
@@ -101,7 +101,7 @@ public class DetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date;
+    String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date,genre_ids;
     double vot_count,vote_avg,popularity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +119,11 @@ public class DetailFragment extends Fragment {
         ratings = getActivity().getIntent().getStringExtra("RATINGS");
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
-        Toast.makeText(getContext(),movie_id,Toast.LENGTH_SHORT).show();
+        genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
+        Log.d(LOG_TAG,genre_ids);
+        Log.d(LOG_TAG,genre_ids);
+        Log.d(LOG_TAG,genre_ids);
+        Log.d(LOG_TAG,genre_ids);
         Log.d(LOG_TAG,poster_url);
         viewHolder.title.setText(title);
         viewHolder.date.setText(rel_date);

@@ -15,6 +15,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
         String genre_ids = getIntent().getStringExtra("GENRE_IDS");
+        Toast.makeText(this,genre_ids,Toast.LENGTH_SHORT).show();
         setGenre(genre_ids);
         setFeaturedCrew();
         setTopCast();
