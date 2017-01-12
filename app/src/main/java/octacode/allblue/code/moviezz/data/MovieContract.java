@@ -96,4 +96,26 @@ public class MovieContract {
         public static final String COLUMN_MOVIE_URL = "trailer_url";
     }
 
+    public static final class CastTable implements BaseColumns{
+        public static final String TABLE_NAME = "cast_table";
+        static final String _ID = "_id";
+
+        public static final String COLUMN_CREDIT_ID = "credit_id";
+        public static final String COLUMN_CHARACTER_PLAYED = "character";
+        public static final String COLUMN_NAME = "cast_name";
+        public static final String COLUMN_PROFILE_URL = "profile_url";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
+    }
+
+    public static final class CrewTable implements BaseColumns{
+        public static final String TABLE_NAME = "crew_table";
+        static final String _ID = "_id";
+
+        public static final String COLUMN_MOVIE_ID = "movie_id";
+        public static final String COLUMN_CREDIT_ID = "credit_id";
+        public static final String COLUMN_ROLE = "role";
+        public static final String COLUMN_NAME = "crew_name";
+        public static final String COLUMN_PROFILE_URL = "profile_url";
+    }
+
 }

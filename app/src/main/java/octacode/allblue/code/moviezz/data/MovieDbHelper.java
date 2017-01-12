@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import octacode.allblue.code.moviezz.data.MovieContract.CastTable;
+import octacode.allblue.code.moviezz.data.MovieContract.CrewTable;
 import octacode.allblue.code.moviezz.data.MovieContract.FavouritesTable;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieContract.ReviewTable;
@@ -69,9 +71,31 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 +ReviewTable.COLUMN_TOTAL_RESULTS_INT+" INT NOT NULL, "
                 +"UNIQUE (" + ReviewTable.COLUMN_MOVIE_ID_DOUBLE+") ON CONFLICT REPLACE)";
 
+        final String SQL_CREATE_TABLE_CAST = "CREATE TABLE "+ CastTable.TABLE_NAME+" ("
+                + CastTable._ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+
+                + CastTable.COLUMN_MOVIE_ID+" REAL NOT NULL, "
+                + CastTable.COLUMN_CHARACTER_PLAYED+" TEXT NOT NULL, "
+                + CastTable.COLUMN_NAME+" TEXT NOT NULL, "
+                + CastTable.COLUMN_CREDIT_ID+" TEXT NOT NULL, "
+                + CastTable.COLUMN_PROFILE_URL+" TEXT NOT NULL, "
+                +"UNIQUE (" + CastTable.COLUMN_MOVIE_ID+") ON CONFLICT REPLACE)";
+
+        final String SQL_CREATE_TABLE_CREW = "CREATE TABLE "+ CrewTable.TABLE_NAME+" ("
+                + CrewTable._ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+
+                + CrewTable.COLUMN_MOVIE_ID+" REAL NOT NULL, "
+                + CrewTable.COLUMN_ROLE+" TEXT NOT NULL, "
+                + CrewTable.COLUMN_NAME+" TEXT NOT NULL, "
+                + CrewTable.COLUMN_CREDIT_ID+" TEXT NOT NULL, "
+                + CrewTable.COLUMN_PROFILE_URL+" TEXT NOT NULL, "
+                +"UNIQUE (" + CrewTable.COLUMN_MOVIE_ID+") ON CONFLICT REPLACE)";
+
         db.execSQL(SQL_CREATE_TABLE_MAIN_MOVIE);
         db.execSQL(SQL_CREATE_TABLE_FAV_MOVIE);
         db.execSQL(SQL_CREATE_TABLE_REVIEW);
+        db.execSQL(SQL_CREATE_TABLE_CAST);
+        db.execSQL(SQL_CREATE_TABLE_CREW);
     }
 
     @Override
@@ -79,6 +103,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+MainMovieTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+FavouritesTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ReviewTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ CrewTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ CastTable.TABLE_NAME);
         onCreate(db);
     }
 }

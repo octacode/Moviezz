@@ -20,15 +20,6 @@ import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 public class ReviewFragment extends Fragment {
 
-    String[] review_columns = {
-            MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE,
-            MovieContract.ReviewTable.COLUMN_TRAILER_IDS_STRING,
-            MovieContract.ReviewTable.COLUMN_TOTAL_RESULTS_INT,
-            MovieContract.ReviewTable.COLUMN_MOVIE_URL,
-            MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR,
-            MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT
-    };
-
     public ReviewFragment() {
 
     }
@@ -52,9 +43,8 @@ public class ReviewFragment extends Fragment {
         SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getReadableDatabase();
         String query_check = "Select * from "+ MovieContract.ReviewTable.TABLE_NAME+" where "+ MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE+ " = "+getActivity().getIntent().getStringExtra("MOVIE_ID");
         Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        if(cursor.getCount()<=0){
-            tv_nothing.setVisibility(View.VISIBLE);
-        }
+        if(cursor.getCount()<=0)tv_nothing.setVisibility(View.VISIBLE);
+
         while(cursor.moveToNext()) {
             tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));
             tv_review.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT)));

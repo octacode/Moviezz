@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 movieAdapter = (Main_Movie_Adapter)parent.getAdapter();
                 Cursor cursor = movieAdapter.getCursor();
-                Log.d(LOG_TAG,cursor.getString(COLUMN_VOTE_COUNT));
+                //Log.d(LOG_TAG,cursor.getString(COLUMN_VOTE_COUNT));
                 Intent intent = new Intent(getContext(),DetailActivity2.class);
                 intent.putExtra("ID",cursor.getLong(COLUMN_ID));
                 intent.putExtra("MOVIE_ID",cursor.getString(COLUMN_MOVIE_ID));

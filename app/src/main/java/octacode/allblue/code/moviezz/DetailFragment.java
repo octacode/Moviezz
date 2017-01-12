@@ -120,11 +120,6 @@ public class DetailFragment extends Fragment {
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
-        Log.d(LOG_TAG,genre_ids);
-        Log.d(LOG_TAG,genre_ids);
-        Log.d(LOG_TAG,genre_ids);
-        Log.d(LOG_TAG,genre_ids);
-        Log.d(LOG_TAG,poster_url);
         viewHolder.title.setText(title);
         viewHolder.date.setText(rel_date);
         viewHolder.overview.setText(overview);
