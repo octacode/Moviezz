@@ -223,33 +223,11 @@
                 android:layout_width="match_parent"
                 android:layout_below="@id/container_3_review"
                 android:id="@+id/space_6"
-                android:layout_height="20dp" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/space_6"
-                android:id="@+id/similar_movies_tag"
-                android:textSize="22sp"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Similar Movies : "/>
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_below="@+id/similar_movies_tag"
-                android:layout_height="wrap_content"
-                android:id="@+id/rv_similar_movies"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:id="@+id/space_7"
-                android:layout_below="@id/rv_similar_movies"
-                android:layout_height="25dp" />
+                android:layout_height="29dp" />
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_below="@id/space_7"
+                android:layout_below="@id/space_6"
                 android:layout_height="40dp"
                 android:src="@drawable/tmdb"/>
 

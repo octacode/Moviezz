@@ -28,6 +28,7 @@ import octacode.allblue.code.moviezz.adapter.GenreAdapter;
 import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.data.MovieContract.SimilarTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 import octacode.allblue.code.moviezz.fetchers.FetchCrewCast;
 import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
@@ -86,7 +87,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         setTopCast();
         setFeaturedCrew();
         setTrailer();
-        setSimilarMovies();
     }
 
 
@@ -212,21 +212,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         mRecyclerView.setAdapter(trailerAdapter);
         trailerAdapter.notifyDataSetChanged();
     }
-
-    private void setSimilarMovies() {
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv_similar_movies);
-        String name = "Kunk Fu Panda", url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
-        ArrayList<InfoTransfer> list = new ArrayList<>();
-        InfoTransfer dummy = new InfoTransfer(name,url);
-        for(int i=0;i<90;i++)
-            list.add(dummy);
-        TrailersAdapter trailerAdapter = new TrailersAdapter(this,list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(trailerAdapter);
-        trailerAdapter.notifyDataSetChanged();
-        }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

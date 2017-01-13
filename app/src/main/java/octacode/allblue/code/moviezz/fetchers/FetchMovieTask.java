@@ -83,7 +83,7 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
             try {
                 final String OWM_ID = "id";
                 final String OWM_ORGLANG = "original_language";
-                final String OWM_ORGTITLE = "original_title";
+                final String OWM_ORGTITLE = "title";
                 final String OWM_OVER = "overview";
                 final String OWM_RELDATE = "release_date";
                 final String OWM_POSTERPATH = "poster_path";

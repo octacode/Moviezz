@@ -108,15 +108,12 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_detail, container, false);
         HolderDetail viewHolder = new HolderDetail(mRootView);
-        movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
         adult = getActivity().getIntent().getStringExtra("ADULT");
+        movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
         backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");
         overview = getActivity().getIntent().getStringExtra("OVERVIEW");
         title = getActivity().getIntent().getStringExtra("TITLE");
         poster_url = getActivity().getIntent().getStringExtra("POSTER_URL");
-        language = getActivity().getIntent().getStringExtra("LANGUAGE");
-        popularity = Double.parseDouble(getActivity().getIntent().getStringExtra("POPULARITY"));
-        ratings = getActivity().getIntent().getStringExtra("RATINGS");
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
