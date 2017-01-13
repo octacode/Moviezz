@@ -69,7 +69,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            Log.d(LOG_TAG, jsonStr);
+            //Log.d(LOG_TAG, jsonStr);
             movie_id=params[0];
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
@@ -78,7 +78,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                 String adult = jsonObject.getString("adult");
                 String runtime = jsonObject.getString("runtime");
                 String homepage = jsonObject.getString("homepage");
-                Log.d(LOG_TAG,budget+" "+revenue+" "+adult+" "+runtime+" "+homepage);
+              //  Log.d(LOG_TAG,budget+" "+revenue+" "+adult+" "+runtime+" "+homepage);
                 SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                 String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+params[0];
                 Cursor cursor = liteDatabase.rawQuery(query_check,null);
@@ -91,8 +91,8 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                     cv.put(MovieContract.DetailTable.COLUMN_REVENUE,revenue);
                     cv.put(MovieContract.DetailTable.COLUMN_RUNTIME,runtime);
                     liteDatabase.insert(MovieContract.DetailTable.TABLE_NAME,null,cv);
-                    Log.d(LOG_TAG,"** Detail Inserted **");
-                    Log.d(LOG_TAG,homepage);
+                //    Log.d(LOG_TAG,"** Detail Inserted **");
+                //    Log.d(LOG_TAG,homepage);
                 }
             }
             catch (JSONException e){

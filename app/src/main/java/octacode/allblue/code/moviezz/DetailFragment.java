@@ -90,7 +90,7 @@ public class DetailFragment extends Fragment {
         HolderDetail viewHolder = new HolderDetail(mRootView);
         adult = getActivity().getIntent().getStringExtra("ADULT");
         language = getActivity().getIntent().getStringExtra("LANGUAGE");
-        popularity = getActivity().getIntent().getExtras().getDouble("POPULARITY");
+        popularity = Double.parseDouble(getActivity().getIntent().getStringExtra("POPULARITY"));
         ratings = getActivity().getIntent().getStringExtra("RATINGS");
         movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
         backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");

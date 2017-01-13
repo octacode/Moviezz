@@ -42,7 +42,8 @@
             android:authorities="octacode.allblue.code.moviezz"
             tools:ignore="ExportedContentProvider" />
 
-        <activity android:name=".FavouritesActivity"></activity>
+        <activity android:name=".FavouritesActivity" />
+        <activity android:name=".CastActivity"></activity>
     </application>
 
 </manifest>

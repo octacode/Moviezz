@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,7 +92,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                 for(int i=0;i<array_cast.length();i++) {
                     JSONObject cast_json = array_cast.getJSONObject(i);
                     String character = cast_json.getString("character");
-                    String credit_id = cast_json.getString("credit_id");
+                    String credit_id = cast_json.getString("id");
                     String name = cast_json.getString("name");
                     String profile_url = "http://image.tmdb.org/t/p/w185" + cast_json.getString("profile_path");
 
@@ -126,7 +127,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     db_name = db_name + name + "__SPLITTER__";
                     db_profile_url = db_profile_url + path_url + "__SPLITTER__";
                 }
-                //Log.d(LOG_TAG,db_name);
+                Log.d(LOG_TAG,db_credit_id);
                     liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                     query_check = "Select * from "+ CrewTable.TABLE_NAME+" where "+ CrewTable.COLUMN_MOVIE_ID+ " = "+movie_id;
                     cursor = liteDatabase.rawQuery(query_check,null);
@@ -156,23 +157,25 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
         super.onPostExecute(aVoid);
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
 
-        String query_check = "Select * from "+ MovieContract.CastTable.TABLE_NAME+" where "+ MovieContract.CastTable.COLUMN_MOVIE_ID+ " = "+movie_id;
+        String query_check = "Select * from "+ CastTable.TABLE_NAME+" where "+ CastTable.COLUMN_MOVIE_ID+ " = "+movie_id;
         Cursor cursor = liteDatabase.rawQuery(query_check,null);
 
         ArrayList<InfoTransfer> list = new ArrayList<>();
-        String name="",character="",profile_url="";
+        String name="",character="",profile_url="",credit_id="";
         if(cursor.moveToFirst()) {
-            name = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_NAME));
-            character = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_CHARACTER_PLAYED));
-            profile_url = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_PROFILE_URL));
+            name = cursor.getString(cursor.getColumnIndex(CastTable.COLUMN_NAME));
+            character = cursor.getString(cursor.getColumnIndex(CastTable.COLUMN_CHARACTER_PLAYED));
+            profile_url = cursor.getString(cursor.getColumnIndex(CastTable.COLUMN_PROFILE_URL));
+            credit_id = cursor.getString(cursor.getColumnIndex(CastTable.COLUMN_CREDIT_ID));
         }
 
         String splits_name[] = name.split("__SPLITTER__");
         String splits_character[] = character.split("__SPLITTER__");
         String splits_profile_url[] = profile_url.split("__SPLITTER__");
+        String splits_credit_id[] = credit_id.split("__SPLITTER__");
 
         for(int i=0;i<splits_name.length-1;i++){
-            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_character[i],splits_profile_url[i]);
+            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_character[i],splits_profile_url[i],splits_credit_id[i]);
             list.add(infoTransfer);
         }
 
@@ -191,19 +194,23 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
         cursor = liteDatabase.rawQuery(query_check,null);
 
         list = new ArrayList<>();
-        name="";
-        String role="";
+        name="";credit_id="";
+        String role="",url="";
 
         if(cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_NAME));
             role = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_ROLE));
+            credit_id = cursor.getString(cursor.getColumnIndex(CrewTable.COLUMN_CREDIT_ID));
+            url = cursor.getString(cursor.getColumnIndex(CrewTable.COLUMN_PROFILE_URL));
         }
 
         String splits_nameL[] = name.split("__SPLITTER__");
         String splits_role[] = role.split("__SPLITTER__");
+        String splits_credits[] = credit_id.split("__SPLITTER__");
+        String splits_profile_urls[] = url.split("__SPLITTER__");
 
         for(int i=0;i<splits_nameL.length-1;i++){
-            InfoTransfer infoTransfer = new InfoTransfer(splits_nameL[i],splits_role[i]);
+            InfoTransfer infoTransfer = new InfoTransfer(splits_nameL[i],splits_role[i],splits_credits[i]);
             list.add(infoTransfer);
         }
 

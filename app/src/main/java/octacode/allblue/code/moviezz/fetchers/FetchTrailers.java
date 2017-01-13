@@ -76,7 +76,7 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            Log.d(LOG_TAG, jsonStr);
+            //Log.d(LOG_TAG, jsonStr);
 
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
@@ -101,8 +101,8 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
                     cv.put(MovieContract.TrailerTable.COLUMN_URL,db_key);
                     cv.put(MovieContract.TrailerTable.COLUMN_POSTER_URL,db_key);
                     liteDatabase.insert(MovieContract.TrailerTable.TABLE_NAME,null,cv);
-                    Log.d(LOG_TAG,"** Trailer Inserted **");
-                    Log.d(LOG_TAG,db_name);
+                //    Log.d(LOG_TAG,"** Trailer Inserted **");
+                //    Log.d(LOG_TAG,db_name);
                 }
                 cursor.close();
             }

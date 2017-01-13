@@ -1,7 +1,5 @@
 package octacode.allblue.code.moviezz;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -39,7 +37,6 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
     private LinearLayout mTitleContainer;
     public static TextView mTitle,main_title;
     public static ImageView image_backdrop;
-    private RecyclerView mRecyclerView;
     public static CircleImageView image_view_poster;
 
     public static RecyclerView mRecyclerView_featured,mRecyclerView_top_cast,mRecyclerView_trailers;
@@ -94,7 +91,7 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
             genre_name = new InfoTransfer(splits[i]);
             infoTransferList.add(genre_name);
         }
-        mRecyclerView =(RecyclerView)findViewById(R.id.rv_genre);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_genre);
         GenreAdapter genreAdapter = new GenreAdapter(this,infoTransferList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -125,7 +122,6 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
-
         handleAlphaOnTitle(percentage);
         handleToolbarTitleVisibility(percentage);
     }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
+import octacode.allblue.code.moviezz.fetchers.FetchCrewDetails;
 
 /**
  * Created by shasha on 11/1/17.
@@ -24,19 +26,27 @@ public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastH
 
     private List<InfoTransfer> mFeaturedCast;
     private Context mContext;
+    private View itemView;
     @Override
     public TopCastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.top_cast_list_item,parent,false);
         return new TopCastHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(TopCastHolder holder, int position) {
-        InfoTransfer featuredCast = mFeaturedCast.get(position);
+    public void onBindViewHolder(final TopCastHolder holder, int position) {
+        final InfoTransfer featuredCast = mFeaturedCast.get(position);
         holder.top_name.setText(featuredCast.getName());
         holder.top_role.setText(featuredCast.getRole());
         Picasso.with(mContext).load(featuredCast.getId_url()).error(R.mipmap.ic_launcher).into(holder.cast_image);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
+                fetchCrewDetails.execute(featuredCast.getCredit_id());
+            }
+        });
     }
 
     public TopCastAdapter(Context context, List<InfoTransfer> crewList){

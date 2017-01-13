@@ -139,4 +139,17 @@ public class MovieContract {
         public static final String COLUMN_RUNTIME = "movie_runtime";
         public static final String COLUMN_HOMEPAGE = "movie_homepage";
     }
+
+    public static final class PersonTable implements BaseColumns{
+        public static final String TABLE_NAME = "person_table";
+        static final String _ID = "_id";
+
+        public static final String COLUMN_PERSON_ID = "person_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_AKA = "aka";
+        public static final String COLUMN_DOB = "dob";
+        public static final String COLUMN_PLACE_OF_BIRTH = "pob";
+        public static final String COLUMN_BIOGRAPHY = "biography";
+        public static final String COLUMN_GENDER = "gender";
+    }
 }

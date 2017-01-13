@@ -40,7 +40,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     public void onBindViewHolder(TrailerViewHolder holder, int position) {
         InfoTransfer infoTransfer = mVideoList.get(position);
         //(NAME,ID)
-        Picasso.with(mContext).load(infoTransfer.getRole()).error(R.mipmap.ic_launcher).into(holder.trailer_thumbnail);
+        Picasso.with(mContext).load("http://img.youtube.com/vi/"+infoTransfer.getRole()+"/0.jpg").error(R.mipmap.ic_launcher).into(holder.trailer_thumbnail);
         holder.trailer_text.setText(infoTransfer.getName());
     }
 
