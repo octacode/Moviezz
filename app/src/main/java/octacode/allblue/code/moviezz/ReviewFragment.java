@@ -24,27 +24,17 @@ public class ReviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    public static TextView tv_review,tv_author,tv_nothing,tv_review_url;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_review, container, false);
-        TextView tv_review=(TextView)rootView.findViewById(R.id.review_tv);
-        TextView tv_author = (TextView)rootView.findViewById(R.id.review_author_name);
-        TextView tv_review_url = (TextView)rootView.findViewById(R.id.review_url);
-        TextView tv_nothing = (TextView)rootView.findViewById(R.id.no_review);
+        tv_review=(TextView)rootView.findViewById(R.id.review_tv);
+        tv_author = (TextView)rootView.findViewById(R.id.review_author_name);
+        tv_review_url = (TextView)rootView.findViewById(R.id.review_url);
+        tv_nothing = (TextView)rootView.findViewById(R.id.no_review);
         FetchReviewTask fetchReviewTask = new FetchReviewTask(getContext());
         fetchReviewTask.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"));
-        SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getReadableDatabase();
-        String query_check = "Select * from "+ MovieContract.ReviewTable.TABLE_NAME+" where "+ MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE+ " = "+getActivity().getIntent().getStringExtra("MOVIE_ID");
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        if(cursor.getCount()<=0)tv_nothing.setVisibility(View.VISIBLE);
-
-        while(cursor.moveToNext()) {
-            tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));
-            tv_review.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT)));
-            tv_review_url.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_URL)));
-        }
         return rootView;
     }
 }

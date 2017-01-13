@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import octacode.allblue.code.moviezz.ReviewFragment;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
@@ -30,7 +32,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
     public FetchReviewTask(Context context){
         mContext=context;
     }
-
+    private String movie_id;
 
     @Override
     protected Void doInBackground(String... params) {
@@ -73,6 +75,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
             try{
                 JSONObject trailersJson = new JSONObject(reviewJsonStr);
                 double movie_id = trailersJson.getDouble("id");
+                this.movie_id = String.valueOf(movie_id);
                 JSONArray results = trailersJson.getJSONArray("results");
                     JSONObject trailer = results.getJSONObject(0);
                     String trailer_id = trailer.getString("id");
@@ -103,5 +106,20 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
+        String query_check = "Select * from "+ MovieContract.ReviewTable.TABLE_NAME+" where "+ MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE+ " = "+movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+        if(cursor.getCount()<=0)ReviewFragment.tv_nothing.setVisibility(View.VISIBLE);
+
+        while(cursor.moveToNext()) {
+            ReviewFragment.tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));
+            ReviewFragment.tv_review.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT)));
+            ReviewFragment.tv_review_url.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_URL)));
+        }
     }
 }

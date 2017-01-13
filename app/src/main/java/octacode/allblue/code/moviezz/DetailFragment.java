@@ -1,17 +1,10 @@
 package octacode.allblue.code.moviezz;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,22 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.HorizontalScrollView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
@@ -109,6 +89,9 @@ public class DetailFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_detail, container, false);
         HolderDetail viewHolder = new HolderDetail(mRootView);
         adult = getActivity().getIntent().getStringExtra("ADULT");
+        language = getActivity().getIntent().getStringExtra("LANGUAGE");
+        popularity = getActivity().getIntent().getExtras().getDouble("POPULARITY");
+        ratings = getActivity().getIntent().getStringExtra("RATINGS");
         movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
         backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");
         overview = getActivity().getIntent().getStringExtra("OVERVIEW");
@@ -121,10 +104,10 @@ public class DetailFragment extends Fragment {
         viewHolder.date.setText(rel_date);
         viewHolder.overview.setText(overview);
         viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
-        DetailActivity2.mTitle.setText(title);
-        DetailActivity2.main_title.setText(title);
-        Picasso.with(getContext()).load(poster_url).into(DetailActivity2.image_view_poster);
-        Picasso.with(getContext()).load(backdrop_url).into(DetailActivity2.image_backdrop);
+        DetailActivity.mTitle.setText(title);
+        DetailActivity.main_title.setText(title);
+        Picasso.with(getContext()).load(poster_url).into(DetailActivity.image_view_poster);
+        Picasso.with(getContext()).load(backdrop_url).into(DetailActivity.image_backdrop);
         return mRootView;
     }
 

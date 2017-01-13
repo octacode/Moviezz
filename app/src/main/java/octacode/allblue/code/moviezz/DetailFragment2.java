@@ -19,7 +19,7 @@ import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
 public class DetailFragment2 extends Fragment {
     public DetailFragment2() {
     }
-
+    public static TextView runtime_tv,original_language_tv,budget_tv,revenue_tv,homepage_tv;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,30 +29,15 @@ public class DetailFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail__fragment2, container, false);
+        runtime_tv = (TextView)rootView.findViewById(R.id.runtime_name);
+        original_language_tv = (TextView)rootView.findViewById(R.id.original_language_name);
+        budget_tv = (TextView)rootView.findViewById(R.id.budget_name);
+        revenue_tv = (TextView)rootView.findViewById(R.id.revenue_name);
+        homepage_tv = (TextView)rootView.findViewById(R.id.homepage_name);
+
         FetchDetails fetchDetails = new FetchDetails(getContext());
-        SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getReadableDatabase();
-        fetchDetails.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"));
-        String query_check = "Select * from "+ DetailTable.TABLE_NAME+" where "+ DetailTable.COLUMN_MOVIE_ID+ " = "+getActivity().getIntent().getStringExtra("MOVIE_ID");
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        Holder_Details holderDetails = new Holder_Details(rootView);
-        if(cursor.moveToFirst()){
-            holderDetails.revenue_tv.setText(cursor.getString(cursor.getColumnIndex(DetailTable.COLUMN_REVENUE)));
-            holderDetails.homepage_tv.setText(cursor.getString(cursor.getColumnIndex(DetailTable.COLUMN_HOMEPAGE)));
-            holderDetails.budget_tv.setText(cursor.getString(cursor.getColumnIndex(DetailTable.COLUMN_BUDGET)));
-            holderDetails.original_language_tv.setText(getActivity().getIntent().getStringExtra("LANGUAGE"));
-            holderDetails.runtime_tv.setText(cursor.getString(cursor.getColumnIndex(DetailTable.COLUMN_RUNTIME)));
-        }
+        fetchDetails.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"),getActivity().getIntent().getStringExtra("LANGUAGE"));
         return rootView;
     }
 
-    class Holder_Details{
-        TextView runtime_tv,original_language_tv,budget_tv,revenue_tv,homepage_tv;
-        Holder_Details(View rootView){
-            runtime_tv = (TextView)rootView.findViewById(R.id.runtime_name);
-            original_language_tv = (TextView)rootView.findViewById(R.id.original_language_name);
-            budget_tv = (TextView)rootView.findViewById(R.id.budget_name);
-            revenue_tv = (TextView)rootView.findViewById(R.id.revenue_name);
-            homepage_tv = (TextView)rootView.findViewById(R.id.homepage_name);
-        }
-    }
 }

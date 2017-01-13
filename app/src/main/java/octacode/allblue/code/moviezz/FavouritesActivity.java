@@ -38,7 +38,7 @@ public class FavouritesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 favouritesAdapter = (FavouritesAdapter)parent.getAdapter();
                 Cursor cursor = favouritesAdapter.getCursor();
-                Intent intent = new Intent(FavouritesActivity.this,DetailActivity2.class);
+                Intent intent = new Intent(FavouritesActivity.this,DetailActivity.class);
                 intent.putExtra("ID",cursor.getLong(MainFragment.COLUMN_ID));
                 intent.putExtra("MOVIE_ID",cursor.getString(MainFragment.COLUMN_MOVIE_ID));
                 intent.putExtra("ADULT",cursor.getString(MainFragment.COLUMN_ADULT));

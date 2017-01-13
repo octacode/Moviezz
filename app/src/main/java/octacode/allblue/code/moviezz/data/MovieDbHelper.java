@@ -10,7 +10,6 @@ import octacode.allblue.code.moviezz.data.MovieContract.DetailTable;
 import octacode.allblue.code.moviezz.data.MovieContract.FavouritesTable;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieContract.ReviewTable;
-import octacode.allblue.code.moviezz.data.MovieContract.SimilarTable;
 import octacode.allblue.code.moviezz.data.MovieContract.TrailerTable;
 
 /**
@@ -114,24 +113,6 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 +DetailTable.COLUMN_RUNTIME+" REAL NOT NULL, "
                 +"UNIQUE (" + DetailTable.COLUMN_MOVIE_ID+") ON CONFLICT REPLACE)";
 
-        final String SQL_CREATE_TABLE_SIMILAR_MOVIE = "CREATE TABLE "+ SimilarTable.TABLE_NAME+" ("
-                +MainMovieTable._ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
-
-                +SimilarTable.COLUMN_MAIN_ADULT_TEXT+ " TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_BACKDROP_PATH_TEXT+ " TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_GENRE_IDS_TEXT+ " TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " REAL NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT+ " TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_PAGE_INT+ " INT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_OVERVIEW_TEXT+ " TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_POPULARITY_DOUBLE+ " REAL NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_POSTER_PATH_TEXT+" TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_TITLE_TEXT+" TEXT NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_RATINGS_DOUBLE+" REAL NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE+" REAL NOT NULL, "
-                +SimilarTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE+" REAL NOT NULL, "
-                +"UNIQUE (" + SimilarTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+") ON CONFLICT REPLACE)";
-
         db.execSQL(SQL_CREATE_TABLE_MAIN_MOVIE);
         db.execSQL(SQL_CREATE_TABLE_FAV_MOVIE);
         db.execSQL(SQL_CREATE_TABLE_REVIEW);
@@ -139,7 +120,6 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_CREW);
         db.execSQL(SQL_CREATE_TABLE_TRAILERS);
         db.execSQL(SQL_CREATE_TABLE_DETAIL_TABLE);
-        db.execSQL(SQL_CREATE_TABLE_SIMILAR_MOVIE);
     }
 
     @Override

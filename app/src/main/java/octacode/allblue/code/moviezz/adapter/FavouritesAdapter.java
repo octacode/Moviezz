@@ -45,7 +45,7 @@ public class FavouritesAdapter extends CursorAdapter {
     private class Holder{
         private TextView title,ratings;
         private ImageView thumbnail;
-        public Holder(View view){
+        Holder(View view){
             thumbnail= (ImageView)view.findViewById(R.id.favourites_list_thumbnail);
             title  = (TextView)view.findViewById(R.id.favourites_list_title);
             ratings = (TextView)view.findViewById(R.id.favourites_list_ratings);

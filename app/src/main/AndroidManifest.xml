@@ -28,7 +28,7 @@
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
         <activity
-            android:name=".DetailActivity2"
+            android:name=".DetailActivity"
             android:label=""
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

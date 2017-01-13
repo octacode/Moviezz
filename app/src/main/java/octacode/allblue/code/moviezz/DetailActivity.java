@@ -23,17 +23,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
 import octacode.allblue.code.moviezz.adapter.GenreAdapter;
-import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
-import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
-import octacode.allblue.code.moviezz.data.MovieContract;
-import octacode.allblue.code.moviezz.data.MovieContract.SimilarTable;
-import octacode.allblue.code.moviezz.data.MovieDbHelper;
 import octacode.allblue.code.moviezz.fetchers.FetchCrewCast;
 import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
 
-public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
+public class DetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.3f;
@@ -47,8 +41,8 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     public static ImageView image_backdrop;
     private RecyclerView mRecyclerView;
     public static CircleImageView image_view_poster;
-    public static TopCastAdapter topCastAdapter;
-    public static TrailersAdapter trailerAdapter;
+
+    public static RecyclerView mRecyclerView_featured,mRecyclerView_top_cast,mRecyclerView_trailers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +78,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String genre_ids = getIntent().getStringExtra("GENRE_IDS");
         Toast.makeText(this,genre_ids,Toast.LENGTH_SHORT).show();
         setGenre(genre_ids);
-        setTopCast();
-        setFeaturedCrew();
+        setTopCastCrew();
         setTrailer();
     }
 
@@ -109,108 +102,17 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         genreAdapter.notifyDataSetChanged();
     }
 
-    private void setFeaturedCrew() {
-        mRecyclerView =(RecyclerView)findViewById(R.id.rv_featured_crew);
-
-        SQLiteDatabase liteDatabase = new MovieDbHelper(this).getReadableDatabase();
-
-        String query_check = "Select * from "+ MovieContract.CrewTable.TABLE_NAME+" where "+ MovieContract.CrewTable.COLUMN_MOVIE_ID+ " = "+getIntent().getStringExtra("MOVIE_ID");
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-
-        ArrayList<InfoTransfer> list = new ArrayList<>();
-        String name="",role="",profile_url="";
-
-        if(cursor.moveToFirst()) {
-            name = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_NAME));
-            role = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_ROLE));
-        }
-
-        String splits_name[] = name.split("__SPLITTER__");
-        String splits_role[] = role.split("__SPLITTER__");
-
-        for(int i=0;i<splits_name.length-1;i++){
-            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_role[i]);
-            list.add(infoTransfer);
-        }
-
-        FeaturedCrewAdapter featuredCrewAdapter = new FeaturedCrewAdapter(this,list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(featuredCrewAdapter);
-        featuredCrewAdapter.notifyDataSetChanged();
-    }
-
-    private void setTopCast(){
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv_top_cast);
+    private void setTopCastCrew(){
+        mRecyclerView_top_cast = (RecyclerView)findViewById(R.id.rv_top_cast);
+        mRecyclerView_featured =(RecyclerView)findViewById(R.id.rv_featured_crew);
         FetchCrewCast fetchCrewCast = new FetchCrewCast(this);
         fetchCrewCast.execute(getIntent().getStringExtra("MOVIE_ID"));
-
-        SQLiteDatabase liteDatabase = new MovieDbHelper(this).getReadableDatabase();
-
-        String query_check = "Select * from "+ MovieContract.CastTable.TABLE_NAME+" where "+ MovieContract.CastTable.COLUMN_MOVIE_ID+ " = "+getIntent().getStringExtra("MOVIE_ID");
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-
-        ArrayList<InfoTransfer> list = new ArrayList<>();
-        String name="",character="",profile_url="";
-        if(cursor.moveToFirst()) {
-            name = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_NAME));
-            character = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_CHARACTER_PLAYED));
-            profile_url = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_PROFILE_URL));
-        }
-
-        String splits_name[] = name.split("__SPLITTER__");
-        String splits_character[] = character.split("__SPLITTER__");
-        String splits_profile_url[] = profile_url.split("__SPLITTER__");
-
-        for(int i=0;i<splits_name.length-1;i++){
-            if(splits_profile_url[i].matches("")){
-                splits_profile_url[i]=getIntent().getStringExtra("POSTER_URL");
-            }
-            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_character[i],splits_profile_url[i]);
-            list.add(infoTransfer);
-        }
-
-        topCastAdapter = new TopCastAdapter(this,list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(topCastAdapter);
-        topCastAdapter.notifyDataSetChanged();
-
     }
 
     private void setTrailer(){
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv_videos);
+        mRecyclerView_trailers = (RecyclerView)findViewById(R.id.rv_videos);
         FetchTrailers fetchTrailers = new FetchTrailers(this);
-        SQLiteDatabase liteDatabase = new MovieDbHelper(this).getReadableDatabase();
         fetchTrailers.execute(getIntent().getStringExtra("MOVIE_ID"));
-        String query_check = "Select * from "+ MovieContract.TrailerTable.TABLE_NAME+" where "+ MovieContract.TrailerTable.COLUMN_MOVIE_ID+ " = "+getIntent().getStringExtra("MOVIE_ID");
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        String db_name="",db_poster_pic="",db_url="";
-        if(cursor.moveToFirst()) {
-            db_name = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_NAME));
-            db_poster_pic = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_POSTER_URL));
-            db_url = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_URL));
-        }
-        String splits_name[] = db_name.split("__SPLITTER__");
-        String splits_poster_pic[] = db_poster_pic.split("__SPLITTER__");
-        String splits_url[] = db_url.split("__SPLITTER__");
-        ArrayList<InfoTransfer> list = new ArrayList<>();
-
-        for(int i=0;i<splits_name.length-1;i++){
-            if(splits_name[i].matches("")){
-                splits_name[i]=getIntent().getStringExtra("POSTER_URL");
-            }
-            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_poster_pic[i],splits_url[i]);
-            list.add(infoTransfer);
-        }
-
-        Toast.makeText(this,splits_name[splits_name.length-1],Toast.LENGTH_SHORT).show();
-
-        trailerAdapter = new TrailersAdapter(this,list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(trailerAdapter);
-        trailerAdapter.notifyDataSetChanged();
     }
 
     @Override

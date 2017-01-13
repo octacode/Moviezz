@@ -8,7 +8,7 @@ public class InfoTransfer {
 
     private String name,role,id_url;
 
-    InfoTransfer(String name, String role){
+    public InfoTransfer(String name, String role){
         this.name=name;
         this.role=role;
     }
@@ -17,7 +17,7 @@ public class InfoTransfer {
         this.name = name;
     }
 
-    InfoTransfer(String name, String role, String id_url){
+    public InfoTransfer(String name, String role, String id_url){
         this.name=name;
         this.role=role;
         this.id_url=id_url;

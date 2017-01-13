@@ -16,8 +16,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import octacode.allblue.code.moviezz.DetailFragment;
+import octacode.allblue.code.moviezz.DetailFragment2;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
+
+import static octacode.allblue.code.moviezz.DetailFragment2.revenue_tv;
 
 /**
  * Created by shasha on 12/1/17.
@@ -27,14 +31,14 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
 
     private String LOG_TAG = getClass().getSimpleName();
     private Context mContext;
-
+    private String language,movie_id;
     public FetchDetails(Context mContext){this.mContext=mContext;}
     @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {
             return null;
         }
-
+        language = params[1];
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
@@ -66,7 +70,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
             }
             jsonStr = buffer.toString();
             Log.d(LOG_TAG, jsonStr);
-
+            movie_id=params[0];
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String budget = jsonObject.getString("budget");
@@ -104,5 +108,16 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
+        String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+        if(cursor.moveToFirst()){
+            DetailFragment2.revenue_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_REVENUE)));
+            DetailFragment2.homepage_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_HOMEPAGE)));
+            DetailFragment2.budget_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_BUDGET)));
+            DetailFragment2.original_language_tv.setText(language);
+            DetailFragment2.runtime_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_RUNTIME)));
+        }
+
     }
 }

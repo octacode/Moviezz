@@ -36,7 +36,7 @@ public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastH
         InfoTransfer featuredCast = mFeaturedCast.get(position);
         holder.top_name.setText(featuredCast.getName());
         holder.top_role.setText(featuredCast.getRole());
-        //Picasso.with(mContext).load(featuredCast.getId_url()).error(R.mipmap.ic_launcher).into(holder.cast_image);
+        Picasso.with(mContext).load(featuredCast.getId_url()).error(R.mipmap.ic_launcher).into(holder.cast_image);
     }
 
     public TopCastAdapter(Context context, List<InfoTransfer> crewList){

@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,8 +17,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
-import octacode.allblue.code.moviezz.DetailActivity2;
+import octacode.allblue.code.moviezz.DetailActivity;
+import octacode.allblue.code.moviezz.InfoTransfer;
+import octacode.allblue.code.moviezz.R;
+import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
+import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieContract.CastTable;
 import octacode.allblue.code.moviezz.data.MovieContract.CrewTable;
@@ -33,6 +39,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
     private Context mContext;
 
     public FetchCrewCast(Context mContext){this.mContext=mContext;}
+    private String movie_id;
 
     @Override
     protected Void doInBackground(String... params) {
@@ -75,6 +82,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
             try{
                 JSONObject fetched_crew = new JSONObject(jsonStr);
                 double movie_id = fetched_crew.getDouble("id");
+                this.movie_id = String.valueOf(movie_id);
                 JSONArray array_cast = fetched_crew.getJSONArray("cast");
                 JSONArray array_crew = fetched_crew.getJSONArray("crew");
 
@@ -146,7 +154,64 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        DetailActivity2.topCastAdapter.notifyDataSetChanged();
-        DetailActivity2.trailerAdapter.notifyDataSetChanged();
+        SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
+
+        String query_check = "Select * from "+ MovieContract.CastTable.TABLE_NAME+" where "+ MovieContract.CastTable.COLUMN_MOVIE_ID+ " = "+movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+
+        ArrayList<InfoTransfer> list = new ArrayList<>();
+        String name="",character="",profile_url="";
+        if(cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_NAME));
+            character = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_CHARACTER_PLAYED));
+            profile_url = cursor.getString(cursor.getColumnIndex(MovieContract.CastTable.COLUMN_PROFILE_URL));
+        }
+
+        String splits_name[] = name.split("__SPLITTER__");
+        String splits_character[] = character.split("__SPLITTER__");
+        String splits_profile_url[] = profile_url.split("__SPLITTER__");
+
+        for(int i=0;i<splits_name.length-1;i++){
+            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_character[i],splits_profile_url[i]);
+            list.add(infoTransfer);
+        }
+
+        TopCastAdapter topCastAdapter = new TopCastAdapter(mContext,list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        DetailActivity.mRecyclerView_top_cast.setLayoutManager(layoutManager);
+        DetailActivity.mRecyclerView_top_cast.setAdapter(topCastAdapter);
+        topCastAdapter.notifyDataSetChanged();
+
+        //POPULATING CAST
+
+
+        liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
+
+        query_check = "Select * from "+ MovieContract.CrewTable.TABLE_NAME+" where "+ MovieContract.CrewTable.COLUMN_MOVIE_ID+ " = "+movie_id;
+        cursor = liteDatabase.rawQuery(query_check,null);
+
+        list = new ArrayList<>();
+        name="";
+        String role="";
+
+        if(cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_NAME));
+            role = cursor.getString(cursor.getColumnIndex(MovieContract.CrewTable.COLUMN_ROLE));
+        }
+
+        String splits_nameL[] = name.split("__SPLITTER__");
+        String splits_role[] = role.split("__SPLITTER__");
+
+        for(int i=0;i<splits_nameL.length-1;i++){
+            InfoTransfer infoTransfer = new InfoTransfer(splits_nameL[i],splits_role[i]);
+            list.add(infoTransfer);
+        }
+
+        FeaturedCrewAdapter featuredCrewAdapter = new FeaturedCrewAdapter(mContext,list);
+        layoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        DetailActivity.mRecyclerView_featured.setLayoutManager(layoutManager);
+        DetailActivity.mRecyclerView_featured.setAdapter(featuredCrewAdapter);
+        featuredCrewAdapter.notifyDataSetChanged();
+
     }
 }
