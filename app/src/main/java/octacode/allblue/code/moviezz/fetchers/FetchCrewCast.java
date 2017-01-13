@@ -32,7 +32,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
     private final String LOG_TAG = getClass().getSimpleName();
     private Context mContext;
 
-    FetchCrewCast(Context mContext){this.mContext=mContext;}
+    public FetchCrewCast(Context mContext){this.mContext=mContext;}
 
     @Override
     protected Void doInBackground(String... params) {
@@ -70,7 +70,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            Log.d(LOG_TAG,jsonStr);
+            //Log.d(LOG_TAG,jsonStr);
 
             try{
                 JSONObject fetched_crew = new JSONObject(jsonStr);
@@ -95,7 +95,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                     String query_check = "Select * from " + CastTable.TABLE_NAME + " where " + CastTable.COLUMN_MOVIE_ID + " = " + movie_id;
                     Cursor cursor = liteDatabase.rawQuery(query_check, null);
-                    Log.d(LOG_TAG,db_profile_url);
+              //      Log.d(LOG_TAG,db_profile_url);
                     if(cursor.getCount()<=0) {
                         ContentValues cv = new ContentValues();
                         cv.put(CastTable.COLUMN_MOVIE_ID,movie_id);
@@ -118,7 +118,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     db_name = db_name + name + "__SPLITTER__";
                     db_profile_url = db_profile_url + path_url + "__SPLITTER__";
                 }
-                Log.d(LOG_TAG,db_name);
+                //Log.d(LOG_TAG,db_name);
                     liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                     query_check = "Select * from "+ CrewTable.TABLE_NAME+" where "+ CrewTable.COLUMN_MOVIE_ID+ " = "+movie_id;
                     cursor = liteDatabase.rawQuery(query_check,null);
@@ -130,7 +130,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                         cv.put(CrewTable.COLUMN_CREDIT_ID,db_credit_id);
                         cv.put(CrewTable.COLUMN_PROFILE_URL,db_profile_url);
                         liteDatabase.insert(CrewTable.TABLE_NAME,null,cv);
-                        Log.d(LOG_TAG,"**Inserted Successfully lpoipo**");
+                  //      Log.d(LOG_TAG,"**Inserted Successfully lpoipo**");
                     }
             }
             catch (JSONException e){

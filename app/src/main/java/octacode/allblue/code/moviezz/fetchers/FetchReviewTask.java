@@ -27,7 +27,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
 
     private final String LOG_TAG=FetchReviewTask.class.getSimpleName();
     private Context mContext;
-    FetchReviewTask(Context context){
+    public FetchReviewTask(Context context){
         mContext=context;
     }
 

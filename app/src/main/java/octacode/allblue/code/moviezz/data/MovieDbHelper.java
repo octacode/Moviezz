@@ -104,7 +104,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 +"UNIQUE (" + TrailerTable.COLUMN_MOVIE_ID+") ON CONFLICT REPLACE)";
 
         final String SQL_CREATE_TABLE_DETAIL_TABLE = "CREATE TABLE "+ DetailTable.TABLE_NAME+" ("
-                +DetailTable._ID+ "INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +DetailTable._ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
                 +DetailTable.COLUMN_MOVIE_ID+" REAL NOT NULL, "
                 +DetailTable.COLUMN_ADULT+" TEXT NOT NULL, "

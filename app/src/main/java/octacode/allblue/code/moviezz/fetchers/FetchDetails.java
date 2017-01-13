@@ -28,7 +28,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     private String LOG_TAG = getClass().getSimpleName();
     private Context mContext;
 
-    FetchDetails(Context mContext){this.mContext=mContext;}
+    public FetchDetails(Context mContext){this.mContext=mContext;}
     @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {

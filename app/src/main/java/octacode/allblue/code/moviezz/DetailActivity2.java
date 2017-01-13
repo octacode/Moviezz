@@ -30,6 +30,7 @@ import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 import octacode.allblue.code.moviezz.fetchers.FetchCrewCast;
+import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
 
 public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
@@ -127,7 +128,7 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String splits_name[] = name.split("__SPLITTER__");
         String splits_role[] = role.split("__SPLITTER__");
 
-        for(int i=0;i<splits_name.length;i++){
+        for(int i=0;i<splits_name.length-1;i++){
             InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_role[i]);
             list.add(infoTransfer);
         }
@@ -161,7 +162,10 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
         String splits_character[] = character.split("__SPLITTER__");
         String splits_profile_url[] = profile_url.split("__SPLITTER__");
 
-        for(int i=0;i<splits_name.length;i++){
+        for(int i=0;i<splits_name.length-1;i++){
+            if(splits_profile_url[i].matches("")){
+                splits_profile_url[i]=getIntent().getStringExtra("POSTER_URL");
+            }
             InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_character[i],splits_profile_url[i]);
             list.add(infoTransfer);
         }
@@ -176,11 +180,32 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
     private void setTrailer(){
         mRecyclerView = (RecyclerView)findViewById(R.id.rv_videos);
-        String name = "Official Trailer", url = "http://image.tmdb.org/t/p/w185//qjiskwlV1qQzRCjpV0cL9pEMF9a.jpg";
+        FetchTrailers fetchTrailers = new FetchTrailers(this);
+        SQLiteDatabase liteDatabase = new MovieDbHelper(this).getReadableDatabase();
+        fetchTrailers.execute(getIntent().getStringExtra("MOVIE_ID"));
+        String query_check = "Select * from "+ MovieContract.TrailerTable.TABLE_NAME+" where "+ MovieContract.TrailerTable.COLUMN_MOVIE_ID+ " = "+getIntent().getStringExtra("MOVIE_ID");
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+        String db_name="",db_poster_pic="",db_url="";
+        if(cursor.moveToFirst()) {
+            db_name = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_NAME));
+            db_poster_pic = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_POSTER_URL));
+            db_url = cursor.getString(cursor.getColumnIndex(MovieContract.TrailerTable.COLUMN_URL));
+        }
+        String splits_name[] = db_name.split("__SPLITTER__");
+        String splits_poster_pic[] = db_poster_pic.split("__SPLITTER__");
+        String splits_url[] = db_url.split("__SPLITTER__");
         ArrayList<InfoTransfer> list = new ArrayList<>();
-        InfoTransfer dummy = new InfoTransfer(name,url);
-        for(int i=0;i<90;i++)
-            list.add(dummy);
+
+        for(int i=0;i<splits_name.length-1;i++){
+            if(splits_name[i].matches("")){
+                splits_name[i]=getIntent().getStringExtra("POSTER_URL");
+            }
+            InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_poster_pic[i],splits_url[i]);
+            list.add(infoTransfer);
+        }
+
+        Toast.makeText(this,splits_name[splits_name.length-1],Toast.LENGTH_SHORT).show();
+
         trailerAdapter = new TrailersAdapter(this,list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
