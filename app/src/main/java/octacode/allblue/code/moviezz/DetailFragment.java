@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +25,7 @@ public class DetailFragment extends Fragment {
 
     View mRootView;
     String movie_id;
+    private Menu menu;
 
 
     private String LOG_TAG = DetailFragment.this.getClass().getSimpleName();
@@ -33,7 +35,6 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -41,6 +42,14 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        this.menu=menu;
+        SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
+        String query_check = "Select * from "+ MovieContract.FavouritesTable.TABLE_NAME+" where "+ MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " = "+movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+        if(cursor.getCount()<=0)
+            menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_empty));
+        else
+            menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star));
     }
 
     @Override
@@ -67,6 +76,8 @@ public class DetailFragment extends Fragment {
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT, title);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
                     inserted_row = liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME, null, contentValues);
+                    menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star));
+                    Toast.makeText(getContext(),"Added to Favourites.",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     liteDatabase.delete(
@@ -74,6 +85,8 @@ public class DetailFragment extends Fragment {
                             MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
                             new String[]{movie_id}
                             );
+                    menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_empty));
+                    Toast.makeText(getContext(),"Removed from Favourites.",Toast.LENGTH_SHORT).show();
                     Log.d(LOG_TAG,"Deleted Sucessfully");
                 }
                 Log.d(LOG_TAG, String.valueOf(inserted_row));

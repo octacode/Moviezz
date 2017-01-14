@@ -46,8 +46,8 @@
         <activity
             android:name=".CastActivity"
             android:label="@string/title_activity_cast"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

@@ -20,9 +20,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Random;
 import java.util.Vector;
 
 import octacode.allblue.code.moviezz.MainActivity;
+import octacode.allblue.code.moviezz.Utility;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
@@ -50,20 +52,8 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
         String movieJsonStr = null;
 
         try {
-
-            final String MOVIE_BASE_URL =
-                    "http://api.themoviedb.org/3/discover/movie?";
-            final String SORT_PARAM = "sort_by";
-            final String APPID_PARAM = "api_key";
-            final String PAGE_PARAM = "page";
-
-            Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                    .appendQueryParameter(SORT_PARAM, params[0])
-                    .appendQueryParameter(APPID_PARAM, "ebe982a0f82f328dafb62d76595c40d0")
-                    .appendQueryParameter(PAGE_PARAM,"1")
-                    .build();
-
-            URL url = new URL(builtUri.toString());
+            String request_string = "https://api.themoviedb.org/3/movie/"+params[0]+"?api_key=ebe982a0f82f328dafb62d76595c40d0&language=en-US&page="+ Utility.getPage(mContext);
+            URL url = new URL(request_string);
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

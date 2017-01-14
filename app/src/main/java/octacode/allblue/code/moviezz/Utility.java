@@ -1,5 +1,10 @@
 package octacode.allblue.code.moviezz;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+
 import java.text.NumberFormat;
 
 /**
@@ -7,6 +12,12 @@ import java.text.NumberFormat;
  */
 
 public class Utility {
+
+    public static String getPage(Context context){
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
+        return preference.getString("pref_page","1");
+    }
+
     public static String getGenreName(int id){
         switch (id){
             case 28 :

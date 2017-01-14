@@ -92,9 +92,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.action_favourites:
                 startActivity(new Intent(getContext(),FavouritesActivity.class));
                 break;
-            case R.id.action_refresh:
-                updateMovieRecycler();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
