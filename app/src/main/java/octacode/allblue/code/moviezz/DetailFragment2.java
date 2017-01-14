@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -34,7 +35,6 @@ public class DetailFragment2 extends Fragment {
         budget_tv = (TextView)rootView.findViewById(R.id.budget_name);
         revenue_tv = (TextView)rootView.findViewById(R.id.revenue_name);
         homepage_tv = (TextView)rootView.findViewById(R.id.homepage_name);
-
         FetchDetails fetchDetails = new FetchDetails(getContext());
         fetchDetails.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"),getActivity().getIntent().getStringExtra("LANGUAGE"));
         return rootView;

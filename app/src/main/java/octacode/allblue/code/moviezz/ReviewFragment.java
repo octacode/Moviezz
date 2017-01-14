@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -24,7 +25,8 @@ public class ReviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    public static TextView tv_review,tv_author,tv_nothing,tv_review_url;
+    public static TextView tv_review,tv_author,tv_review_url;
+    public static RelativeLayout tv_nothing;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class ReviewFragment extends Fragment {
         tv_review=(TextView)rootView.findViewById(R.id.review_tv);
         tv_author = (TextView)rootView.findViewById(R.id.review_author_name);
         tv_review_url = (TextView)rootView.findViewById(R.id.review_url);
-        tv_nothing = (TextView)rootView.findViewById(R.id.no_review);
+        tv_nothing = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
         FetchReviewTask fetchReviewTask = new FetchReviewTask(getContext());
         fetchReviewTask.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"));
         return rootView;

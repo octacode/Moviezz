@@ -100,7 +100,7 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
                 String profile_path = jsonObject.getString("profile_path");
                 String biography = jsonObject.getString("biography");
                 String birthday = jsonObject.getString("birthday");
-                String gender = jsonObject.getString("profile_path");
+                String gender = jsonObject.getString("gender");
                 String name = jsonObject.getString("name");
                 String place_of_birth = jsonObject.getString("place_of_birth");
                 String person_id = params[0];
@@ -116,7 +116,7 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
                 if(gender.matches("1"))
                     gender="female";
                 if(gender.matches("0"))
-                    gender="N/A";
+                    gender="";
 
                 SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                 String query_check = "Select * from "+ PersonTable.TABLE_NAME+" where "+ PersonTable.COLUMN_PERSON_ID+ " = "+params[0];
@@ -164,6 +164,14 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
             gender = cursor.getString(cursor.getColumnIndex(PersonTable.COLUMN_GENDER));
             profile_path = cursor.getString(cursor.getColumnIndex(PersonTable.COLUMN_AKA));
         }
+
+        if(name.matches("null")){name = "";}
+        if(biography.matches("null")){biography = "";}
+        if(birthday.matches("null")){birthday = "";}
+        if(place_of_birth.matches("null")){place_of_birth = "";}
+        if(gender.matches("null")){gender = "";}
+        if(profile_path.matches("null")){profile_path = "";}
+
         Intent intent = new Intent(mContext,CastActivity.class);
         intent.putExtra("NAME",name);
         intent.putExtra("BIOGRAPHY",biography);

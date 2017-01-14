@@ -11,6 +11,7 @@ import java.util.List;
 
 import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
+import octacode.allblue.code.moviezz.fetchers.FetchCrewDetails;
 
 /**
  * Created by shasha on 11/1/17.
@@ -20,6 +21,7 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     private Context mContext;
     private List<InfoTransfer> mCrewList;
+    private View itemView;
 
     public class FeaturedCrewViewHolder extends RecyclerView.ViewHolder{
 
@@ -39,7 +41,7 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     @Override
     public FeaturedCrewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.featured_crew_list_item,parent,false);
         return new FeaturedCrewViewHolder(itemView);
     }
@@ -51,8 +53,15 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     @Override
     public void onBindViewHolder(FeaturedCrewViewHolder holder, int position) {
-        InfoTransfer infoTransfer = mCrewList.get(position);
+        final InfoTransfer infoTransfer = mCrewList.get(position);
         holder.mTextView_Name.setText(infoTransfer.getName());
         holder.mTextView_Role.setText(infoTransfer.getRole());
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
+                fetchCrewDetails.execute(infoTransfer.getCredit_id());
+            }
+        });
     }
 }

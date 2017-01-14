@@ -101,7 +101,7 @@ public class DetailFragment extends Fragment {
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
         viewHolder.title.setText(title);
-        viewHolder.date.setText(rel_date);
+        viewHolder.date.setText(Utility.datePresenter(rel_date));
         viewHolder.overview.setText(overview);
         viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
         DetailActivity.mTitle.setText(title);

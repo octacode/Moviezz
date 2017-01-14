@@ -43,6 +43,12 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
     private String movie_id;
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+    }
+
+    @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {
             return null;
@@ -119,7 +125,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                 for(int i=0;i<array_crew.length();i++) {
                     JSONObject crew_json = array_crew.getJSONObject(i);
                     String job = crew_json.getString("job");
-                    String credit_id = crew_json.getString("credit_id");
+                    String credit_id = crew_json.getString("id");
                     String name = crew_json.getString("name");
                     String path_url = "http://image.tmdb.org/t/p/w185" + crew_json.getString("profile_path");
                     db_character = db_character + job + "__SPLITTER__";
@@ -210,7 +216,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
         String splits_profile_urls[] = url.split("__SPLITTER__");
 
         for(int i=0;i<splits_nameL.length-1;i++){
-            InfoTransfer infoTransfer = new InfoTransfer(splits_nameL[i],splits_role[i],splits_credits[i]);
+            InfoTransfer infoTransfer = new InfoTransfer(splits_nameL[i],splits_role[i],splits_profile_urls[i],splits_credits[i]);
             list.add(infoTransfer);
         }
 

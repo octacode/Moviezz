@@ -35,6 +35,12 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
     private String movie_id;
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        ReviewFragment.tv_nothing.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {
             return null;
@@ -114,8 +120,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
         String query_check = "Select * from "+ MovieContract.ReviewTable.TABLE_NAME+" where "+ MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE+ " = "+movie_id;
         Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        if(cursor.getCount()<=0)ReviewFragment.tv_nothing.setVisibility(View.VISIBLE);
-
+        if(cursor.getCount()>=0)ReviewFragment.tv_nothing.setVisibility(View.INVISIBLE);
         while(cursor.moveToNext()) {
             ReviewFragment.tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));
             ReviewFragment.tv_review.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT)));

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,8 +22,6 @@ import octacode.allblue.code.moviezz.DetailFragment2;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
-import static octacode.allblue.code.moviezz.DetailFragment2.revenue_tv;
-
 /**
  * Created by shasha on 12/1/17.
  */
@@ -33,6 +32,12 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     private Context mContext;
     private String language,movie_id;
     public FetchDetails(Context mContext){this.mContext=mContext;}
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
     @Override
     protected Void doInBackground(String... params) {
         if (params.length == 0) {
