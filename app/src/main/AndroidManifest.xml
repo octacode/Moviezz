@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="octacode.allblue.code.moviezz">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,9 +27,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
-
         <activity
-            android:name=".DetailActivity2"
+            android:name=".DetailActivity"
             android:label=""
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -37,6 +37,17 @@
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
 
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="octacode.allblue.code.moviezz"
+            tools:ignore="ExportedContentProvider" />
+
+        <activity android:name=".FavouritesActivity" />
+        <activity
+            android:name=".CastActivity"
+            android:label="@string/title_activity_cast"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

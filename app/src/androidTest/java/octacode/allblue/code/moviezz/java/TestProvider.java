@@ -1,8 +1,10 @@
 package octacode.allblue.code.moviezz.java;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -14,18 +16,31 @@ import octacode.allblue.code.moviezz.data.MovieDbHelper;
  * Created by shasha on 4/1/17.
  */
 
-public class Testdb extends AndroidTestCase {
+public class TestProvider extends AndroidTestCase {
 
-    String LOG_TAG = getClass().getSimpleName();
-    public void testCreatedb() throws Throwable {
-        mContext.deleteDatabase(MovieDbHelper.DATABASE_NAME);
-        SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
-        assertEquals(true, liteDatabase.isOpen());
-        liteDatabase.close();
+    private String LOG_TAG = getClass().getSimpleName();
+
+    public void testdeleteAllRecords(){
+        mContext.getContentResolver().delete(MainMovieTable.CONTENT_URI,
+                null,
+                null);
+        Cursor cursor=mContext.getContentResolver().query(MainMovieTable.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+        assertEquals(cursor.getCount(),0);
     }
 
-    public void testInsertReaddb(){
-        mContext.deleteDatabase(MovieDbHelper.DATABASE_NAME);
+    public void testGetType(){
+        String type=mContext.getContentResolver().getType(MainMovieTable.CONTENT_URI);
+        assertEquals(type,MainMovieTable.CONTENT_TYPE);
+
+        type=mContext.getContentResolver().getType(MainMovieTable.buildMoviewithId(123123L));
+        assertEquals(type,MainMovieTable.CONTENT_ITEM_TYPE);
+    }
+
+    public void testInsertReadProvider(){
         ContentValues cv=new ContentValues();
         int test_page=1;
 
@@ -58,35 +73,17 @@ public class Testdb extends AndroidTestCase {
         cv.put(MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE,test_vote_average);
 
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
-        long movie_row_id=liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME,null,cv);
-        assertTrue(movie_row_id != -1);
+        Uri movie_row_uri=mContext.getContentResolver().insert(MainMovieTable.CONTENT_URI,cv);
+        long movie_row_id=ContentUris.parseId(movie_row_uri);
+        assertTrue(movie_row_id!= -1);
         Log.d(LOG_TAG,"Movie returned is : "+movie_row_id);
 
-        String test_columns[]={
-                String.valueOf(movie_row_id),
-                MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE,
-                MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE,
-                MainMovieTable.COLUMN_MAIN_PAGE_INT,
-                MainMovieTable.COLUMN_MAIN_POSTER_PATH_TEXT,
-                MainMovieTable.COLUMN_MAIN_ADULT_TEXT,
-                MainMovieTable.COLUMN_MAIN_TITLE_TEXT,
-                MainMovieTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT,
-                MainMovieTable.COLUMN_MAIN_OVERVIEW_TEXT,
-                MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT,
-                MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT,
-                MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE,
-                MainMovieTable.COLUMN_MAIN_POPULARITY_DOUBLE,
-                MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE
-        };
-
-        Cursor cursor = liteDatabase.query(MovieContract.FavouritesTable.TABLE_NAME,
-                test_columns,
+        Cursor cursor=mContext.getContentResolver().query(MainMovieTable.buildMoviewithId(movie_row_id),
                 null,
                 null,
                 null,
-                null,
-                null,
-                null);
+                null
+        );
 
         if(cursor.moveToFirst()) {
             int movie_index = cursor.getColumnIndex(MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE);
@@ -97,4 +94,5 @@ public class Testdb extends AndroidTestCase {
         }
         cursor.close();
     }
+
 }

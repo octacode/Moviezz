@@ -4,16 +4,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
+
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import octacode.allblue.code.moviezz.adapter.GenreAdapter;
+import octacode.allblue.code.moviezz.fetchers.FetchCrewCast;
+import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
+
+public class DetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.3f;
@@ -23,13 +35,21 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     private boolean mIsTheTitleContainerVisible = true;
 
     private LinearLayout mTitleContainer;
-    private TextView mTitle;
+    public static TextView mTitle,main_title;
+    public static ImageView image_backdrop;
+    public static CircleImageView image_view_poster;
+
+    public static RecyclerView mRecyclerView_featured,mRecyclerView_top_cast,mRecyclerView_trailers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
+
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail,new DetailFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_3_review, new ReviewFragment()).commit();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
         }
@@ -43,14 +63,53 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        main_title = (TextView) findViewById(R.id.main_title);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
-        mTitle.setText("Hello");
+        image_backdrop = (ImageView) findViewById(R.id.detail_image_back_drop);
+        image_view_poster = (CircleImageView) findViewById(R.id.detail_image_poster);
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(this);
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+        String genre_ids = getIntent().getStringExtra("GENRE_IDS");
+        Toast.makeText(this,genre_ids,Toast.LENGTH_SHORT).show();
+        setGenre(genre_ids);
+        setTopCastCrew();
+        setTrailer();
+    }
+
+
+    private void setGenre(String genre_ids) {
+        genre_ids=genre_ids.replace("[","");
+        genre_ids=genre_ids.replace("]","");
+        String splits[]=genre_ids.split(",");
+        ArrayList<InfoTransfer> infoTransferList= new ArrayList<>();
+        InfoTransfer genre_name;
+        for(int i=0;i<splits.length;i++) {
+            splits[i] = Utility.getGenreName(Integer.parseInt(splits[i]));
+            genre_name = new InfoTransfer(splits[i]);
+            infoTransferList.add(genre_name);
+        }
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_genre);
+        GenreAdapter genreAdapter = new GenreAdapter(this,infoTransferList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(genreAdapter);
+        genreAdapter.notifyDataSetChanged();
+    }
+
+    private void setTopCastCrew(){
+        mRecyclerView_top_cast = (RecyclerView)findViewById(R.id.rv_top_cast);
+        mRecyclerView_featured =(RecyclerView)findViewById(R.id.rv_featured_crew);
+        FetchCrewCast fetchCrewCast = new FetchCrewCast(this);
+        fetchCrewCast.execute(getIntent().getStringExtra("MOVIE_ID"));
+    }
+
+    private void setTrailer(){
+        mRecyclerView_trailers = (RecyclerView)findViewById(R.id.rv_videos);
+        FetchTrailers fetchTrailers = new FetchTrailers(this);
+        fetchTrailers.execute(getIntent().getStringExtra("MOVIE_ID"));
     }
 
     @Override
@@ -63,7 +122,6 @@ public class DetailActivity2 extends AppCompatActivity implements AppBarLayout.O
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
-
         handleAlphaOnTitle(percentage);
         handleToolbarTitleVisibility(percentage);
     }

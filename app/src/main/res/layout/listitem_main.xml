@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:paddingRight="6dp"
+    android:paddingLeft="6dp"
     android:layout_margin="1dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
      <android.support.v7.widget.CardView
         android:padding="1dp"
+        android:id="@+id/cv_list_item_main"
         android:orientation="vertical"
         app:cardElevation="1dp"
         app:cardCornerRadius="6dp"
@@ -35,4 +37,8 @@
                 android:layout_gravity="bottom"/>
      </android.support.v7.widget.CardView>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_below="@+id/cv_list_item_main"/>
 </RelativeLayout>

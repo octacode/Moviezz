@@ -1,9 +1,8 @@
 package octacode.allblue.code.moviezz;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,25 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
+import com.squareup.picasso.Picasso;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 
 public class DetailFragment extends Fragment {
 
-    View mrootview;
+    View mRootView;
+    String movie_id;
 
-    private String LOG_TAG=DetailFragment.this.getClass().getSimpleName();
+    private String LOG_TAG = DetailFragment.this.getClass().getSimpleName();
+
     public DetailFragment() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -47,52 +44,81 @@ public class DetailFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                startActivity(new Intent(getContext(),MainActivity.class));
+        switch (item.getItemId()) {
+            case R.id.add_to_favourites:
+                long inserted_row=0L;
+                SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
+                String query_check = "Select * from "+ MovieContract.FavouritesTable.TABLE_NAME+" where "+ MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " = "+movie_id;
+                Cursor cursor = liteDatabase.rawQuery(query_check,null);
+                if(cursor.getCount()<=0) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, genre_ids);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT, adult);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT, backdrop_url);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT, rel_date);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE, movie_id);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT, language);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_OVERVIEW_TEXT, overview);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_PAGE_INT, 1);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_POPULARITY_DOUBLE, popularity);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_POSTER_PATH_TEXT, poster_url);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE, ratings);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT, title);
+                    contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
+                    inserted_row = liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME, null, contentValues);
+                }
+                else {
+                    liteDatabase.delete(
+                            MovieContract.FavouritesTable.TABLE_NAME,
+                            MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
+                            new String[]{movie_id}
+                            );
+                    Log.d(LOG_TAG,"Deleted Sucessfully");
+                }
+                Log.d(LOG_TAG, String.valueOf(inserted_row));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date,genre_ids;
+    double vot_count,vote_avg,popularity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mrootview = inflater.inflate(R.layout.fragment_detail, container, false);
-        Activity mActivity=getActivity();
-        String id=mActivity.getIntent().getStringExtra("ID");
-        String vote_avg=mActivity.getIntent().getStringExtra("VOTE_AVG");
-        String backdrop_url=mActivity.getIntent().getStringExtra("BACK_URL");
-        String org_lang=mActivity.getIntent().getStringExtra("LANG");
-        String org_title=mActivity.getIntent().getStringExtra("TITLE");
-        String overview=mActivity.getIntent().getStringExtra("OVERVIEW");
-        String popularity=mActivity.getIntent().getStringExtra("POPULARITY");
-        String rel_date=mActivity.getIntent().getStringExtra("REL_DATE");
-
-        Log.d(LOG_TAG,id);
-        Log.d(LOG_TAG,vote_avg);
-        Log.d(LOG_TAG,backdrop_url);
-        Log.d(LOG_TAG,org_lang);
-        Log.d(LOG_TAG,org_title);
-        Log.d(LOG_TAG,overview);
-        Log.d(LOG_TAG,popularity);
-        Log.d(LOG_TAG,rel_date);
-        return mrootview;
+        mRootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        HolderDetail viewHolder = new HolderDetail(mRootView);
+        adult = getActivity().getIntent().getStringExtra("ADULT");
+        language = getActivity().getIntent().getStringExtra("LANGUAGE");
+        popularity = Double.parseDouble(getActivity().getIntent().getStringExtra("POPULARITY"));
+        ratings = getActivity().getIntent().getStringExtra("RATINGS");
+        movie_id = getActivity().getIntent().getStringExtra("MOVIE_ID");
+        backdrop_url = getActivity().getIntent().getStringExtra("BACKDROP_URL");
+        overview = getActivity().getIntent().getStringExtra("OVERVIEW");
+        title = getActivity().getIntent().getStringExtra("TITLE");
+        poster_url = getActivity().getIntent().getStringExtra("POSTER_URL");
+        vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
+        rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
+        genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
+        viewHolder.title.setText(title);
+        viewHolder.date.setText(Utility.datePresenter(rel_date));
+        viewHolder.overview.setText(overview);
+        viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
+        DetailActivity.mTitle.setText(title);
+        DetailActivity.main_title.setText(title);
+        Picasso.with(getContext()).load(poster_url).into(DetailActivity.image_view_poster);
+        Picasso.with(getContext()).load(backdrop_url).into(DetailActivity.image_backdrop);
+        return mRootView;
     }
-}
 
-class HolderDetail{
+    public class HolderDetail {
+        private TextView title, ratings, date, overview;
 
-    private TextView title,ratings,date,overview,language,runtime,homepage,budget,revenue,adult;
-    public HolderDetail(View mrootview){
-        title=(TextView)mrootview.findViewById(R.id.title_detail);
-        ratings=(TextView)mrootview.findViewById(R.id.detail_ratings);
-        date=(TextView)mrootview.findViewById(R.id.date_detail);
-        overview=(TextView)mrootview.findViewById(R.id.overview_detail);
-        language=(TextView)mrootview.findViewById(R.id.original_language_detail);
-        runtime=(TextView)mrootview.findViewById(R.id.runtime_detail);
-        homepage=(TextView)mrootview.findViewById(R.id.homepage_detail);
-        budget=(TextView)mrootview.findViewById(R.id.budget_detail);
-        revenue=(TextView)mrootview.findViewById(R.id.revenue_detail);
-        adult=(TextView)mrootview.findViewById(R.id.adult_detail);
+        HolderDetail(View mRootView) {
+            title = (TextView) mRootView.findViewById(R.id.title_detail);
+            ratings = (TextView) mRootView.findViewById(R.id.detail_ratings);
+            date = (TextView) mRootView.findViewById(R.id.date_detail);
+            overview = (TextView) mRootView.findViewById(R.id.overview_detail);
+        }
     }
 }

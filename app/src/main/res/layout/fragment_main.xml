@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.MainFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <GridView
         android:numColumns="2"
         android:background="#9e9efe"
         android:layout_width="match_parent"

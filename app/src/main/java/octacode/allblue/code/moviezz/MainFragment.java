@@ -1,66 +1,79 @@
 package octacode.allblue.code.moviezz;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
+import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-public class MainFragment extends Fragment {
+    private static final int MOVIE_LOADER = 0;
+    GridView main_grid_view;
 
-    private Main_Movie_Adapter adapter;
-    private RecyclerView recyclerView;
-    private int PAGE_LOADED=0;
-    private List<Transfer> arrayList=new ArrayList<>();
-    private Parcelable recyclerViewState;
+    public static final String[] MOVIE_COLUMNS={
+            MovieContract.MainMovieTable._ID,
+            MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE,
+            MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_BACKDROP_PATH_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_GENRE_IDS_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_MOVIE_ID_DOUBLE,
+            MovieContract.MainMovieTable.COLUMN_MAIN_ORG_LANGUAGE_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_OVERVIEW_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_PAGE_INT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_POPULARITY_DOUBLE,
+            MovieContract.MainMovieTable.COLUMN_MAIN_POSTER_PATH_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_RATINGS_DOUBLE,
+            MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT,
+            MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE
+    };
+
+    public static final int COLUMN_ID=0;
+    public static final int COLUMN_VOTE_COUNT=1;
+    public static final int COLUMN_ADULT=2;
+    public static final int COLUMN_BACKDROP_URL=3;
+    public static final int COLUMN_REL_DATE=4; //Release date is stored in the genre_ids.
+    public static final int COLUMN_MOVIE_ID=5;
+    public static final int COLUMN_LANGUAGE=6;
+    public static final int COLUMN_OVERVIEW=7;
+    public static final int COLUMN_PAGE=8;
+    public static final int COLUMN_POPULARITY=9;
+    public static final int COLUMN_POSTER_URL=10;
+    public static final int COLUMN_RATINGS=11;
+    public static final int COLUMN_TITLE=12;
+    public static final int COLUMN_VOTE_AVERAGE=13;
 
 
     public MainFragment() {
     }
 
     public void updateMovieRecycler() {
-        FetchMovieTask fetchMovieTask=new FetchMovieTask();
-        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),"Most Popular");
-        fetchMovieTask.execute(settings, String.valueOf(PAGE_LOADED+1));
-        PAGE_LOADED++;
+        FetchMovieTask fetchMovieTask=new FetchMovieTask(getContext());
+        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),getActivity().getString(R.string.pref_sort_popular));
+        fetchMovieTask.execute(settings);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateMovieRecycler();
     }
 
     @Override
@@ -77,7 +90,7 @@ public class MainFragment extends Fragment {
                 startActivity(new Intent(getContext(),SettingsActivit.class));
                 break;
             case R.id.action_favourites:
-                Toast.makeText(getContext(),"Favourites",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getContext(),FavouritesActivity.class));
                 break;
             case R.id.action_refresh:
                 updateMovieRecycler();
@@ -86,181 +99,66 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    Main_Movie_Adapter movieAdapter;
+    private String LOG_TAG = getClass().getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
-
-        adapter = new Main_Movie_Adapter(getContext(),arrayList);
-
-        recyclerView=(RecyclerView) rootView.findViewById(R.id.main_grid_view);
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
-
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        main_grid_view=(GridView)rootView.findViewById(R.id.main_grid_view);
+        movieAdapter=new Main_Movie_Adapter(getContext(),null);
+        main_grid_view.setAdapter(movieAdapter);
+        main_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if((mLayoutManager.getChildCount()+mLayoutManager.findFirstVisibleItemPosition()) >= mLayoutManager.getItemCount())
-                    updateMovieRecycler();
-                recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                movieAdapter = (Main_Movie_Adapter)parent.getAdapter();
+                Cursor cursor = movieAdapter.getCursor();
+                //Log.d(LOG_TAG,cursor.getString(COLUMN_VOTE_COUNT));
+                Intent intent = new Intent(getContext(),DetailActivity.class);
+                intent.putExtra("ID",cursor.getLong(COLUMN_ID));
+                intent.putExtra("MOVIE_ID",cursor.getString(COLUMN_MOVIE_ID));
+                intent.putExtra("ADULT",cursor.getString(COLUMN_ADULT));
+                intent.putExtra("BACKDROP_URL",cursor.getString(COLUMN_BACKDROP_URL));
+                intent.putExtra("OVERVIEW",cursor.getString(COLUMN_OVERVIEW));
+                intent.putExtra("TITLE",cursor.getString(COLUMN_TITLE));
+                intent.putExtra("POSTER_URL",cursor.getString(COLUMN_POSTER_URL));
+                intent.putExtra("LANGUAGE",cursor.getString(COLUMN_LANGUAGE));
+                intent.putExtra("POPULARITY",cursor.getString(COLUMN_POPULARITY));
+                intent.putExtra("VOTE_AVG",cursor.getString(COLUMN_VOTE_AVERAGE));
+                intent.putExtra("RATINGS",cursor.getString(COLUMN_RATINGS));
+                intent.putExtra("REL_DATE",cursor.getString(COLUMN_REL_DATE));
+                intent.putExtra("GENRE_IDS",cursor.getString(COLUMN_VOTE_COUNT));
+                startActivity(intent);
             }
         });
         return rootView;
-
     }
 
-    public class FetchMovieTask extends AsyncTask<String,Void,ArrayList<Transfer>>{
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(MOVIE_LOADER,null,this);
+    }
 
-        private final String LOG_TAG=FetchMovieTask.class.getSimpleName();
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(
+                getActivity(),
+                MovieContract.MainMovieTable.CONTENT_URI,
+                MOVIE_COLUMNS,
+                null,
+                null,
+                null
+        );
+    }
 
-        private ArrayList<Transfer> getMovieDataFromJson(String movieJsonStr)
-                throws JSONException {
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        movieAdapter.swapCursor(data);
+    }
 
-            // These are the names of the JSON objects that need to be extracted.
-            final String ID="id";
-            final String ORGLANG="original_language";
-            final String ORGTITLE="original_title";
-            final String OVER="overview";
-            final String RELDATE="release_date";
-            final String POSTERPATH="poster_path";
-            final String BACKDROPPATH="backdrop_path";
-            final String POPULARITY="popularity";
-            final String VOTAVG="vote_average";
-
-            final String RESULT="results";
-            final String POSTER_BASE_URL="http://image.tmdb.org/t/p/w185";
-            final String BACKDROP_BASE_URL="http://image.tmdb.org/t/p/w500";
-
-            JSONObject movieJson = new JSONObject(movieJsonStr);
-            JSONArray movieArray = movieJson.getJSONArray(RESULT);
-
-            ArrayList<Transfer> resultStrs=new ArrayList<>();
-
-            for(int i = 0; i < movieArray.length(); i++) {
-
-                String id;
-                String orgLang;
-                String orgTitle;
-                String overview;
-                String relDate;
-                String postURL;
-                String popularity;
-                String votAvg;
-                String backdropURl;
-
-                JSONObject movieInfo = movieArray.getJSONObject(i);
-
-                id=movieInfo.getString(ID);
-                orgLang=movieInfo.getString(ORGLANG);
-                orgTitle=movieInfo.getString(ORGTITLE);
-                overview=movieInfo.getString(OVER);
-                relDate=movieInfo.getString(RELDATE);
-
-                postURL= Uri.parse(POSTER_BASE_URL).buildUpon().
-                        appendEncodedPath(movieInfo.getString(POSTERPATH)).build().toString();
-                backdropURl = Uri.parse(BACKDROP_BASE_URL).buildUpon().
-                        appendEncodedPath(movieInfo.getString(BACKDROPPATH)).build().toString();
-                //Log.d("MainActivity", "Value: " + postURL);
-                popularity=movieInfo.getString(POPULARITY);
-                votAvg=movieInfo.getString(VOTAVG);
-                resultStrs.add(new Transfer(postURL,backdropURl,id,orgLang,overview,relDate,popularity,votAvg,orgTitle));
-            }
-            return resultStrs;
-
-        }
-
-        @Override
-        protected ArrayList<Transfer> doInBackground(String... params) {
-            if (params.length == 0) {
-                return null;
-            }
-
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-
-            String movieJsonStr = null;
-
-            try {
-
-                final String MOVIE_BASE_URL =
-                        "http://api.themoviedb.org/3/discover/movie?";
-                final String SORT_PARAM = "sort_by";
-                final String APPID_PARAM = "api_key";
-                final String PAGE_PARAM = "page";
-
-                Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                        .appendQueryParameter(SORT_PARAM, params[0])
-                        .appendQueryParameter(APPID_PARAM, "ebe982a0f82f328dafb62d76595c40d0")
-                        .appendQueryParameter(PAGE_PARAM,params[1])
-                        .build();
-
-                URL url = new URL(builtUri.toString());
-
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuilder buffer = new StringBuilder();
-                if (inputStream == null) {
-                    return null;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line).append("\n");
-                }
-
-                if (buffer.length() == 0) {
-                    return null;
-                }
-                movieJsonStr = buffer.toString();
-                Log.v(LOG_TAG,movieJsonStr);
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-
-            try {
-                return getMovieDataFromJson(movieJsonStr);
-            }
-            catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Transfer> result) {
-            if (result != null) {
-
-                for (int i = 0; i < result.size(); i++)
-                    arrayList.add(result.get(i));
-            }
-                adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        movieAdapter.swapCursor(null);
     }
 }
-
