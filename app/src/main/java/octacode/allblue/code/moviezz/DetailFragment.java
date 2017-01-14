@@ -25,6 +25,7 @@ public class DetailFragment extends Fragment {
     View mRootView;
     String movie_id;
 
+
     private String LOG_TAG = DetailFragment.this.getClass().getSimpleName();
 
     public DetailFragment() {
@@ -100,7 +101,12 @@ public class DetailFragment extends Fragment {
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
-        viewHolder.title.setText(title);
+        switch(adult){
+            case "true": adult = "True";break;
+            case "false": adult = "False";break;
+            default: adult="";
+        }
+        viewHolder.title.setText(adult);
         viewHolder.date.setText(Utility.datePresenter(rel_date));
         viewHolder.overview.setText(overview);
         viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
@@ -115,7 +121,7 @@ public class DetailFragment extends Fragment {
         private TextView title, ratings, date, overview;
 
         HolderDetail(View mRootView) {
-            title = (TextView) mRootView.findViewById(R.id.title_detail);
+            title = (TextView) mRootView.findViewById(R.id.adult_detail);
             ratings = (TextView) mRootView.findViewById(R.id.detail_ratings);
             date = (TextView) mRootView.findViewById(R.id.date_detail);
             overview = (TextView) mRootView.findViewById(R.id.overview_detail);

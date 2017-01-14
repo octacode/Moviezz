@@ -36,6 +36,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        DetailFragment2.loadingPanel2.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -123,6 +124,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
             DetailFragment2.original_language_tv.setText(language);
             DetailFragment2.runtime_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_RUNTIME)));
         }
-
+        DetailFragment2.loadingPanel2.setVisibility(View.GONE);
+        DetailFragment2.linearLayout.setVisibility(View.VISIBLE);
     }
 }

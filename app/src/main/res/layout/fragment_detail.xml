@@ -31,18 +31,35 @@
             android:id="@+id/title_date_container"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:lines="1"
-                android:gravity="center_vertical"
-                android:fontFamily="sans-serif-condensed"
-                android:textSize="19sp"
-                android:id="@+id/title_detail"
-                android:text="Batman: The Dark Knight"
+                android:id="@+id/adult_container"
                 android:orientation="vertical">
-            </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="13sp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:id="@+id/adult_tag_detail"
+                    android:text="Adult"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="19sp"
+                    android:id="@+id/adult_detail"
+                    android:text="True">
+                </TextView>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
