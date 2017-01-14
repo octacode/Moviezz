@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import octacode.allblue.code.moviezz.MainFragment;
 import octacode.allblue.code.moviezz.R;
+import octacode.allblue.code.moviezz.Utility;
 
 /**
  * Created by shasha on 9/1/17.
@@ -40,15 +41,27 @@ public class FavouritesAdapter extends CursorAdapter {
         viewHolder.ratings.setText(cursor.getString(MainFragment.COLUMN_VOTE_AVERAGE));
         Picasso.with(context).load(postURL).error(R.mipmap.ic_launcher).into(viewHolder.thumbnail);
         viewHolder.title.setText(title);
+        String genre_ids=cursor.getString(MainFragment.COLUMN_VOTE_COUNT).replace("[","");
+        genre_ids=genre_ids.replace("]","");
+        String splits[]=genre_ids.split(",");
+        genre_ids = "";
+        for(int i=0;i<splits.length-1;i++) {
+            if(splits.length-2==i)
+            genre_ids = genre_ids + Utility.getGenreName(Integer.parseInt(splits[i]));
+            else
+                genre_ids = genre_ids + Utility.getGenreName(Integer.parseInt(splits[i]))+", ";
+        }
+        viewHolder.genre.setText(genre_ids);
     }
 
     private class Holder{
-        private TextView title,ratings;
+        private TextView title,ratings,genre;
         private ImageView thumbnail;
         Holder(View view){
             thumbnail= (ImageView)view.findViewById(R.id.favourites_list_thumbnail);
             title  = (TextView)view.findViewById(R.id.favourites_list_title);
             ratings = (TextView)view.findViewById(R.id.favourites_list_ratings);
+            genre = (TextView)view.findViewById(R.id.favourites_list_genre);
         }
     }
 }

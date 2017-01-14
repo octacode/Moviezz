@@ -42,7 +42,7 @@ public class MovieProvider extends ContentProvider {
         switch (matcher.match(uri)){
             //movie
             case MOVIE:
-                retCursor=movieDbHelper.getReadableDatabase().query(
+                retCursor=movieDbHelper.getWritableDatabase().query(
                         MovieContract.MainMovieTable.TABLE_NAME,
                         projection,
                         selection,
@@ -54,7 +54,7 @@ public class MovieProvider extends ContentProvider {
                 break;
             //movie/*
             case MOVIE_WITH_ID:
-                retCursor=movieDbHelper.getReadableDatabase().query(
+                retCursor=movieDbHelper.getWritableDatabase().query(
                         MovieContract.MainMovieTable.TABLE_NAME,
                         projection,
                         MovieContract.MainMovieTable._ID + " = '" + ContentUris.parseId(uri) + "'",

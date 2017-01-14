@@ -1,10 +1,13 @@
 package octacode.allblue.code.moviezz;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,10 +21,19 @@ public class FavouritesActivity extends AppCompatActivity {
     String LOG_TAG = getClass().getSimpleName();
 
     FavouritesAdapter favouritesAdapter;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MainActivity.class));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         ListView fav_lv = (ListView)findViewById(R.id.favourites_list);
         SQLiteDatabase liteDatabase = new MovieDbHelper(this).getWritableDatabase();
         Cursor cursor = liteDatabase.query(MovieContract.FavouritesTable.TABLE_NAME,
@@ -55,5 +67,53 @@ public class FavouritesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete this item? ")
+                .setPositiveButton("Yes", null)
+                .setNegativeButton("No",null)
+                .create();
+
+        fav_lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, int position, long id) {
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        favouritesAdapter = (FavouritesAdapter)parent.getAdapter();
+                        Cursor cursor = favouritesAdapter.getCursor();
+                        SQLiteDatabase liteDatabase = new MovieDbHelper(FavouritesActivity.this).getWritableDatabase();
+                        liteDatabase.delete(
+                                MovieContract.FavouritesTable.TABLE_NAME,
+                                MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
+                                new String[]{cursor.getString(MainFragment.COLUMN_MOVIE_ID)}
+                        );
+                        favouritesAdapter.notifyDataSetChanged();
+                        alertDialog.dismiss();
+                        startActivity(new Intent(FavouritesActivity.this,FavouritesActivity.class));
+                    }
+                });
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+                return true;
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+        case android.R.id.home:
+            onBackPressed();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

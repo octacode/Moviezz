@@ -2,6 +2,8 @@ package octacode.allblue.code.moviezz.fetchers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,6 +22,7 @@ import java.net.URL;
 import java.util.Vector;
 
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
+import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 /**
  * Created by shasha on 6/1/17.
@@ -166,6 +169,8 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                 }
 
                 if(cVVector.size()>0){
+                    SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
+                    liteDatabase.close();
                     mContext.getContentResolver().delete(MainMovieTable.CONTENT_URI,null,null);
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
