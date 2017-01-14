@@ -43,7 +43,15 @@
             tools:ignore="ExportedContentProvider" />
 
         <activity android:name=".FavouritesActivity" />
-        <activity android:name=".CastActivity"></activity>
+        <activity
+            android:name=".CastActivity"
+            android:label="@string/title_activity_cast"
+            android:parentActivityName=".DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="octacode.allblue.code.moviezz.DetailActivity" />
+        </activity>
     </application>
 
 </manifest>
