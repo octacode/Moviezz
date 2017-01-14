@@ -50,19 +50,9 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
         getSupportFragmentManager().beginTransaction().add(R.id.container_detail_2,new DetailFragment2()).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container_3_review, new ReviewFragment()).commit();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-        }
-
-        Window window = this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
-        }
-
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
+
         main_title = (TextView) findViewById(R.id.main_title);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
         image_backdrop = (ImageView) findViewById(R.id.detail_image_back_drop);

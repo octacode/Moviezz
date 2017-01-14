@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_entry_sort">
-        <item>Most Popular</item>
         <item>Highest Rated</item>
-        <item>Vote Average</item>
-        <item>Popularity</item>
+        <item>Random</item>
+        <item>Most Popular</item>
     </string-array>
 
     <string-array name="pref_entry_values_sort">
-        <item>Most Popular</item>
-        <item>Highest Rated</item>
         <item>vote_average.desc</item>
+        <item>Most Popular</item>
         <item>popularity.desc</item>
     </string-array>
 </resources>

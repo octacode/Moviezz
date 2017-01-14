@@ -205,7 +205,6 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mContext.startActivity(new Intent(mContext,MainActivity.class));
     }
 }
 

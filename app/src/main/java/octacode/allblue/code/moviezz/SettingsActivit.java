@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
+import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 /**
@@ -35,8 +36,21 @@ public class SettingsActivit extends PreferenceActivity
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MainActivity.class));
+    }
+
+    @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
         String stringValue = value.toString();
+
+        if(preference.getKey().equals(R.string.pref_sort_key)) {
+            String pref = value.toString();
+        }
+        else
+            getContentResolver().notifyChange(MovieContract.MainMovieTable.CONTENT_URI,null);
+
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(stringValue);
@@ -50,17 +64,9 @@ public class SettingsActivit extends PreferenceActivity
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                preference.getContext().deleteDatabase(MovieDbHelper.DATABASE_NAME);
                 return true;
             }
         });
         return true;
     }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public Intent getParentActivityIntent() {
-        return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    }
-
 }
