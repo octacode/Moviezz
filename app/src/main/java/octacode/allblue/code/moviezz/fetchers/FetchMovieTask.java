@@ -2,6 +2,7 @@ package octacode.allblue.code.moviezz.fetchers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
 
+import octacode.allblue.code.moviezz.MainActivity;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
@@ -198,6 +200,12 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        mContext.startActivity(new Intent(mContext,MainActivity.class));
     }
 }
 
