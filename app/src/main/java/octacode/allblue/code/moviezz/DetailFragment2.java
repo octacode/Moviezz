@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,6 @@ public class DetailFragment2 extends Fragment {
         budget_tv = (TextView)rootView.findViewById(R.id.budget_name);
         revenue_tv = (TextView)rootView.findViewById(R.id.revenue_name);
         homepage_tv = (TextView)rootView.findViewById(R.id.homepage_name);
-
         loadingPanel2 = (ProgressBar)rootView.findViewById(R.id.loadingPanel2);
         linearLayout = (LinearLayout)rootView.findViewById(R.id.linealLayoutDetail2);
 
