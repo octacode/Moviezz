@@ -49,7 +49,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public static final int COLUMN_VOTE_COUNT=1;
     public static final int COLUMN_ADULT=2;
     public static final int COLUMN_BACKDROP_URL=3;
-    public static final int COLUMN_REL_DATE=4; //Release date is stored in the genre_ids.
+    public static final int COLUMN_REL_DATE=4; //Release date is stored in the genre_ids. Oops! My fault here.
     public static final int COLUMN_MOVIE_ID=5;
     public static final int COLUMN_LANGUAGE=6;
     public static final int COLUMN_OVERVIEW=7;
@@ -86,7 +86,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                Toast.makeText(getContext(),"Settings",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(),SettingsActivit.class));
                 break;
             case R.id.action_favourites:

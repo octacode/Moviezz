@@ -30,7 +30,11 @@
             android:title="Tell a friend"/>
 
         <Preference
-            android:key="pref_share_app"
+            android:key="pref_rate"
             android:title="Rate our App."/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="Developer's Info"/>
+    <PreferenceScreen android:title="About"
+        android:key="pref_about"/>
 </PreferenceScreen>

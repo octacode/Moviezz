@@ -2,6 +2,8 @@ package octacode.allblue.code.moviezz;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 
@@ -282,5 +284,12 @@ public class Utility {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         String budget_er = formatter.format(Double.parseDouble(budget));
         return budget_er.replace(".00","");
+    }
+
+    public static boolean isNetworkAvailable(Context mContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }
