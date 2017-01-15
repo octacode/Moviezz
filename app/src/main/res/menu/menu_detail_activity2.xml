@@ -5,8 +5,15 @@
 
     <item
         android:id="@+id/add_to_favourites"
-        android:orderInCategory="50"
+        android:orderInCategory="1"
         android:title="Add to Favourites"
         shasha:showAsAction="ifRoom"
         android:icon="@drawable/star"/>
+
+    <item
+        android:id="@+id/action_share_movie"
+        android:orderInCategory="2"
+        android:title="Share"
+        android:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_share"/>
 </menu>
