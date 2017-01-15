@@ -106,7 +106,7 @@ public class DetailFragment extends Fragment {
     }
 
     String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date,genre_ids;
-    double vot_count,vote_avg,popularity;
+    double vote_avg,popularity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

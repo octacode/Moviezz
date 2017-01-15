@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 
 import java.text.NumberFormat;
@@ -286,7 +285,7 @@ public class Utility {
         return budget_er.replace(".00","");
     }
 
-    public static boolean isNetworkAvailable(Context mContext) {
+    static boolean isNetworkAvailable(Context mContext) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

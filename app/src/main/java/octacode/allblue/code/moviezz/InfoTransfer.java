@@ -8,11 +8,6 @@ public class InfoTransfer {
 
     private String name,role,id_url,credit_id;
 
-    public InfoTransfer(String name, String role){
-        this.name=name;
-        this.role=role;
-    }
-
     public InfoTransfer(String name,String role,String id_url,String credit_id){
         this.name=name;
         this.role =role;

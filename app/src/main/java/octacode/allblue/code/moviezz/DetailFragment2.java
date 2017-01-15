@@ -1,23 +1,15 @@
 package octacode.allblue.code.moviezz;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import octacode.allblue.code.moviezz.data.MovieContract;
-import octacode.allblue.code.moviezz.data.MovieContract.DetailTable;
-import octacode.allblue.code.moviezz.data.MovieDbHelper;
 import octacode.allblue.code.moviezz.fetchers.FetchDetails;
-import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
 
 
 public class DetailFragment2 extends Fragment {
