@@ -32,7 +32,6 @@ public class SettingsActivit extends PreferenceActivity
             }
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sort_key)));
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {

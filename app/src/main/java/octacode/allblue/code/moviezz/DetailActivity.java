@@ -80,6 +80,10 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
     private void setGenre(String genre_ids) {
         genre_ids=genre_ids.replace("[","");
         genre_ids=genre_ids.replace("]","");
+        if(genre_ids.equals("")){
+              findViewById(R.id.no_genre).setVisibility(View.VISIBLE);
+        }
+        else{
         String splits[]=genre_ids.split(",");
         ArrayList<InfoTransfer> infoTransferList= new ArrayList<>();
         InfoTransfer genre_name;
@@ -94,6 +98,7 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(genreAdapter);
         genreAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setTopCastCrew(){

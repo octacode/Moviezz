@@ -6,9 +6,11 @@
 
     <PreferenceCategory
         android:title="Sorting Parameters">
+
     <ListPreference
         android:title="@string/pref_sort_title"
         android:key="@string/pref_sort_key"
+        android:defaultValue="now_playing"
         android:summary="@string/pref_sort_summary"
         android:entries="@array/pref_entry_sort"
         android:entryValues="@array/pref_entry_values_sort"/>
