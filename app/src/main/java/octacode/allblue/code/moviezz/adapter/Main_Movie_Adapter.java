@@ -2,10 +2,6 @@ package octacode.allblue.code.moviezz.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +9,6 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import octacode.allblue.code.moviezz.MainFragment;
@@ -25,7 +20,6 @@ import octacode.allblue.code.moviezz.R;
 
 public class Main_Movie_Adapter extends CursorAdapter {
 
-    private String LOG_TAG = getClass().getSimpleName();
 
     public Main_Movie_Adapter(Context context, Cursor c) {
         super(context, c);

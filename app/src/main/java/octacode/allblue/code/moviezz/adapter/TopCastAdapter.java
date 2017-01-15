@@ -1,14 +1,12 @@
 package octacode.allblue.code.moviezz.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -16,7 +14,6 @@ import java.util.List;
 
 import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
-import octacode.allblue.code.moviezz.fetchers.FetchCrewDetails;
 
 /**
  * Created by shasha on 11/1/17.

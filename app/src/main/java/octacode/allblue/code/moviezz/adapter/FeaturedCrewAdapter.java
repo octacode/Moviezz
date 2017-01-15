@@ -11,7 +11,6 @@ import java.util.List;
 
 import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
-import octacode.allblue.code.moviezz.fetchers.FetchCrewDetails;
 
 /**
  * Created by shasha on 11/1/17.
@@ -21,13 +20,12 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     private Context mContext;
     private List<InfoTransfer> mCrewList;
-    private View itemView;
 
-    public class FeaturedCrewViewHolder extends RecyclerView.ViewHolder{
+    class FeaturedCrewViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView mTextView_Name,mTextView_Role;
+        TextView mTextView_Name,mTextView_Role;
 
-        public FeaturedCrewViewHolder(View itemView) {
+        FeaturedCrewViewHolder(View itemView) {
             super(itemView);
             mTextView_Name = (TextView)itemView.findViewById(R.id.featured_crew_list_item_name);
             mTextView_Role = (TextView)itemView.findViewById(R.id.featured_crew_list_item_role);
@@ -41,8 +39,8 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
 
     @Override
     public FeaturedCrewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.featured_crew_list_item,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.featured_crew_list_item, parent, false);
         return new FeaturedCrewViewHolder(itemView);
     }
 
