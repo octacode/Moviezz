@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="octacode.allblue.code.moviezz.CastActivity">
 
@@ -59,6 +60,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/ad_container"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/adViewCast"
+                        android:layout_width="320dp"
+                        android:layout_height="50dp"
+                        ads:adSize="BANNER"
+                        ads:adUnitId="@string/banner_ad">
+                    </com.google.android.gms.ads.AdView>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -26,7 +28,7 @@ public class DetailFragment extends Fragment {
     View mRootView;
     String movie_id;
     private Menu menu;
-
+    private AdView mAdView;
 
     private String LOG_TAG = DetailFragment.this.getClass().getSimpleName();
 
@@ -127,7 +129,34 @@ public class DetailFragment extends Fragment {
         DetailActivity.main_title.setText(title);
         Picasso.with(getContext()).load(poster_url).into(DetailActivity.image_view_poster);
         Picasso.with(getContext()).load(backdrop_url).into(DetailActivity.image_backdrop);
+        mAdView = (AdView) mRootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         return mRootView;
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     public class HolderDetail {

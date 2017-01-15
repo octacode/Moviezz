@@ -3,18 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.DetailFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
         android:id="@+id/logo_container"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:src="@drawable/tmdb"/>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad">
+        </com.google.android.gms.ads.AdView>
     </LinearLayout>
 
     <!--Linear Layout for holding title, release date and ratings.-->
