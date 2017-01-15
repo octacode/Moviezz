@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 
 import octacode.allblue.code.moviezz.DetailActivity;
 import octacode.allblue.code.moviezz.InfoTransfer;
-import octacode.allblue.code.moviezz.R;
 import octacode.allblue.code.moviezz.RecyclerItemClickListener;
 import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
 import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
@@ -87,7 +84,6 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            //Log.d(LOG_TAG,jsonStr);
 
             try{
                 JSONObject fetched_crew = new JSONObject(jsonStr);
@@ -113,7 +109,6 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                     String query_check = "Select * from " + CastTable.TABLE_NAME + " where " + CastTable.COLUMN_MOVIE_ID + " = " + movie_id;
                     Cursor cursor = liteDatabase.rawQuery(query_check, null);
-              //      Log.d(LOG_TAG,db_profile_url);
                     if(cursor.getCount()<=0) {
                         ContentValues cv = new ContentValues();
                         cv.put(CastTable.COLUMN_MOVIE_ID,movie_id);
@@ -136,7 +131,6 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     db_name = db_name + name + "__SPLITTER__";
                     db_profile_url = db_profile_url + path_url + "__SPLITTER__";
                 }
-                Log.d(LOG_TAG,db_credit_id);
                     liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                     query_check = "Select * from "+ CrewTable.TABLE_NAME+" where "+ CrewTable.COLUMN_MOVIE_ID+ " = "+movie_id;
                     cursor = liteDatabase.rawQuery(query_check,null);
@@ -148,7 +142,6 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                         cv.put(CrewTable.COLUMN_CREDIT_ID,db_credit_id);
                         cv.put(CrewTable.COLUMN_PROFILE_URL,db_profile_url);
                         liteDatabase.insert(CrewTable.TABLE_NAME,null,cv);
-                  //      Log.d(LOG_TAG,"**Inserted Successfully lpoipo**");
                     }
             }
             catch (JSONException e){
@@ -199,7 +192,6 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        //Toast.makeText(mContext, finalList.get(position).getName(),Toast.LENGTH_SHORT).show();
                         FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
                         fetchCrewDetails.execute(finalList.get(position).getCredit_id());
                     }
@@ -210,7 +202,7 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
                     }
                 }));
 
-        //POPULATING CAST
+        //POPULATING CREW
 
 
         liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();

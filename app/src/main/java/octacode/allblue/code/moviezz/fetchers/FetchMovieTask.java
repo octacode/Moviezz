@@ -2,12 +2,9 @@ package octacode.allblue.code.moviezz.fetchers;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 
 import org.json.JSONArray;
@@ -20,10 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
 import java.util.Vector;
 
-import octacode.allblue.code.moviezz.MainActivity;
 import octacode.allblue.code.moviezz.Utility;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
@@ -126,11 +121,6 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                     backdropURl = Uri.parse(BACKDROP_BASE_URL).buildUpon().
                             appendEncodedPath(movieInfo.getString(OWM_BACKDROPPATH)).build().toString();
 
-                    /*
-                    Log.d(LOG_TAG, "Poster Value: " + postURL);
-                    Log.d(LOG_TAG, "Backdrop Value: " + backdropURl);
-                    */
-
                     popularity=movieInfo.getString(OWM_POPULARITY);
                     votAvg=movieInfo.getString(OWM_VOTAVG);
 
@@ -150,14 +140,6 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                     contentValues.put(MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE,votAvg);
 
                     cVVector.add(contentValues);
-
-                    //Uri insert_uri=mContext.getContentResolver().insert(MainMovieTable.CONTENT_URI,contentValues);
-                    /*
-                    Log.d(LOG_TAG,"Insertion Successful : "+ ContentUris.parseId(insert_uri));
-                    Log.d(LOG_TAG,"Insertion Successful : "+ orgTitle);
-                    Log.d(LOG_TAG,"Insertion Successful : "+ overview);
-                    Log.d(LOG_TAG,"Insertion Successful : "+ popularity);
-                    */
                 }
 
                 if(cVVector.size()>0){
@@ -168,14 +150,11 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                     cVVector.toArray(cvArray);
                     mContext.getContentResolver().bulkInsert(MainMovieTable.CONTENT_URI,cvArray);
                 }
-                Log.d(LOG_TAG, "FetchMovie Task Complete: "+ cVVector.size()+ " Inserted");
             }
             catch (JSONException e){
                 e.printStackTrace();
             }
-                Log.d(LOG_TAG,movieJsonStr);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error ", e);
             return null;
         } finally {
             if (urlConnection != null) {
@@ -185,7 +164,6 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                 try {
                     reader.close();
                 } catch (final IOException e) {
-                    Log.e(LOG_TAG, "Error closing stream", e);
                 }
             }
         }

@@ -9,9 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,14 +78,12 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            //Log.d(LOG_TAG, jsonStr);
 
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 JSONArray results = jsonObject.getJSONArray("results");
                 String db_key="",db_name="";
                 movie_id = params[0];
-                //movie_id,key,name;
                 for(int i=0;i<results.length();i++){
                     JSONObject object = results.getJSONObject(i);
                     db_key=db_key+object.getString("key")+"__SPLITTER__";
@@ -98,15 +94,11 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
                 Cursor cursor = liteDatabase.rawQuery(query_check,null);
                 if(cursor.getCount()<=0){
                     ContentValues cv = new ContentValues();
-                    //"https://www.youtube.com/watch?v="+key
-                    //"http://img.youtube.com/vi/"+key+"/0.jpg"
                     cv.put(MovieContract.TrailerTable.COLUMN_MOVIE_ID,params[0]);
                     cv.put(MovieContract.TrailerTable.COLUMN_NAME,db_name);
                     cv.put(MovieContract.TrailerTable.COLUMN_URL,db_key);
                     cv.put(MovieContract.TrailerTable.COLUMN_POSTER_URL,db_key);
                     liteDatabase.insert(MovieContract.TrailerTable.TABLE_NAME,null,cv);
-                //    Log.d(LOG_TAG,"** Trailer Inserted **");
-                //    Log.d(LOG_TAG,db_name);
                 }
                 cursor.close();
             }
