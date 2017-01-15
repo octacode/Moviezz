@@ -10,7 +10,9 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/favourites_list">
+        android:id="@+id/favourites_list"
+        android:divider="#eafafa"
+        android:dividerHeight="10dp">
     </ListView>
 
 </RelativeLayout>

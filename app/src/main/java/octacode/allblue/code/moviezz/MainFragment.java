@@ -19,6 +19,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
@@ -27,6 +30,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private static final int MOVIE_LOADER = 0;
     GridView main_grid_view;
+    private AdView mAdView;
 
     public static final String[] MOVIE_COLUMNS={
             MovieContract.MainMovieTable._ID,
@@ -49,7 +53,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public static final int COLUMN_VOTE_COUNT=1;
     public static final int COLUMN_ADULT=2;
     public static final int COLUMN_BACKDROP_URL=3;
-    public static final int COLUMN_REL_DATE=4; //Release date is stored in the genre_ids.
+    public static final int COLUMN_REL_DATE=4; //Release date is stored in the genre_ids. Oops! My fault here.
     public static final int COLUMN_MOVIE_ID=5;
     public static final int COLUMN_LANGUAGE=6;
     public static final int COLUMN_OVERVIEW=7;
@@ -86,14 +90,10 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
-                Toast.makeText(getContext(),"Settings",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(),SettingsActivit.class));
                 break;
             case R.id.action_favourites:
                 startActivity(new Intent(getContext(),FavouritesActivity.class));
-                break;
-            case R.id.action_refresh:
-                updateMovieRecycler();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -131,7 +131,40 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 startActivity(intent);
             }
         });
+        mAdView = (AdView) rootView.findViewById(R.id.adViewMain);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovieRecycler();
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override

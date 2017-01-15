@@ -4,16 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <PreferenceCategory
+        android:title="Sorting Parameters">
     <ListPreference
         android:title="@string/pref_sort_title"
         android:key="@string/pref_sort_key"
         android:summary="@string/pref_sort_summary"
-        android:defaultValue="0"
+        android:defaultValue="now_playing"
         android:entries="@array/pref_entry_sort"
         android:entryValues="@array/pref_entry_values_sort"/>
 
-    <PreferenceScreen
-        android:title="Delete Temporary Files"
-        android:key="delete_temp"/>
+    <ListPreference
+        android:title="Page Number :"
+        android:key="pref_page"
+        android:defaultValue="1"
+        android:entries="@array/pref_entry_page"
+        android:entryValues="@array/pref_entry_page"/>
+</PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Spread some love">
+
+        <Preference
+            android:key="pref_tell"
+            android:title="Tell a friend"/>
+
+        <Preference
+            android:key="pref_rate"
+            android:title="Rate our App."/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Developer's Info"/>
+    <PreferenceScreen android:title="About"
+        android:key="pref_about"/>
 </PreferenceScreen>

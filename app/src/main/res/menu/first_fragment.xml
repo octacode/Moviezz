@@ -8,15 +8,9 @@
         android:orderInCategory="3"/>
 
     <item
-        android:title="Refresh"
-        android:id="@+id/action_refresh"
-        android:orderInCategory="2"/>
-
-    <item
-        android:title="Show Favourites"
+        android:title="Favourites"
         android:id="@+id/action_favourites"
-        shasha:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_day"
+        shasha:showAsAction="never"
         android:orderInCategory="1"/>
 
 </menu>

@@ -1,11 +1,26 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.DetailFragment2"
     android:baselineAligned="false">
+
+    <ProgressBar
+        android:id="@+id/loadingPanel2"
+        android:foregroundGravity="center"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="match_parent"
+        android:indeterminate="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:id="@+id/linealLayoutDetail2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
 
     <LinearLayout
     android:layout_width="match_parent"
@@ -134,6 +149,7 @@
     <TextView
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
+        android:autoLink="web"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
@@ -144,3 +160,4 @@
         android:layout_height="6dp" />
 
 </LinearLayout>
+</RelativeLayout>

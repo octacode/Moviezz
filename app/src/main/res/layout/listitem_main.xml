@@ -15,7 +15,7 @@
         app:cardElevation="1dp"
         app:cardCornerRadius="6dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="350dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -27,10 +27,12 @@
                 android:minHeight="?android:attr/listPreferredItemHeight"/>
 
             <TextView
+                android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
                 android:text="Jungle Book"
-                android:background="@color/cardview_light_background"
+                android:textSize="16sp"
+                android:background="@android:color/darker_gray"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/main_list_item_title"

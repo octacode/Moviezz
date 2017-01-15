@@ -16,9 +16,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import octacode.allblue.code.moviezz.DetailFragment;
 import octacode.allblue.code.moviezz.DetailFragment2;
+import octacode.allblue.code.moviezz.Utility;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
@@ -36,6 +38,7 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        DetailFragment2.loadingPanel2.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -113,16 +116,24 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        DecimalFormat decimalFormatter = new DecimalFormat("############");
+        //number.setText(decimalFormatter.format(Double.parseDouble(result)));
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
         String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+movie_id;
         Cursor cursor = liteDatabase.rawQuery(query_check,null);
         if(cursor.moveToFirst()){
-            DetailFragment2.revenue_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_REVENUE)));
-            DetailFragment2.homepage_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_HOMEPAGE)));
-            DetailFragment2.budget_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_BUDGET)));
-            DetailFragment2.original_language_tv.setText(language);
-            DetailFragment2.runtime_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_RUNTIME)));
-        }
+            String revenue = cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_REVENUE));
+            revenue = Utility.getBudget(revenue);
+            String budget = cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_BUDGET));
+            budget = Utility.getBudget(budget);
 
+            DetailFragment2.revenue_tv.setText(revenue);
+            DetailFragment2.homepage_tv.setText(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_HOMEPAGE)));
+            DetailFragment2.budget_tv.setText(budget);
+            DetailFragment2.original_language_tv.setText(Utility.getLang(language));
+            DetailFragment2.runtime_tv.setText(Utility.getRuntime(cursor.getString(cursor.getColumnIndex(MovieContract.DetailTable.COLUMN_RUNTIME))));
+        }
+        DetailFragment2.loadingPanel2.setVisibility(View.GONE);
+        DetailFragment2.linearLayout.setVisibility(View.VISIBLE);
     }
 }

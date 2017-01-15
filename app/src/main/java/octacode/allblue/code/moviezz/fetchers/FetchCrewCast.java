@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import octacode.allblue.code.moviezz.DetailActivity;
 import octacode.allblue.code.moviezz.InfoTransfer;
 import octacode.allblue.code.moviezz.R;
+import octacode.allblue.code.moviezz.RecyclerItemClickListener;
 import octacode.allblue.code.moviezz.adapter.FeaturedCrewAdapter;
 import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -190,6 +193,22 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
         DetailActivity.mRecyclerView_top_cast.setLayoutManager(layoutManager);
         DetailActivity.mRecyclerView_top_cast.setAdapter(topCastAdapter);
         topCastAdapter.notifyDataSetChanged();
+        final ArrayList<InfoTransfer> finalList = list;
+        DetailActivity.mRecyclerView_top_cast.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                DetailActivity.mRecyclerView_top_cast,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        //Toast.makeText(mContext, finalList.get(position).getName(),Toast.LENGTH_SHORT).show();
+                        FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
+                        fetchCrewDetails.execute(finalList.get(position).getCredit_id());
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        //Do Nothing.
+                    }
+                }));
 
         //POPULATING CAST
 
@@ -225,6 +244,20 @@ public class FetchCrewCast extends AsyncTask<String,Void,Void> {
         DetailActivity.mRecyclerView_featured.setLayoutManager(layoutManager);
         DetailActivity.mRecyclerView_featured.setAdapter(featuredCrewAdapter);
         featuredCrewAdapter.notifyDataSetChanged();
+        final ArrayList<InfoTransfer> finalList1 = list;
+        DetailActivity.mRecyclerView_featured.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                DetailActivity.mRecyclerView_featured,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
+                        fetchCrewDetails.execute(finalList1.get(position).getCredit_id());
+                    }
 
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        //Do Nothing
+                    }
+                }));
     }
 }

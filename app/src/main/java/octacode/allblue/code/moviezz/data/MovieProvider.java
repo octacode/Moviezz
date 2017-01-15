@@ -42,7 +42,7 @@ public class MovieProvider extends ContentProvider {
         switch (matcher.match(uri)){
             //movie
             case MOVIE:
-                retCursor=movieDbHelper.getReadableDatabase().query(
+                retCursor=movieDbHelper.getWritableDatabase().query(
                         MovieContract.MainMovieTable.TABLE_NAME,
                         projection,
                         selection,
@@ -54,7 +54,7 @@ public class MovieProvider extends ContentProvider {
                 break;
             //movie/*
             case MOVIE_WITH_ID:
-                retCursor=movieDbHelper.getReadableDatabase().query(
+                retCursor=movieDbHelper.getWritableDatabase().query(
                         MovieContract.MainMovieTable.TABLE_NAME,
                         projection,
                         MovieContract.MainMovieTable._ID + " = '" + ContentUris.parseId(uri) + "'",
@@ -105,11 +105,12 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        SQLiteDatabase movieDbHelper = new MovieDbHelper(getContext()).getWritableDatabase();
         final int match = matcher.match(uri);
         int rowsDeleted=-1;
         switch (match){
             case MOVIE:
-                rowsDeleted = movieDbHelper.getWritableDatabase().delete(MovieContract.MainMovieTable.TABLE_NAME,null,null);
+                rowsDeleted = movieDbHelper.delete(MovieContract.MainMovieTable.TABLE_NAME,selection,selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("SQL Database deletion failed for uri : "+uri);
@@ -121,11 +122,12 @@ public class MovieProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        SQLiteDatabase movieDbHelper = new MovieDbHelper(getContext()).getWritableDatabase();
         final int match = matcher.match(uri);
         int rowsUpdated=-1;
         switch (match){
             case MOVIE:
-                rowsUpdated = movieDbHelper.getWritableDatabase().update(MovieContract.MainMovieTable.TABLE_NAME,values,selection,selectionArgs);
+                rowsUpdated = movieDbHelper.update(MovieContract.MainMovieTable.TABLE_NAME,values,selection,selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("SQL Database updating failed for uri : "+uri);
@@ -138,7 +140,7 @@ public class MovieProvider extends ContentProvider {
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final int match=matcher.match(uri);
-        final SQLiteDatabase db=movieDbHelper.getWritableDatabase();
+        final SQLiteDatabase db=new MovieDbHelper(getContext()).getWritableDatabase();
         switch (match){
             case MOVIE:
                 db.beginTransaction();

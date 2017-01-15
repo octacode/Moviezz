@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -24,6 +27,8 @@ public class DetailFragment extends Fragment {
 
     View mRootView;
     String movie_id;
+    private Menu menu;
+    private AdView mAdView;
 
     private String LOG_TAG = DetailFragment.this.getClass().getSimpleName();
 
@@ -32,7 +37,6 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -40,6 +44,14 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        this.menu=menu;
+        SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
+        String query_check = "Select * from "+ MovieContract.FavouritesTable.TABLE_NAME+" where "+ MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " = "+movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check,null);
+        if(cursor.getCount()<=0)
+            menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_empty));
+        else
+            menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star));
     }
 
     @Override
@@ -66,6 +78,8 @@ public class DetailFragment extends Fragment {
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_TITLE_TEXT, title);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
                     inserted_row = liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME, null, contentValues);
+                    menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star));
+                    Toast.makeText(getContext(),"Added to Favourites.",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     liteDatabase.delete(
@@ -73,6 +87,8 @@ public class DetailFragment extends Fragment {
                             MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
                             new String[]{movie_id}
                             );
+                    menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_empty));
+                    Toast.makeText(getContext(),"Removed from Favourites.",Toast.LENGTH_SHORT).show();
                     Log.d(LOG_TAG,"Deleted Sucessfully");
                 }
                 Log.d(LOG_TAG, String.valueOf(inserted_row));
@@ -100,7 +116,12 @@ public class DetailFragment extends Fragment {
         vote_avg = Double.parseDouble(getActivity().getIntent().getStringExtra("VOTE_AVG"));
         rel_date = getActivity().getIntent().getStringExtra("REL_DATE");
         genre_ids = getActivity().getIntent().getStringExtra("GENRE_IDS");
-        viewHolder.title.setText(title);
+        switch(adult){
+            case "true": adult = "True";break;
+            case "false": adult = "False";break;
+            default: adult="";
+        }
+        viewHolder.title.setText(adult);
         viewHolder.date.setText(Utility.datePresenter(rel_date));
         viewHolder.overview.setText(overview);
         viewHolder.ratings.setText(String.valueOf((double) Math.round(vote_avg * 10d) / 10d));
@@ -108,14 +129,41 @@ public class DetailFragment extends Fragment {
         DetailActivity.main_title.setText(title);
         Picasso.with(getContext()).load(poster_url).into(DetailActivity.image_view_poster);
         Picasso.with(getContext()).load(backdrop_url).into(DetailActivity.image_backdrop);
+        mAdView = (AdView) mRootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         return mRootView;
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     public class HolderDetail {
         private TextView title, ratings, date, overview;
 
         HolderDetail(View mRootView) {
-            title = (TextView) mRootView.findViewById(R.id.title_detail);
+            title = (TextView) mRootView.findViewById(R.id.adult_detail);
             ratings = (TextView) mRootView.findViewById(R.id.detail_ratings);
             date = (TextView) mRootView.findViewById(R.id.date_detail);
             overview = (TextView) mRootView.findViewById(R.id.overview_detail);

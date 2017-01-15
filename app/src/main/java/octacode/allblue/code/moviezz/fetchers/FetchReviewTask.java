@@ -37,7 +37,9 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        ReviewFragment.tv_nothing.setVisibility(View.VISIBLE);
+        ReviewFragment.rl_nothing_progress.setVisibility(View.VISIBLE);
+        ReviewFragment.rl_noReview.setVisibility(View.INVISIBLE);
+        ReviewFragment.linear_review.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -118,9 +120,18 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
-        String query_check = "Select * from "+ MovieContract.ReviewTable.TABLE_NAME+" where "+ MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE+ " = "+movie_id;
-        Cursor cursor = liteDatabase.rawQuery(query_check,null);
-        if(cursor.getCount()>=0)ReviewFragment.tv_nothing.setVisibility(View.INVISIBLE);
+        String query_check = "Select * from " + MovieContract.ReviewTable.TABLE_NAME + " where " + MovieContract.ReviewTable.COLUMN_MOVIE_ID_DOUBLE + " = " + movie_id;
+        Cursor cursor = liteDatabase.rawQuery(query_check, null);
+        ReviewFragment.rl_nothing_progress.setVisibility(View.INVISIBLE);
+
+
+        if (cursor.getCount() <= 0){
+            ReviewFragment.linear_review.setVisibility(View.INVISIBLE);
+            ReviewFragment.rl_noReview.setVisibility(View.VISIBLE);
+        }
+        if (cursor.getCount() > 0)
+            ReviewFragment.linear_review.setVisibility(View.VISIBLE);
+
         while(cursor.moveToNext()) {
             ReviewFragment.tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));
             ReviewFragment.tv_review.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_CONTENT)));

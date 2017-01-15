@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +16,7 @@
 
         <RelativeLayout
             android:id="@+id/loadingPanel"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center" >
@@ -25,9 +27,21 @@
                 android:indeterminate="true" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/noText"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oops! No one has reviewed it yet." />
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/linear_layout_review"
-            android:visibility="visible"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -35,16 +49,43 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/review_author_name"/>
+                android:textSize="14sp"
+                android:id="@+id/review_author_name_tag"
+                android:text="Reviewed by : "/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/review_tv"/>
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content"
+                android:id="@+id/review_author_name"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/review_tv"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:id="@+id/review_site_tag"
+                android:text="View full review at : "/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/review_url"/>
         </LinearLayout>

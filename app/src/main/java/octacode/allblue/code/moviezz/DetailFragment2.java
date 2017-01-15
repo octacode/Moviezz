@@ -4,9 +4,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +21,9 @@ import octacode.allblue.code.moviezz.fetchers.FetchTrailers;
 
 
 public class DetailFragment2 extends Fragment {
+    public static ProgressBar loadingPanel2;
+    public static LinearLayout linearLayout;
+
     public DetailFragment2() {
     }
     public static TextView runtime_tv,original_language_tv,budget_tv,revenue_tv,homepage_tv;
@@ -35,6 +41,9 @@ public class DetailFragment2 extends Fragment {
         budget_tv = (TextView)rootView.findViewById(R.id.budget_name);
         revenue_tv = (TextView)rootView.findViewById(R.id.revenue_name);
         homepage_tv = (TextView)rootView.findViewById(R.id.homepage_name);
+        loadingPanel2 = (ProgressBar)rootView.findViewById(R.id.loadingPanel2);
+        linearLayout = (LinearLayout)rootView.findViewById(R.id.linealLayoutDetail2);
+
         FetchDetails fetchDetails = new FetchDetails(getContext());
         fetchDetails.execute(getActivity().getIntent().getStringExtra("MOVIE_ID"),getActivity().getIntent().getStringExtra("LANGUAGE"));
         return rootView;

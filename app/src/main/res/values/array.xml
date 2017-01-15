@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_entry_sort">
+        <item>Now Playing</item>
         <item>Most Popular</item>
-        <item>Highest Rated</item>
-        <item>Vote Average</item>
-        <item>Popularity</item>
+        <item>Top Rated</item>
+        <item>Upcoming</item>
     </string-array>
 
     <string-array name="pref_entry_values_sort">
-        <item>Most Popular</item>
-        <item>Highest Rated</item>
-        <item>vote_average.desc</item>
-        <item>popularity.desc</item>
+        <item>now_playing</item>
+        <item>popular</item>
+        <item>top_rated</item>
+        <item>upcoming</item>
+    </string-array>
+
+    <string-array name="pref_entry_page">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 </resources>

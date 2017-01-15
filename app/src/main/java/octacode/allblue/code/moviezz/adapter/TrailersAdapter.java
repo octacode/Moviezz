@@ -45,6 +45,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         //(NAME,ID)
         Picasso.with(mContext).load("http://img.youtube.com/vi/"+infoTransfer.getRole()+"/0.jpg").error(R.mipmap.ic_launcher).into(holder.trailer_thumbnail);
         holder.trailer_text.setText(infoTransfer.getName());
+        /*
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +53,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
                 mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
         });
+        */
     }
 
     @Override
