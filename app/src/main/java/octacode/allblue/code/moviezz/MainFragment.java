@@ -70,7 +70,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     public void updateMovieRecycler() {
         FetchMovieTask fetchMovieTask=new FetchMovieTask(getContext());
-        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),getActivity().getString(R.string.pref_sort_popular));
+        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),"popular");
         fetchMovieTask.execute(settings);
     }
 
