@@ -39,8 +39,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
         super.onPreExecute();
         ReviewFragment.rl_nothing_progress.setVisibility(View.VISIBLE);
         ReviewFragment.rl_noReview.setVisibility(View.INVISIBLE);
-        ReviewFragment.linear_review.setVisibility(View.VISIBLE);
-
+        ReviewFragment.linear_review.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -130,6 +129,8 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
             ReviewFragment.linear_review.setVisibility(View.INVISIBLE);
             ReviewFragment.rl_noReview.setVisibility(View.VISIBLE);
         }
+        if (cursor.getCount() > 0)
+            ReviewFragment.linear_review.setVisibility(View.VISIBLE);
 
         while(cursor.moveToNext()) {
             ReviewFragment.tv_author.setText(cursor.getString(cursor.getColumnIndex(MovieContract.ReviewTable.COLUMN_MOVIE_AUTHOR)));

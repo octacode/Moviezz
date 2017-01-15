@@ -40,13 +40,6 @@ public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastH
         holder.top_name.setText(featuredCast.getName());
         holder.top_role.setText(featuredCast.getRole());
         Picasso.with(mContext).load(featuredCast.getId_url()).error(R.drawable.user).into(holder.cast_image);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
-                fetchCrewDetails.execute(featuredCast.getCredit_id());
-            }
-        });
     }
 
     public TopCastAdapter(Context context, List<InfoTransfer> crewList){

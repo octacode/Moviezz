@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
         if(k==1){
             Toast.makeText(this, "Press back one more time to exit.", Toast.LENGTH_SHORT).show();
         }else{
-            moveTaskToBack(true);
+            finish();
         }
     }
 }

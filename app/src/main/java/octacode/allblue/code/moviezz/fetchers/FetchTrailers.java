@@ -2,12 +2,15 @@ package octacode.allblue.code.moviezz.fetchers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 
 import octacode.allblue.code.moviezz.DetailActivity;
 import octacode.allblue.code.moviezz.InfoTransfer;
+import octacode.allblue.code.moviezz.RecyclerItemClickListener;
 import octacode.allblue.code.moviezz.adapter.TrailersAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
@@ -131,7 +135,7 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
         String splits_name[] = db_name.split("__SPLITTER__");
         String splits_poster_pic[] = db_poster_pic.split("__SPLITTER__");
         String splits_url[] = db_url.split("__SPLITTER__");
-        ArrayList<InfoTransfer> list = new ArrayList<>();
+        final ArrayList<InfoTransfer> list = new ArrayList<>();
 
         for(int i=0;i<splits_name.length-1;i++){
             InfoTransfer infoTransfer = new InfoTransfer(splits_name[i],splits_poster_pic[i],splits_url[i]);
@@ -143,6 +147,19 @@ public class FetchTrailers extends AsyncTask<String,Void,Void> {
         DetailActivity.mRecyclerView_trailers.setLayoutManager(layoutManager);
         DetailActivity.mRecyclerView_trailers.setAdapter(trailerAdapter);
         trailerAdapter.notifyDataSetChanged();
+        DetailActivity.mRecyclerView_trailers.addOnItemTouchListener(new RecyclerItemClickListener(mContext,
+                DetailActivity.mRecyclerView_trailers, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String url = "https://www.youtube.com/watch?v="+list.get(position).getRole();
+                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //Do Nothing.
+            }
+        }));
 
     }
 }

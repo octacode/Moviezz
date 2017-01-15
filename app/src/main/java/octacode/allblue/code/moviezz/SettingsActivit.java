@@ -46,12 +46,6 @@ public class SettingsActivit extends PreferenceActivity
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this,MainActivity.class));
-    }
-
-    @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
         String stringValue = value.toString();
 

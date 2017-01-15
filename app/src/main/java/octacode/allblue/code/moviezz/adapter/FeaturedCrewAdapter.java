@@ -56,12 +56,5 @@ public class FeaturedCrewAdapter extends RecyclerView.Adapter<FeaturedCrewAdapte
         final InfoTransfer infoTransfer = mCrewList.get(position);
         holder.mTextView_Name.setText(infoTransfer.getName());
         holder.mTextView_Role.setText(infoTransfer.getRole());
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FetchCrewDetails fetchCrewDetails = new FetchCrewDetails(mContext);
-                fetchCrewDetails.execute(infoTransfer.getCredit_id());
-            }
-        });
     }
 }
