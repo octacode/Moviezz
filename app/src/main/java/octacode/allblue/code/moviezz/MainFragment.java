@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -70,7 +69,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     public void updateMovieRecycler() {
         FetchMovieTask fetchMovieTask=new FetchMovieTask(getContext());
-        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),getActivity().getString(R.string.pref_sort_popular));
+        String settings=PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_sort_key),"popular");
         fetchMovieTask.execute(settings);
     }
 
@@ -100,7 +99,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     Main_Movie_Adapter movieAdapter;
-    private String LOG_TAG = getClass().getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,7 +111,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 movieAdapter = (Main_Movie_Adapter)parent.getAdapter();
                 Cursor cursor = movieAdapter.getCursor();
-                //Log.d(LOG_TAG,cursor.getString(COLUMN_VOTE_COUNT));
                 Intent intent = new Intent(getContext(),DetailActivity.class);
                 intent.putExtra("ID",cursor.getLong(COLUMN_ID));
                 intent.putExtra("MOVIE_ID",cursor.getString(COLUMN_MOVIE_ID));

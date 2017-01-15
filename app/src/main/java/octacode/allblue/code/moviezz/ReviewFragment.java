@@ -1,7 +1,5 @@
 package octacode.allblue.code.moviezz;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import octacode.allblue.code.moviezz.data.MovieContract;
-import octacode.allblue.code.moviezz.data.MovieDbHelper;
 import octacode.allblue.code.moviezz.fetchers.FetchReviewTask;
 
 public class ReviewFragment extends Fragment {
@@ -21,7 +17,6 @@ public class ReviewFragment extends Fragment {
 
     }
 
-    private String LOG_TAG = getClass().getSimpleName();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

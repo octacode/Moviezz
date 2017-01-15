@@ -1,6 +1,7 @@
 package octacode.allblue.code.moviezz;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -58,11 +59,11 @@ public class DetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_to_favourites:
-                long inserted_row=0L;
+                long inserted_row = 0L;
                 SQLiteDatabase liteDatabase = new MovieDbHelper(getContext()).getWritableDatabase();
-                String query_check = "Select * from "+ MovieContract.FavouritesTable.TABLE_NAME+" where "+ MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " = "+movie_id;
-                Cursor cursor = liteDatabase.rawQuery(query_check,null);
-                if(cursor.getCount()<=0) {
+                String query_check = "Select * from " + MovieContract.FavouritesTable.TABLE_NAME + " where " + MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE + " = " + movie_id;
+                Cursor cursor = liteDatabase.rawQuery(query_check, null);
+                if (cursor.getCount() <= 0) {
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_COUNT_DOUBLE, genre_ids);
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_ADULT_TEXT, adult);
@@ -79,26 +80,33 @@ public class DetailFragment extends Fragment {
                     contentValues.put(MovieContract.MainMovieTable.COLUMN_MAIN_VOTE_AVERAGE_DOUBLE, vote_avg);
                     inserted_row = liteDatabase.insert(MovieContract.FavouritesTable.TABLE_NAME, null, contentValues);
                     menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star));
-                    Toast.makeText(getContext(),"Added to Favourites.",Toast.LENGTH_SHORT).show();
-                }
-                else {
+                    Toast.makeText(getContext(), "Added to Favourites.", Toast.LENGTH_SHORT).show();
+                } else {
                     liteDatabase.delete(
                             MovieContract.FavouritesTable.TABLE_NAME,
-                            MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE+ " =? ",
+                            MovieContract.FavouritesTable.COLUMN_MAIN_MOVIE_ID_DOUBLE + " =? ",
                             new String[]{movie_id}
-                            );
+                    );
                     menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_empty));
-                    Toast.makeText(getContext(),"Removed from Favourites.",Toast.LENGTH_SHORT).show();
-                    Log.d(LOG_TAG,"Deleted Sucessfully");
+                    Toast.makeText(getContext(), "Removed from Favourites.", Toast.LENGTH_SHORT).show();
+                    Log.d(LOG_TAG, "Deleted Sucessfully");
                 }
                 Log.d(LOG_TAG, String.valueOf(inserted_row));
                 break;
+
+            case R.id.action_share_movie:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, title+" rated "+ratings+" looks great to me. Have you seen it? #Moviebuzz");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     String adult,backdrop_url,overview,title,poster_url,language,ratings,rel_date,genre_ids;
-    double vot_count,vote_avg,popularity;
+    double vote_avg,popularity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

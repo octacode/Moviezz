@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
@@ -37,7 +38,7 @@ public class MovieProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
         switch (matcher.match(uri)){
             //movie
@@ -73,7 +74,7 @@ public class MovieProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         final int match=matcher.match(uri);
         switch (match){
             case MOVIE:
@@ -87,7 +88,7 @@ public class MovieProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         final int match = matcher.match(uri);
         Uri retUri = null;
         switch(match){
@@ -104,10 +105,10 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase movieDbHelper = new MovieDbHelper(getContext()).getWritableDatabase();
         final int match = matcher.match(uri);
-        int rowsDeleted=-1;
+        int rowsDeleted;
         switch (match){
             case MOVIE:
                 rowsDeleted = movieDbHelper.delete(MovieContract.MainMovieTable.TABLE_NAME,selection,selectionArgs);
@@ -121,10 +122,10 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase movieDbHelper = new MovieDbHelper(getContext()).getWritableDatabase();
         final int match = matcher.match(uri);
-        int rowsUpdated=-1;
+        int rowsUpdated;
         switch (match){
             case MOVIE:
                 rowsUpdated = movieDbHelper.update(MovieContract.MainMovieTable.TABLE_NAME,values,selection,selectionArgs);
@@ -138,7 +139,7 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final int match=matcher.match(uri);
         final SQLiteDatabase db=new MovieDbHelper(getContext()).getWritableDatabase();
         switch (match){

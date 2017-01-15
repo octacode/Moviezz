@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import org.json.JSONException;
@@ -18,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 
-import octacode.allblue.code.moviezz.DetailFragment;
 import octacode.allblue.code.moviezz.DetailFragment2;
 import octacode.allblue.code.moviezz.Utility;
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -30,7 +28,6 @@ import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 public class FetchDetails extends AsyncTask<String,Void,Void> {
 
-    private String LOG_TAG = getClass().getSimpleName();
     private Context mContext;
     private String language,movie_id;
     public FetchDetails(Context mContext){this.mContext=mContext;}
@@ -77,7 +74,6 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            //Log.d(LOG_TAG, jsonStr);
             movie_id=params[0];
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
@@ -86,7 +82,6 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                 String adult = jsonObject.getString("adult");
                 String runtime = jsonObject.getString("runtime");
                 String homepage = jsonObject.getString("homepage");
-              //  Log.d(LOG_TAG,budget+" "+revenue+" "+adult+" "+runtime+" "+homepage);
                 SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getWritableDatabase();
                 String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+params[0];
                 Cursor cursor = liteDatabase.rawQuery(query_check,null);
@@ -99,8 +94,6 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
                     cv.put(MovieContract.DetailTable.COLUMN_REVENUE,revenue);
                     cv.put(MovieContract.DetailTable.COLUMN_RUNTIME,runtime);
                     liteDatabase.insert(MovieContract.DetailTable.TABLE_NAME,null,cv);
-                //    Log.d(LOG_TAG,"** Detail Inserted **");
-                //    Log.d(LOG_TAG,homepage);
                 }
             }
             catch (JSONException e){
@@ -116,8 +109,6 @@ public class FetchDetails extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        DecimalFormat decimalFormatter = new DecimalFormat("############");
-        //number.setText(decimalFormatter.format(Double.parseDouble(result)));
         SQLiteDatabase liteDatabase = new MovieDbHelper(mContext).getReadableDatabase();
         String query_check = "Select * from "+ MovieContract.DetailTable.TABLE_NAME+" where "+ MovieContract.DetailTable.COLUMN_MOVIE_ID+ " = "+movie_id;
         Cursor cursor = liteDatabase.rawQuery(query_check,null);

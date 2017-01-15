@@ -27,7 +27,6 @@ import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 public class FetchReviewTask extends AsyncTask<String,Void,Void> {
 
-    private final String LOG_TAG=FetchReviewTask.class.getSimpleName();
     private Context mContext;
     public FetchReviewTask(Context context){
         mContext=context;
@@ -78,7 +77,6 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
                 return null;
             }
             reviewJsonStr = buffer.toString();
-//            Log.d(LOG_TAG,reviewJsonStr);
 
             try{
                 JSONObject trailersJson = new JSONObject(reviewJsonStr);
@@ -101,9 +99,7 @@ public class FetchReviewTask extends AsyncTask<String,Void,Void> {
                     cv.put(MovieContract.ReviewTable.COLUMN_MOVIE_URL,review_url);
                     cv.put(MovieContract.ReviewTable.COLUMN_TOTAL_RESULTS_INT,results.length());
                     liteDatabase.insert(MovieContract.ReviewTable.TABLE_NAME,null,cv);
-    //                Log.d(LOG_TAG,"** Inserted **");
                 }
-  //              Log.d(LOG_TAG,content);
                 cursor.close();
             }
             catch (JSONException e){

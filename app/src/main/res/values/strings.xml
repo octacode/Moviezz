@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Moviezz</string>
+    <string name="app_name">Moviebuzz</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pref_sortcategory_title">Sorting Technique</string>
     <string name="pref_sort_title">Sort By :</string>
-    <string name="pref_sort_summary">Popularity, Revenue or Ratings</string>
+    <string name="pref_sort_summary">Now Playing, Popularity, Top Rated or Upcoming.</string>
     <string name="pref_sort_key">sorting</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -16,7 +15,6 @@
     <string name="title_activity_detail2">DetailActivity2</string>
 
     <string name="action_settings">Settings</string>
-    <string name="words_20">20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words 20Words</string>
     <string name="title_activity_cast">CastActivity</string>
     <string name="banner_ad">ca-app-pub-5459735830807774/9948924649</string>
     <string name="title_activity_about">AboutActivity</string>

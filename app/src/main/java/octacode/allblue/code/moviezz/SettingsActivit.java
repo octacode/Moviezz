@@ -1,8 +1,6 @@
 package octacode.allblue.code.moviezz;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +11,8 @@ import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
-import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 /**
  * Created by shasha on 23/12/16.
@@ -31,10 +27,11 @@ public class SettingsActivit extends PreferenceActivity
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            }
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sort_key)));
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
@@ -50,7 +47,7 @@ public class SettingsActivit extends PreferenceActivity
     public boolean onPreferenceChange(Preference preference, Object value) {
         String stringValue = value.toString();
 
-        if(preference.getKey().equals(R.string.pref_sort_key)) {
+        if(preference.getKey().equals(getString(R.string.pref_sort_key))) {
             String pref = value.toString();
         }
         else

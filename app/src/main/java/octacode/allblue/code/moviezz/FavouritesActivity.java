@@ -18,8 +18,6 @@ import octacode.allblue.code.moviezz.data.MovieDbHelper;
 
 public class FavouritesActivity extends AppCompatActivity {
 
-    String LOG_TAG = getClass().getSimpleName();
-
     FavouritesAdapter favouritesAdapter;
 
     @Override

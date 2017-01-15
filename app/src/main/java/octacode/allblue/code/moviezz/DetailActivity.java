@@ -1,6 +1,5 @@
 package octacode.allblue.code.moviezz;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -10,11 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,7 +55,9 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            }
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
 
@@ -72,7 +71,6 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
         mToolbar.inflateMenu(R.menu.menu_detail_activity2);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
         String genre_ids = getIntent().getStringExtra("GENRE_IDS");
-        Toast.makeText(this,genre_ids,Toast.LENGTH_SHORT).show();
         setGenre(genre_ids);
         setTopCastCrew();
         setTrailer();
@@ -82,6 +80,10 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
     private void setGenre(String genre_ids) {
         genre_ids=genre_ids.replace("[","");
         genre_ids=genre_ids.replace("]","");
+        if(genre_ids.equals("")){
+              findViewById(R.id.no_genre).setVisibility(View.VISIBLE);
+        }
+        else{
         String splits[]=genre_ids.split(",");
         ArrayList<InfoTransfer> infoTransferList= new ArrayList<>();
         InfoTransfer genre_name;
@@ -96,6 +98,7 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(genreAdapter);
         genreAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setTopCastCrew(){

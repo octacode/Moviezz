@@ -6,18 +6,18 @@
 
     <PreferenceCategory
         android:title="Sorting Parameters">
+
     <ListPreference
         android:title="@string/pref_sort_title"
         android:key="@string/pref_sort_key"
-        android:summary="@string/pref_sort_summary"
         android:defaultValue="now_playing"
+        android:summary="@string/pref_sort_summary"
         android:entries="@array/pref_entry_sort"
         android:entryValues="@array/pref_entry_values_sort"/>
 
     <ListPreference
         android:title="Page Number :"
         android:key="pref_page"
-        android:defaultValue="1"
         android:entries="@array/pref_entry_page"
         android:entryValues="@array/pref_entry_page"/>
 </PreferenceCategory>

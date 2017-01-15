@@ -7,11 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,28 +19,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import octacode.allblue.code.moviezz.CastActivity;
-import octacode.allblue.code.moviezz.DetailActivity;
-import octacode.allblue.code.moviezz.R;
-import octacode.allblue.code.moviezz.adapter.TopCastAdapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieContract.PersonTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
-
-import static octacode.allblue.code.moviezz.R.id.cast_image_list_item;
 
 /**
  * Created by shasha on 13/1/17.
  */
 
-public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
+class FetchCrewDetails extends AsyncTask<String,Void,Void> {
 
-    private String LOG_TAG = getClass().getSimpleName();
     private Context mContext;
     private String person_id;
-    String biography,birthday,profile_path,name,place_of_birth,gender;
-    ProgressDialog progressDialog;
+    private String biography,birthday,profile_path,name,place_of_birth,gender;
+    private ProgressDialog progressDialog;
 
-    public FetchCrewDetails(Context context){mContext=context;}
+    FetchCrewDetails(Context context){mContext=context;}
 
     @Override
     protected void onPreExecute() {
@@ -94,7 +83,6 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
                 return null;
             }
             jsonStr = buffer.toString();
-            Log.d(LOG_TAG,jsonStr);
             try{
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String profile_path = jsonObject.getString("profile_path");
@@ -132,7 +120,6 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
                     cv.put(PersonTable.COLUMN_PLACE_OF_BIRTH,place_of_birth);
                     cv.put(PersonTable.COLUMN_PERSON_ID,params[0]);
                     liteDatabase.insert(PersonTable.TABLE_NAME,null,cv);
-                    Log.d(LOG_TAG,"** Inserted Successfully **"+name);
                 }
             }
             catch (JSONException e){
@@ -140,10 +127,6 @@ public class FetchCrewDetails extends AsyncTask<String,Void,Void> {
             }
         }
         catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (Exception e){
-            Log.d(LOG_TAG,"**Well, This is not an I/O Exception.**");
             e.printStackTrace();
         }
         return null;

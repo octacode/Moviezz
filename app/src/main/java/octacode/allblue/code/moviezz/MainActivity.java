@@ -1,14 +1,10 @@
 package octacode.allblue.code.moviezz;
 
-import android.app.TabActivity;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TabHost;
 import android.widget.Toast;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
@@ -23,7 +19,9 @@ public class MainActivity extends AppCompatActivity{
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            }
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
 
