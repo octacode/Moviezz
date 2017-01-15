@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
