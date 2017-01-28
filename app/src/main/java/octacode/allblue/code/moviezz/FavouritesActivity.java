@@ -30,8 +30,6 @@ public class FavouritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         ListView fav_lv = (ListView)findViewById(R.id.favourites_list);
         SQLiteDatabase liteDatabase = new MovieDbHelper(this).getWritableDatabase();
         Cursor cursor = liteDatabase.query(MovieContract.FavouritesTable.TABLE_NAME,
@@ -41,6 +39,10 @@ public class FavouritesActivity extends AppCompatActivity {
                 null,
                 null,
                 null);
+
+        getSupportActionBar().setTitle("Favourites");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         favouritesAdapter = new FavouritesAdapter(this,cursor);
         fav_lv.setAdapter(favouritesAdapter);
         fav_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

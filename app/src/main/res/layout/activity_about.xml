@@ -33,7 +33,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/user"
+            app:srcCompat="@mipmap/ic_launcher"
             android:layout_marginTop="20dp"
             android:id="@+id/imageView"
             android:layout_alignParentTop="true"
@@ -44,7 +44,7 @@
         <!--https://github.com/octacode/Moviezz-->
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             app:srcCompat="@drawable/tmdb"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -58,15 +58,6 @@
             android:id="@+id/textView3"
             android:layout_below="@+id/octacode"
             android:layout_centerHorizontal="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/github"
-            android:id="@+id/github"
-            android:layout_above="@+id/imageView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="11dp" />
 
         <TextView
             android:text="Movie Buzz"
@@ -97,6 +88,15 @@
             android:layout_marginTop="11dp"
             android:layout_below="@+id/textView4"
             android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/github"
+            android:id="@+id/github"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="57dp" />
     </RelativeLayout>
 
 

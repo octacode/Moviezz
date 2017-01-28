@@ -56,6 +56,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="octacode.allblue.code.moviezz.MainActivity" />
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
