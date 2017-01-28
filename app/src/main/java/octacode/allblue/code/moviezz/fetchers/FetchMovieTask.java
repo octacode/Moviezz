@@ -91,7 +91,6 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
                 final String OWM_RESULT="results";
                 final String POSTER_BASE_URL="http://image.tmdb.org/t/p/w185";
                 final String BACKDROP_BASE_URL="http://image.tmdb.org/t/p/w500";
-                final String OWM_VOTE_COUNT="vote_count";
                 final String OWM_GENRE_IDS="genre_ids";
 
                 JSONObject movieJson = new JSONObject(movieJsonStr);

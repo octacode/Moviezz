@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import octacode.allblue.code.moviezz.data.MovieContract;
+import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
 
 /**
  * Created by shasha on 23/12/16.
@@ -48,7 +49,6 @@ public class SettingsActivit extends PreferenceActivity
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
         String stringValue = value.toString();
-
         if(preference.getKey().equals(getString(R.string.pref_sort_key))) {
             String pref = value.toString();
         }

@@ -1,32 +1,27 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_refresh"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<ScrollView
-    android:background="#e1ded3"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="octacode.allblue.code.moviezz.MainFragment">
-
-    <RelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#e1ded3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="octacode.allblue.code.moviezz.MainFragment">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/swipe_refresh"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
-     <GridView
+        <GridView
         android:layout_below="@id/ad_container"
         android:layout_marginTop="10dp"
         android:numColumns="3"
         android:scrollbars="none"
         android:background="#e1ded3"
         android:layout_width="match_parent"
+        android:nestedScrollingEnabled="true"
         android:layout_height="match_parent"
         android:id="@+id/main_grid_view"/>
-     </RelativeLayout>
-     </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

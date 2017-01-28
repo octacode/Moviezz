@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -25,6 +26,7 @@ import com.google.android.gms.ads.AdView;
 import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
+import octacode.allblue.code.moviezz.fetchers.FetchSearch;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -104,6 +106,16 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
+        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab_search);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FetchSearch fetchSearch = new FetchSearch(getContext());
+                fetchSearch.execute("Dangal");
+            }
+        });
+
         main_grid_view=(GridView)rootView.findViewById(R.id.main_grid_view);
         swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
         movieAdapter=new Main_Movie_Adapter(getContext(),null);
