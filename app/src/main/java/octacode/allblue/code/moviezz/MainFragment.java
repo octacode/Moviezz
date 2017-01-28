@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +30,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private static final int MOVIE_LOADER = 0;
     GridView main_grid_view;
-    private AdView mAdView;
+    public static SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String[] MOVIE_COLUMNS={
             MovieContract.MainMovieTable._ID,
@@ -104,6 +105,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_main, container, false);
         main_grid_view=(GridView)rootView.findViewById(R.id.main_grid_view);
+        swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
         movieAdapter=new Main_Movie_Adapter(getContext(),null);
         main_grid_view.setAdapter(movieAdapter);
         main_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,9 +130,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 startActivity(intent);
             }
         });
-        mAdView = (AdView) rootView.findViewById(R.id.adViewMain);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateMovieRecycler();
+            }
+        });
         return rootView;
     }
 
@@ -138,30 +143,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onStart() {
         super.onStart();
         updateMovieRecycler();
-    }
-
-    @Override
-    public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
     }
 
     @Override

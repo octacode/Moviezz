@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
 
+import octacode.allblue.code.moviezz.MainFragment;
 import octacode.allblue.code.moviezz.Utility;
 import octacode.allblue.code.moviezz.data.MovieContract.MainMovieTable;
 import octacode.allblue.code.moviezz.data.MovieDbHelper;
@@ -33,6 +34,12 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
     private Context mContext;
     public FetchMovieTask(Context context){
         mContext=context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        MainFragment.swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -173,6 +180,8 @@ public class FetchMovieTask extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        if(MainFragment.swipeRefreshLayout.isRefreshing())
+        MainFragment.swipeRefreshLayout.setRefreshing(false);
     }
 }
 
