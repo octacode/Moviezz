@@ -32,6 +32,8 @@ public class SettingsActivit extends PreferenceActivity
             }
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
+        bindPreferenceSummaryToValue(findPreference("pref_rate"));
+        bindPreferenceSummaryToValue(findPreference("pref_tell"));
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
@@ -82,6 +84,7 @@ public class SettingsActivit extends PreferenceActivity
                 return true;
             }
         });
+
         Preference tell_pref = findPreference("pref_tell");
         tell_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

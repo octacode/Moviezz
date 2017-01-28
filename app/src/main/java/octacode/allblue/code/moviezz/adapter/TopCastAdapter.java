@@ -35,7 +35,13 @@ public class TopCastAdapter extends RecyclerView.Adapter<TopCastAdapter.TopCastH
     public void onBindViewHolder(final TopCastHolder holder, int position) {
         final InfoTransfer featuredCast = mFeaturedCast.get(position);
         holder.top_name.setText(featuredCast.getName());
-        holder.top_role.setText(featuredCast.getRole());
+        if(featuredCast.getRole().contains("/")) {
+            String role = featuredCast.getRole();
+            String splits[] = role.split("/");
+            holder.top_role.setText(splits[1]);
+        }
+        else
+            holder.top_role.setText(featuredCast.getRole());
         Picasso.with(mContext).load(featuredCast.getId_url()).error(R.drawable.user).into(holder.cast_image);
     }
 

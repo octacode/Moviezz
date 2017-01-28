@@ -17,6 +17,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("About");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView octacode = (TextView)findViewById(R.id.octacode);
         ImageView imageView = (ImageView)findViewById(R.id.github);
