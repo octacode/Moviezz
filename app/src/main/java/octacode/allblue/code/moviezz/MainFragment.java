@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,10 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import octacode.allblue.code.moviezz.adapter.Main_Movie_Adapter;
 import octacode.allblue.code.moviezz.data.MovieContract;
 import octacode.allblue.code.moviezz.fetchers.FetchMovieTask;
@@ -31,7 +34,8 @@ import octacode.allblue.code.moviezz.fetchers.FetchSearch;
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int MOVIE_LOADER = 0;
-    GridView main_grid_view;
+    private GridView main_grid_view;
+    private AutoScrollViewPager mPager;
     public static SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String[] MOVIE_COLUMNS={
@@ -115,7 +119,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 fetchSearch.execute("Dangal");
             }
         });
-
+        //mPager = (AutoScrollViewPager)rootView.findViewById(R.id.pager);
         main_grid_view=(GridView)rootView.findViewById(R.id.main_grid_view);
         swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
         movieAdapter=new Main_Movie_Adapter(getContext(),null);
@@ -148,6 +152,16 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 updateMovieRecycler();
             }
         });
+
+        ImageView buttonSearch = (ImageView)rootView.findViewById(R.id.search_image);
+
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(getClass().getSimpleName(),"Working?");
+            }
+        });
+
         return rootView;
     }
 

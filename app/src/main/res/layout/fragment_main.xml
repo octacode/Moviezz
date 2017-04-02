@@ -16,11 +16,81 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/search_header"
-                android:layout_height="200dp"
+            <RelativeLayout
+                android:background="#000"
+                android:orientation="vertical"
+                android:id="@+id/search_header"
                 android:layout_width="match_parent"
-                android:layout_below="@id/ad_container"
-                android:id="@+id/search_header"/>
+                android:layout_height="200dp">
+
+                <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/rounded_layout"
+                        android:orientation="horizontal"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="16dp">
+
+                        <EditText
+                            android:layout_margin="5dp"
+                            android:id="@+id/search_text"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:hint="Search"
+                            android:inputType="text"
+                            android:layout_gravity="center_vertical"/>
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:background="@color/Blue"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/search_image"
+                                android:src="@drawable/search"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/imageView2"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:text="Moviebuzz"
+                        android:textColor="#FFF"
+                        android:textSize="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/textView2" />
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <GridView
                 android:layout_below="@id/search_header"
