@@ -12,17 +12,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <GridView
-        android:layout_below="@id/ad_container"
-        android:layout_marginTop="10dp"
-        android:numColumns="2"
-        android:nestedScrollingEnabled="true"
-        android:scrollbars="none"
-        android:background="#e1ded3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/main_grid_view"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <include layout="@layout/search_header"
+                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_below="@id/ad_container"
+                android:id="@+id/search_header"/>
+
+            <GridView
+                android:layout_below="@id/search_header"
+                android:layout_marginTop="10dp"
+                android:numColumns="2"
+                android:nestedScrollingEnabled="true"
+                android:scrollbars="none"
+                android:background="#e1ded3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/main_grid_view"/>
+        </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
