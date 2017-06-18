@@ -58,6 +58,8 @@ public class DetailActivity extends AppCompatActivity implements AppBarLayout.On
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             }
+           // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                if (android.os.Build.VERSION.SDK_INT >= 21)
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
 

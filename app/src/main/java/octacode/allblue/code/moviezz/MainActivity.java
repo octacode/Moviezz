@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             }
+            if (android.os.Build.VERSION.SDK_INT >= 21)
             window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
         }
 
